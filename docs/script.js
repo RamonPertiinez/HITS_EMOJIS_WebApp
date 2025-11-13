@@ -119,7 +119,7 @@ function getValidToken() {
 }
 
 /****************************************************
- * 5) CARREGAR GÈNERES OFICIALS
+ * 5) CARREGAR GÈNERES OFICIALS (pot fallar, endpoint deprecated)
  ****************************************************/
 async function loadSpotifyGenres(token) {
   try {
@@ -128,7 +128,10 @@ async function loadSpotifyGenres(token) {
       { headers: { Authorization: "Bearer " + token } }
     );
     if (!res.ok) {
-      console.warn("No s'han pogut carregar gèneres:", await res.text());
+      console.warn(
+        "No s'han pogut carregar gèneres (Spotify pot haver desactivat aquest endpoint):",
+        await res.text()
+      );
       return;
     }
     const data = await res.json();
@@ -153,17 +156,14 @@ function applyPromptToControls(promptText) {
 
   // Detectar artístes típics
   if (p.includes("canto del loco")) {
-    $("genre").value = "pop rock espanyol"; // text lliure per tu
+    $("genre").value = "pop rock espanyol";
     $("decade").value = "2000s";
 
-    // 👉 també assignem un gènere oficial de Spotify
     const genreSelect = $("genreSelect");
     if (genreSelect) {
-      // tria el que tinguis a la llista: "spanish", "rock", "pop", etc.
-      // si "spanish" existeix, millor
-      if ([...genreSelect.options].some(o => o.value === "spanish")) {
+      if ([...genreSelect.options].some((o) => o.value === "spanish")) {
         genreSelect.value = "spanish";
-      } else if ([...genreSelect.options].some(o => o.value === "rock")) {
+      } else if ([...genreSelect.options].some((o) => o.value === "rock")) {
         genreSelect.value = "rock";
       } else {
         genreSelect.value = "pop";
@@ -176,7 +176,7 @@ function applyPromptToControls(promptText) {
     $("decade").value = "2010s";
     const genreSelect = $("genreSelect");
     if (genreSelect) {
-      if ([...genreSelect.options].some(o => o.value === "reggaeton")) {
+      if ([...genreSelect.options].some((o) => o.value === "reggaeton")) {
         genreSelect.value = "reggaeton";
       } else {
         genreSelect.value = "latin";
@@ -213,13 +213,23 @@ function applyPromptToControls(promptText) {
   }
 
   if (aiStatus) {
-    aiStatus.textContent = "✨ El prompt s'ha traduït a paràmetres automàticament.";
+    aiStatus.textContent =
+      "✨ El prompt s'ha traduït a paràmetres automàticament.";
   }
 }
 
 /****************************************************
- * 7) GENERAR PLAYLIST
+ * 7) GENERAR PLAYLIST (NOU – amb /v1/search)
  ****************************************************/
+function pickRandomN(array, n) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, n);
+}
+
 async function generatePlaylist() {
   const token = getValidToken();
   if (!token) {
@@ -227,13 +237,13 @@ async function generatePlaylist() {
     return;
   }
 
-  // Primer, si hi ha prompt IA, ajustem els controls
+  // 1) Aplicar IA del prompt si hi ha text
   const nlPrompt = $("nlPrompt")?.value.trim() || "";
   if (nlPrompt.length > 6) {
     applyPromptToControls(nlPrompt);
   }
 
-  // Ara llegim paràmetres del formulari (ja modificats per la “IA”)
+  // 2) Llegir controls
   const genreFree = $("genre")?.value.trim().toLowerCase() || "";
   const genreAPI = $("genreSelect")?.value || "";
   const decade = $("decade")?.value || "";
@@ -242,41 +252,55 @@ async function generatePlaylist() {
   const minTempo = parseInt($("minTempo")?.value || "90", 10);
   const maxTempo = parseInt($("maxTempo")?.value || "130", 10);
 
-  // ⚠️ PROTECCIÓ: només enviem al seed_génres coses "netes"
-  let seedGenre = "pop";
+  // 3) Construir query de SEARCH
+  const qParts = [];
 
-  if (genreAPI) {
-    // si hi ha gènere oficial seleccionat, fem servir aquest
-    seedGenre = genreAPI;
-  } else if (genreFree && !genreFree.includes(" ")) {
-    // només si és una sola paraula sense espais
-    seedGenre = genreFree;
+  const textGenre = genreAPI || genreFree;
+  if (textGenre) qParts.push(textGenre);
+
+  if (decade === "2000s") qParts.push("year:2000-2009");
+  else if (decade === "2010s") qParts.push("year:2010-2019");
+  else if (decade === "2020s") qParts.push("year:2020-2029");
+
+  // Mapeig molt simple d’energia → vibe textual
+  if (maxEnergy >= 0.7) {
+    qParts.push("upbeat");
+  } else if (maxEnergy <= 0.5) {
+    qParts.push("chill");
   }
 
-  console.log("🎯 seedGenre que enviarem a Spotify:", seedGenre);
+  // Mapeig simple de tempo (ràpid/lent)
+  if (maxTempo >= 130) {
+    qParts.push("dance");
+  } else if (maxTempo <= 100) {
+    qParts.push("acoustic");
+  }
 
-  // Dècada → només per info, no entra a /recommendations
+  if (!qParts.length) {
+    qParts.push("pop");
+  }
+
+  const query = qParts.join(" ");
+
+  console.log("🔍 SEARCH query:", query);
+
+  // Nom “bonic” per la playlist
   let decadeLabel = "";
   if (decade === "2000s") decadeLabel = "2000–2009";
   if (decade === "2010s") decadeLabel = "2010–2019";
   if (decade === "2020s") decadeLabel = "2020–2029";
 
   lastPlaylistName =
-    "HITS with EMOJIS – " +
-    (decadeLabel || seedGenre || "Random Mix");
+    "HITS with EMOJIS – " + (decadeLabel || textGenre || "Random Mix");
 
   const params = new URLSearchParams();
-  params.append("seed_genres", seedGenre);
-  params.append("limit", "20");
-  params.append("min_energy", String(minEnergy));
-  params.append("max_energy", String(maxEnergy));
-  params.append("min_tempo", String(minTempo));
-  params.append("max_tempo", String(maxTempo));
+  params.append("q", query);
+  params.append("type", "track");
+  params.append("limit", "50"); // agafem bastantes i després fem random
+  params.append("market", "from_token");
 
-  const url =
-    "https://api.spotify.com/v1/recommendations?" + params.toString();
-
-  console.log("🔗 URL Spotify recommendations:", url);
+  const url = "https://api.spotify.com/v1/search?" + params.toString();
+  console.log("🔗 URL Spotify search:", url);
 
   const btn = $("generateBtn");
   btn.disabled = true;
@@ -289,13 +313,22 @@ async function generatePlaylist() {
 
     if (!res.ok) {
       const errorText = await res.text();
-      console.error("Error generating playlist:", errorText);
-      alert("Error generant playlist amb Spotify!\n\n" + errorText);
+      console.error("Error generant playlist (search):", errorText);
+      alert("Error generant playlist amb Spotify!");
       return;
     }
 
     const data = await res.json();
-    lastTracks = data.tracks || [];
+    const allTracks = data.tracks?.items || [];
+
+    if (!allTracks.length) {
+      alert("No s'han trobat cançons amb aquests paràmetres 😢");
+      renderResults([]);
+      return;
+    }
+
+    // 4) Agafem 20 cançons aleatòries
+    lastTracks = pickRandomN(allTracks, 20);
     renderResults(lastTracks);
   } catch (e) {
     console.error(e);
@@ -323,8 +356,7 @@ async function handleSavePlaylist() {
 
   const defaultName = lastPlaylistName || "HITS with EMOJIS – Random Mix";
   const name =
-    prompt("Nom per la playlist a Spotify:", defaultName) ||
-    defaultName;
+    prompt("Nom per la playlist a Spotify:", defaultName) || defaultName;
 
   const description =
     "Playlist generada automàticament amb HITS with EMOJIS – Spotify Lab 🎧";
@@ -460,16 +492,13 @@ function renderResults(tracks) {
  * 10) INIT
  ****************************************************/
 document.addEventListener("DOMContentLoaded", async () => {
-  // Botó LOGIN
   $("loginBtn").addEventListener("click", redirectToSpotify);
 
-  // Botó GENERAR PLAYLIST
   $("generateBtn").addEventListener("click", (e) => {
     e.preventDefault();
     generatePlaylist();
   });
 
-  // Detectar ?code= a la URL
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
 
@@ -479,10 +508,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       $("tokenInput").value = token;
       await loadSpotifyGenres(token);
     }
-    // Netejar el ?code de la URL
     window.history.replaceState({}, document.title, SPOTIFY_REDIRECT_URI);
   } else {
-    // Si ja tens token guardat → carregar gèneres
     const token = getValidToken();
     if (token) {
       $("tokenInput").value = token;
