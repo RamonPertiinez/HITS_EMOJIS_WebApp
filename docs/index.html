@@ -1,67 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spotify Random Playlist Generator</title>
+  <title>🎧 HITS with EMOJIS – Spotify Random Lab</title>
+
+  <!-- Font Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Spotify Random Playlist Generator</h1>
+  <div class="app-shell">
+    <header class="top-bar">
+      <div class="brand">
+        <span class="logo-circle">🎵</span>
+        <div>
+          <h1>HITS with EMOJIS – Spotify Lab</h1>
+          <p class="subtitle">
+            Genera playlists aleatòries amb gèneres, dècades i 🤖 frases en llenguatge natural.
+          </p>
+        </div>
+      </div>
 
-  <!-- Login -->
-  <button id="loginBtn">Login with Spotify</button>
+      <button id="loginBtn" class="btn primary">
+        🔐 Login with Spotify
+      </button>
+    </header>
 
-  <div class="layout">
-    <section class="panel">
-      <h2>Configuració bàsica</h2>
+    <main class="content">
+      <section class="panel">
+        <h2>⚙️ Configuració bàsica</h2>
 
-      <label>Token de Spotify:</label>
-      <input id="tokenInput" type="text" placeholder="Introdueix el token manualment..." />
+        <label>🔑 Token de Spotify</label>
+        <input
+          id="tokenInput"
+          type="text"
+          placeholder="Es generarà sol després del login, però el pots enganxar a mà si vols..."
+        />
 
-      <label>Gènere (text lliure):</label>
-      <input id="genre" type="text" value="pop" />
+        <div class="grid-2">
+          <div>
+            <label>🎼 Gènere (text lliure)</label>
+            <input id="genre" type="text" value="pop" />
+          </div>
 
-      <label>Gènere (llista oficial Spotify):</label>
-      <select id="genreSelect">
-        <option value="">-- Qualsevol --</option>
-      </select>
+          <div>
+            <label>🎛️ Gènere (llista oficial Spotify)</label>
+            <select id="genreSelect">
+              <option value="">-- Qualsevol --</option>
+            </select>
+          </div>
+        </div>
 
-      <label>Dècada:</label>
-      <select id="decade">
-        <option value="">-- Qualsevol --</option>
-        <option value="2000s">2000–2009</option>
-        <option value="2010s">2010–2019</option>
-        <option value="2020s">2020–2029</option>
-      </select>
+        <div class="grid-2">
+          <div>
+            <label>📆 Dècada</label>
+            <select id="decade">
+              <option value="">-- Qualsevol --</option>
+              <option value="2000s">2000–2009</option>
+              <option value="2010s">2010–2019</option>
+              <option value="2020s">2020–2029</option>
+            </select>
+          </div>
 
-      <label>Min Energy:</label>
-      <input id="minEnergy" type="number" value="0.4" step="0.1" min="0" max="1" />
+          <div>
+            <label>🎚️ Energy (min / max)</label>
+            <div class="inline-inputs">
+              <input id="minEnergy" type="number" value="0.4" step="0.1" min="0" max="1" />
+              <span>→</span>
+              <input id="maxEnergy" type="number" value="0.8" step="0.1" min="0" max="1" />
+            </div>
+          </div>
+        </div>
 
-      <label>Max Energy:</label>
-      <input id="maxEnergy" type="number" value="0.8" step="0.1" min="0" max="1" />
+        <div class="grid-2">
+          <div>
+            <label>🏃‍♂️ BPM (min / max)</label>
+            <div class="inline-inputs">
+              <input id="minTempo" type="number" value="90" />
+              <span>→</span>
+              <input id="maxTempo" type="number" value="130" />
+            </div>
+          </div>
 
-      <label>Min BPM:</label>
-      <input id="minTempo" type="number" value="90" />
+          <div class="info-chip">
+            💡 Consell: combina un gènere + una dècada i deixa que Spotify faci la màgia.
+          </div>
+        </div>
+      </section>
 
-      <label>Max BPM:</label>
-      <input id="maxTempo" type="number" value="130" />
-    </section>
+      <section class="panel">
+        <h2>🤖 Prompt amb IA</h2>
+        <p class="hint">
+          Escriu què vols escoltar i una IA s’encarregarà de traduir-ho a paràmetres:
+          <br />
+          <em>
+            “Vull que la random list sigui com El Canto del Loco, cançons dels 2000 fins el 2020,
+            bastant animades.”
+          </em>
+        </p>
 
-    <section class="panel">
-      <h2>Descripció amb llenguatge natural (opcional)</h2>
-      <p class="hint">
-        Escriu coses del tipus:<br/>
-        <em>“Vull cançons tipus El Canto del Loco, dels 2000 fins al 2020, bastant animades.”</em>
-      </p>
-      <textarea id="nlPrompt" rows="5"
-        placeholder="Ex: Vull una random list amb cançons de El Canto del Loco, dels 2000 fins al 2020..."></textarea>
+        <textarea
+          id="nlPrompt"
+          rows="5"
+          placeholder="Ex: Posa'm cançons tipus El Canto del Loco, entre 2000 i 2020, rock espanyol per cantar al cotxe..."
+        ></textarea>
 
-      <button id="generateBtn" class="primary">Generar Playlist</button>
+        <div class="ai-status" id="aiStatus"></div>
+
+        <button id="generateBtn" class="btn primary wide">
+          🎲 Generar Playlist
+        </button>
+      </section>
+    </main>
+
+    <section id="results" class="results-panel">
+      <!-- Resultats aquí -->
     </section>
   </div>
-
-  <section id="results"></section>
 
   <script src="script.js"></script>
 </body>
