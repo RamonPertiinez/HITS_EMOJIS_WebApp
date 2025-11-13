@@ -272,6 +272,21 @@
       border-color:var(--accent);
       box-shadow:0 0 0 1px rgba(255,191,60,.4);
     }
+    .ai-hint{
+      margin-top:4px;
+      font-size:11px;
+      color:var(--muted);
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .ai-hint input{
+      width:100%;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px;
+      background:#050814;
+    }
     .buttons-row{
       display:flex;
       flex-wrap:wrap;
@@ -447,6 +462,13 @@
           placeholder="Escriu o edita aquí els emojis per aquesta cançó…"
         />
 
+        <div class="ai-hint">
+          <span>
+            💬 Pista per a la IA (opcional) — ex: “afegeix algun emoji de foc i festa”
+          </span>
+          <input id="aiHint" placeholder="Escriu aquí què vols que tingui la proposta d’emojis…" />
+        </div>
+
         <div class="buttons-row">
           <button id="btnAccept" class="btn-primary">
             ✅ Acceptar i següent
@@ -459,6 +481,15 @@
           </button>
           <button id="btnDeleteSong" class="btn-danger">
             🗑️ Eliminar aquesta cançó
+          </button>
+        </div>
+
+        <div class="buttons-row">
+          <button id="btnAIHint" class="btn-ghost">
+            🧠 Aplicar pista IA
+          </button>
+          <button id="btnAIRefresh" class="btn-ghost">
+            🔁 Nova proposta (IA)
           </button>
         </div>
       </section>
@@ -714,12 +745,11 @@
       { re: /bad romance/, emojis: ["💔","😵‍💫","💃"] }
     ];
 
-    // 🔥 GENERADOR D'EMOJIS LOCAL (títol + últim recurs: mood)
+    // 🔥 GENERADOR D'EMOJIS LOCAL (títol + mood)
     function suggestEmojis(song){
       const rawTitle = (song.title || "").trim();
       if(!rawTitle) return "🎵";
 
-      // Normalitza (minúscules + sense accents)
       const title = rawTitle
         .toLowerCase()
         .normalize("NFD")
@@ -727,27 +757,22 @@
 
       const em = [];
 
-      // 1) Patrons especials multi-paraula
       for(const rule of EMOJI_PATTERNS){
         if(rule.re.test(title)){
           em.push(...rule.emojis);
         }
       }
 
-      // 2) Detecció paraula a paraula
       const tokens = title.split(/[^a-z0-9ñç]+/).filter(Boolean);
-
       for(const token of tokens){
         const mapping = EMOJI_WORD_MAP[token];
         if(mapping && mapping.length){
-          // afegim com a molt 2 emojis de cada paraula per no saturar
           for(let i=0; i<Math.min(mapping.length,2); i++){
             em.push(mapping[i]);
           }
         }
       }
 
-      // 3) Últim recurs: mood, si encara no hem trobat res
       if(em.length === 0 && Array.isArray(song.mood)){
         const moodText = song.mood.join(" ").toLowerCase();
         if(moodText.includes("party") || moodText.includes("energetic")){
@@ -761,12 +786,10 @@
         }
       }
 
-      // 4) Si continua buit → musical neutre
       if(em.length === 0){
         return "🎵";
       }
 
-      // 5) Netejar duplicats i limitar quants mostrem (1–3)
       const dedup = [];
       for(const e of em){
         if(!dedup.includes(e)){
@@ -777,18 +800,22 @@
       return dedup.join(" ");
     }
 
-    // 🔗 Crida al Worker d'IA
-    async function fetchAIEmojisForSong(song) {
+    // 🔗 Crida al Worker d'IA (ara amb hint + currentEmojis)
+    async function fetchAIEmojisForSong(song, opts = {}) {
+      const payload = {
+        title: song.title,
+        artist: song.artist,
+        language: song.language,
+        mood: song.mood || [],
+        hint: opts.hint || "",
+        currentEmojis: opts.currentEmojis || ""
+      };
+
       try {
         const res = await fetch(EMOJI_API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: song.title,
-            artist: song.artist,
-            language: song.language,
-            mood: song.mood || []
-          })
+          body: JSON.stringify(payload)
         });
 
         if (!res.ok) {
@@ -850,7 +877,7 @@
       if(currentIndex >= total) currentIndex = total - 1;
 
       const song = filteredSongs[currentIndex];
-      currentSongId = song.id; // marquem quina cançó està renderitzada ara mateix
+      currentSongId = song.id;
 
       const idxLabel = `${currentIndex+1} / ${total}`;
       $("songIndexLabel").textContent = idxLabel;
@@ -876,19 +903,18 @@
 
       const existing = state.validated[song.id];
 
+      $("aiHint").value = "";
+
       if(existing){
-        // Ja validada → no molestem a la IA
         $("emojiSuggest").textContent = existing || "—";
         $("emojiInput").value = existing;
         $("emojiStatusText").textContent = "✅ Ja validada (pots editar-la)";
       } else {
-        // 1) Proposta local immediata
         const localSuggestion = suggestEmojis(song);
         $("emojiSuggest").textContent = localSuggestion || "—";
         $("emojiInput").value = localSuggestion;
         $("emojiStatusText").textContent = "✨ Proposta local... esperant IA";
 
-        // 2) Crida a la IA (async)
         fetchAIEmojisForSong(song).then(ai => {
           if (!ai) {
             if (currentSongId === song.id && !state.validated[song.id]) {
@@ -897,9 +923,7 @@
             return;
           }
 
-          // Només actualitzem si seguim a la mateixa cançó i encara no està validada
           if (currentSongId === song.id && !state.validated[song.id]) {
-            // També evitem sobreescriure si l’usuari ha tocat manualment
             if ($("emojiInput").value === localSuggestion) {
               $("emojiInput").value = ai;
               $("emojiSuggest").textContent = ai;
@@ -974,6 +998,42 @@
       URL.revokeObjectURL(url);
     }
 
+    // 🔁 Re-generar emojis amb pista o sense
+    async function regenerateEmojisWithAI({ useHint = false, forceNew = false } = {}) {
+      if (!filteredSongs.length) return;
+      const song = filteredSongs[currentIndex];
+      const base = $("emojiInput").value.trim();
+      let hint = "";
+
+      if (useHint) {
+        hint = $("aiHint").value.trim();
+      }
+
+      if (!hint && forceNew) {
+        hint = "Genera una proposta d'emojis diferent i més creativa, evitant repetir exactament la combinació anterior.";
+      }
+
+      $("emojiStatusText").textContent = "🤖 Pensant noves combinacions…";
+
+      const ai = await fetchAIEmojisForSong(song, {
+        hint,
+        currentEmojis: base
+      });
+
+      if (!ai) {
+        $("emojiStatusText").textContent = "✨ No s'ha pogut millorar la proposta (mantinc l'actual)";
+        return;
+      }
+
+      if (currentSongId === song.id) {
+        $("emojiInput").value = ai;
+        $("emojiSuggest").textContent = ai;
+        $("emojiStatusText").textContent = useHint
+          ? "🤖 Proposta ajustada amb la teva pista"
+          : "🤖 Nova proposta d'emojis (IA)";
+      }
+    }
+
     async function init(){
       loadState();
 
@@ -1007,6 +1067,13 @@
         }
       });
       $("downloadJsonBtn").addEventListener("click", downloadJson);
+
+      $("btnAIHint").addEventListener("click", () => {
+        regenerateEmojisWithAI({ useHint: true, forceNew: false });
+      });
+      $("btnAIRefresh").addEventListener("click", () => {
+        regenerateEmojisWithAI({ useHint: false, forceNew: true });
+      });
 
       try{
         const res = await fetch(SONGS_URL);
