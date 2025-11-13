@@ -6,7 +6,7 @@
 // 🔐 CONFIGURACIÓ SPOTIFY
 const SPOTIFY_CLIENT_ID = "ebaa4a1061024cd7a18aa6dca3ab3e6b";
 const SPOTIFY_REDIRECT_URI =
-  "https://ramonpertinez.github.io/HITS_EMOJIS_WebApp/";
+  "https://ramonpertiinez.github.io/HITS_EMOJIS_WebApp/";
 const SPOTIFY_SCOPES = [
   "user-read-email",
   "playlist-modify-private",
