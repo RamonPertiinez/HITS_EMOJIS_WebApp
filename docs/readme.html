@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <title>HITS AMB EMOJIS — FRD & SRS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --card: #111827;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.12);
+      --accent-2: #38bdf8;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --radius-lg: 18px;
+      --shadow-soft: 0 22px 60px rgba(15, 23, 42, 0.85);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Poppins", "Segoe UI",
+        sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: radial-gradient(circle at top, #1f2937 0, #020617 42%, #020617 100%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      inset: -40px -60px auto;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.16), transparent 60%),
+                  radial-gradient(circle at 100% 0, rgba(34, 197, 94, 0.15), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 12px;
+      color: var(--muted);
+      width: fit-content;
+    }
+
+    .badge span.emoji {
+      font-size: 15px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 36px);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    h1 .logo {
+      font-size: 30px;
+      filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.6));
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 14px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .meta span {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(75, 85, 99, 0.7);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.3fr);
+      gap: 22px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 840px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95) 0, #020617 55%);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 20px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.12), transparent 55%);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h3 {
+      font-size: 14px;
+      margin: 18px 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .tagline {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 4px 0 10px;
+      font-size: 13px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--muted);
+    }
+
+    .pill.primary {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: #bbf7d0;
+    }
+
+    .pill.soft {
+      border-style: dashed;
+      border-color: rgba(148, 163, 184, 0.6);
+    }
+
+    .highlight-box {
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      font-size: 12px;
+      margin-top: 10px;
+      color: #d1fae5;
+    }
+
+    .highlight-box strong {
+      color: #bbf7d0;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .section-title {
+      margin: 28px 0 10px;
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(75, 85, 99, 0.85);
+    }
+
+    .section-title span.icon {
+      font-size: 16px;
+    }
+
+    .section-body {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 820px) {
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 540px) {
+      .grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .mini-card {
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 2px;
+      color: #e5e7eb;
+    }
+
+    .code-block {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+
+    .footer-note {
+      margin-top: 26px;
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0.8;
+    }
+
+    a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">
+        <span class="emoji">🧪</span>
+        <span>Projecte en definició — FRD &amp; SRS MVP</span>
+      </div>
+      <h1>
+        <span class="logo">🎧</span>
+        <span>HITS AMB EMOJIS — Documentació Funcional</span>
+      </h1>
+      <p class="subtitle">
+        Joc social tipus “party game” on un host crea una sala, els amics s’hi connecten
+        des del mòbil i han d’endevinar cançons a partir d’emojis. Aquest document
+        resumeix el FRD (Functional Requirements Document) i el SRS (Software
+        Requirements Specification) del MVP.
+      </p>
+      <div class="meta">
+        <span>Owner: Ramon Pertíñez Solà</span>
+        <span>Versió: 1.0</span>
+        <span>Objectiu: primera release per amics — 27 de desembre</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- LEFT: VISIÓ & FRD -->
+      <section class="card">
+        <h2>🎯 Visió del projecte</h2>
+        <p class="tagline">
+          Crear el <strong>joc definitiu de cançons + emojis</strong> per jugar amb amics,
+          accessible des d’un navegador, senzill de configurar per l’amfitrió i amb una
+          experiència fluida per als jugadors.
+        </p>
+
+        <h3>Objectiu principal</h3>
+        <ul>
+          <li>Permetre que un <strong>host</strong> creï una sala de joc amb criteris de música.</li>
+          <li>Que els <strong>jugadors</strong> s’hi puguin connectar fàcilment amb link o QR.</li>
+          <li>Generar una <strong>playlist aleatòria</strong> de cançons segons idioma, gènere i dècada.</li>
+          <li>Mostrar <strong>rondes amb emojis</strong> perquè els jugadors endevinin la cançó.</li>
+          <li>Calcular punts i mostrar un <strong>rànquing final</strong>.</li>
+        </ul>
+
+        <div class="pill-row">
+          <span class="pill primary">MVP: jugable amb amics</span>
+          <span class="pill">Web responsive</span>
+          <span class="pill">Experiència tipus Kahoot</span>
+          <span class="pill soft">Pre-IA totalment automàtica</span>
+        </div>
+
+        <div class="highlight-box">
+          <strong>FRD (Functional Requirements Document)</strong><br/>
+          Defineix “<em>què ha de fer</em>” el sistema a nivell funcional: rols (host, jugador,
+          motor IA), flux complet de partida, requisits de sala, rondes, puntuació i
+          rànquing, així com la primera eina interna de validació d’emojis.
+        </div>
+
+        <h3>Rols del sistema</h3>
+        <div class="two-col">
+          <div>
+            <ul>
+              <li><strong>Host (amfitrió)</strong><br/>Crea la sala, defineix criteris (idioma, gènere, dècada),
+              comparteix el link/QR i inicia la partida.</li>
+              <li><strong>Jugador</strong><br/>S’uneix a una sala, posa nom i avatar i participa responent
+              rondes de cançons amb emojis.</li>
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li><strong>Motor IA / Playlist Engine</strong><br/>Interpreta criteris i/o un prompt lliure i genera una
+              llista de cançons candidates, utilitzant una base de dades
+              validada (cançó + emojis).</li>
+              <li><strong>Eina interna de validació</strong><br/>Permet revisar i editar emojis per cançó abans que
+              formi part del joc real.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Abast del FRD</h3>
+        <p class="section-body">
+          El FRD d’aquest projecte especifica:
+        </p>
+        <ul>
+          <li>Com es crea una sala (criteris, prompt, Room ID, link i QR).</li>
+          <li>Com els jugadors s’uneixen a la sala i es mostren a la sala d’espera.</li>
+          <li>Com funciona una partida: rondes, emojis, respostes, puntuació i final.</li>
+          <li>Com s’utilitza una base de dades de cançons + emojis validats com a font.</li>
+          <li>Què inclou l’MVP del 27 de desembre i què és per fases futures.</li>
+        </ul>
+      </section>
+
+      <!-- RIGHT: FRD WORKFLOW -->
+      <section class="card">
+        <h2>🧩 Flux de joc (resum FRD)</h2>
+        <p class="tagline">
+          Del punt de vista de producte, el FRD defineix aquest recorregut complet:
+        </p>
+
+        <h3>1. Creació de sala</h3>
+        <ul>
+          <li>L’amfitrió omple el formulari:
+            <ul>
+              <li>Idiomes (multi-select)</li>
+              <li>Gèneres (multi-select)</li>
+              <li>Dècada o rang d’anys</li>
+              <li>Nombre de cançons (ex. 10, 15, 20)</li>
+            </ul>
+          </li>
+          <li>Opcionalment escriu un <strong>prompt lliure</strong> (“Pop català actual”, “Estil El Canto del Loco 2000–2020”…).</li>
+          <li>El sistema crea la sala, genera un <strong>Room ID</strong>, una URL i un <strong>codi QR</strong>.</li>
+        </ul>
+
+        <h3>2. Players join</h3>
+        <ul>
+          <li>Els amics escanegen el QR o obren el link.</li>
+          <li>Escullen <strong>nom</strong> i (si volen) <strong>avatar</strong>.</li>
+          <li>Entren a la <strong>sala d’espera</strong> i veuen la llista de participants.</li>
+        </ul>
+
+        <h3>3. Ronda de joc</h3>
+        <ul>
+          <li>El sistema mostra una combinació d’<strong>emojis</strong> que representen una cançó.</li>
+          <li>Cada jugador escriu el títol (i/o artista) i envia la resposta.</li>
+          <li>El sistema comprova encerts i calcula punts (bàsic: encert + velocitat).</li>
+        </ul>
+
+        <h3>4. Final de partida</h3>
+        <ul>
+          <li>Es mostra un <strong>rànquing final</strong> amb nom, foto i puntuació.</li>
+          <li>L’amfitrió pot:
+            <ul>
+              <li>Repetir la partida amb la mateixa llista.</li>
+              <li>Crear una sala nova amb nous criteris.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="highlight-box">
+          <strong>MVP 27/12</strong><br/>
+          Centrat en: creació de sala, connexió de jugadors, rondes d’emojis, validació
+          simple de respostes i ranking final. Tota la part més heavy d’IA i modes
+          avançats de joc pot venir després.
+        </div>
+      </section>
+    </div>
+
+    <!-- SRS SECTION -->
+    <h2 class="section-title">
+      <span class="icon">🧪</span>
+      <span>SRS — Software Requirements Specification</span>
+    </h2>
+    <p class="section-body">
+      El SRS baixa al detall tècnic el que el FRD defineix a nivell de producte. És el
+      document que respon “<em>com ha de funcionar exactament el sistema per complir el que volem</em>”.
+      Aquí tens el resum estructurat.
+    </p>
+
+    <div class="layout">
+      <!-- LEFT: SRS DETAIL -->
+      <section class="card">
+        <h2>⚙️ Vista tècnica del sistema</h2>
+        <p class="tagline">
+          HITS AMB EMOJIS es concep com una <strong>web-app responsive</strong> amb un
+          frontend (React) i un backend lleuger (Node/Firebase/Supabase) que
+          gestionen temps real via WebSockets.
+        </p>
+
+        <h3>Funcions clau (vista SRS)</h3>
+        <ul>
+          <li><strong>Room Creation API</strong>: crear sala, generar criteris, Room ID i configuració.</li>
+          <li><strong>Player Join &amp; Sync</strong>: connectar jugadors i mantenir-los sincronitzats amb l’estat de la sala.</li>
+          <li><strong>Game Engine</strong>: avançar rondes, validar respostes i calcular puntuacions.</li>
+          <li><strong>Ranking Engine</strong>: consolidar puntuacions i mostrar el resultat final.</li>
+          <li><strong>AI / Playlist Engine</strong>: interpretar prompts i generar playlists a partir d’una BD validada.</li>
+          <li><strong>Emoji Validation Tool</strong>: eina interna per construir i mantenir el corpus de cançons.</li>
+        </ul>
+
+        <h3>Models de dades (resum)</h3>
+        <div class="grid-3">
+          <div class="mini-card">
+            <strong>Song</strong>
+            <span>song_id, title, artist, year, language, genre, popularity, emojis[], validated</span>
+          </div>
+          <div class="mini-card">
+            <strong>Room</strong>
+            <span>room_id, host_id, criteria{...}, playlist[], players[], status, created_at</span>
+          </div>
+          <div class="mini-card">
+            <strong>Player</strong>
+            <span>player_id, name, avatar, score, room_id, connected</span>
+          </div>
+        </div>
+
+        <h3>Validació de respostes</h3>
+        <p class="section-body">
+          El SRS defineix un mecanisme de matching “flexible” per comprovar encerts:
+        </p>
+        <ul>
+          <li>Normalització: minúscules, sense accents, eliminant articles (“el”, “la”, “the”).</li>
+          <li>Comparació per similitud de cadenes (Levenshtein / substring raonable).</li>
+          <li>Resultat: <strong>correcte</strong> o <strong>incorrecte</strong>.</li>
+        </ul>
+
+        <h3>Puntuació (MVP)</h3>
+        <ul>
+          <li>Resposta correcta: +100 punts.</li>
+          <li>Bonus per velocitat: fins a +50 punts.</li>
+          <li>Resposta incorrecta: 0 punts.</li>
+        </ul>
+
+        <div class="highlight-box">
+          <strong>SRS = contracte tècnic</strong><br/>
+          Aquestes definicions permeten que qualsevol persona que implementi el
+          backend i el frontend sàpiga exactament com han de ser les dades, quin
+          comportament ha de tenir el joc i com s’han de calcular els resultats.
+        </div>
+      </section>
+
+      <!-- RIGHT: ARCH + NFR -->
+      <section class="card">
+        <h2>🧱 Arquitectura & Requisits no funcionals</h2>
+        <p class="tagline">
+          A més de “què fa” el sistema, el SRS descriu “com ha de ser de ràpid, estable i usable”.
+        </p>
+
+        <h3>Arquitectura proposada</h3>
+        <ul>
+          <li><strong>Frontend</strong>: React + Vite, estil PWA, optimitzat per mòbil.</li>
+          <li><strong>Backend</strong>: Node.js / Firebase Functions / Supabase (a decidir).</li>
+          <li><strong>Temps real</strong>: WebSockets per sincronitzar host i jugadors.</li>
+          <li><strong>IA</strong>: integració amb API (OpenAI o similar) per:
+            <ul>
+              <li>Interpretar prompts en criteris.</li>
+              <li>Proposar cançons i emojis (via eina de testing).</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3>Requisits no funcionals (NFR)</h3>
+        <ul>
+          <li><strong>Rendiment</strong>: carregues de sala &lt; 1.5s, resposta en ronda &lt; 200ms.</li>
+          <li><strong>Compatibilitat</strong>: navegadors mòbil (Safari, Chrome Android) i desktop.</li>
+          <li><strong>Escalabilitat</strong>: MVP pensat per ~20 jugadors, però amb base ampliable.</li>
+          <li><strong>Fiabilitat</strong>: reconexió automàtica si es perd la connexió WebSocket.</li>
+          <li><strong>Privacitat</strong>: només es guarden nom, avatar i puntuació de partida.</li>
+        </ul>
+
+        <h3>Exemple d’events temps real</h3>
+        <div class="code-block">
+events: [
+  "player_joined",
+  "room_updated",
+  "start_game",
+  "start_round",
+  "answer_submitted",
+  "round_finished",
+  "show_ranking"
+]
+        </div>
+
+        <h3>Eina de validació d’emojis</h3>
+        <p class="section-body">
+          Abans que una cançó entri al joc:
+        </p>
+        <ul>
+          <li>La IA proposa cançons + emojis en un panell intern.</li>
+          <li>Tu (o qui sigui admin) revises, edites i aproves.</li>
+          <li>La cançó passa a la base de dades “validated”.</li>
+        </ul>
+        <p class="section-body">
+          Això és clau perquè el joc sembli “intel·ligent” però controlat pel teu criteri.
+        </p>
+      </section>
+    </div>
+
+    <h2 class="section-title">
+      <span class="icon">🚦</span>
+      <span>MVP 27 de desembre — Focus</span>
+    </h2>
+    <p class="section-body">
+      La primera versió per amics no necessita totes les funcionalitats “premium”. Ha de ser:
+      estable, divertida i prou pulida per jugar una nit i dir “això té molt de futur”.
+    </p>
+
+    <div class="grid-3">
+      <div class="mini-card">
+        <strong>Inclòs al MVP</strong>
+        <ul>
+          <li>Crear sala amb criteris bàsics.</li>
+          <li>Link + QR per convidar amics.</li>
+          <li>Sala d’espera sync.</li>
+          <li>Rondes amb emojis.</li>
+          <li>Validació simple de respostes.</li>
+          <li>Rànquing final.</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <strong>Post-MVP</strong>
+        <ul>
+          <li>IA totalment automàtica (prompts més complexos).</li>
+          <li>Reproductor d’àudio / snippets.</li>
+          <li>Modes de joc avançats.</li>
+          <li>Estadístiques, nivells i trofeus.</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <strong>Toolkit de producte</strong>
+        <ul>
+          <li>FRD &amp; SRS (aquest document).</li>
+          <li>Epics + User Stories (Trello/Jira).</li>
+          <li>Eina interna de validació d’emojis.</li>
+          <li>Roadmap iteratiu a partir del MVP.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer-note">
+      Aquest <strong>readme.html</strong> resumeix la visió, el FRD i el SRS del projecte
+      <strong>HITS AMB EMOJIS</strong>. És el punt de referència per recordar què vols
+      construir i com ha d’evolucionar el joc. Quan el miris d’aquí a mesos,
+      hauria de seguir ressonant amb la idea original: amics, música i emojis. 🎵✨
+    </p>
+  </div>
+</body>
+</html>
