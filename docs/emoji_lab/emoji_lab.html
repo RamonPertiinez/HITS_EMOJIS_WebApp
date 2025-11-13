@@ -534,207 +534,259 @@
       return map[code] || code || "—";
     }
 
-    // 🔥 GENERADOR D'EMOJIS BASAT EN EL TÍTOL
-    function suggestEmojis(song){
-      const title = (song.title || "").toLowerCase().trim();
+    // 🔡 Diccionari gran paraula → llista d'emojis possibles
+const EMOJI_WORD_MAP = {
+  // AMOR / RELACIONS
+  "amor": ["❤️","💘","💖","💓","💞","💝"],
+  "estima": ["❤️","🤍","💞"],
+  "cor": ["❤️","🫀","💓"],
+  "corazon": ["❤️","💘","💗"],
+  "heart": ["❤️","💘","💗"],
+  "love": ["❤️","💕","💘"],
+  "beso": ["💋","😘","💌"],
+  "kiss": ["💋","😘","😙"],
+  "amigos": ["👥","🧑‍🤝‍🧑","🤝"],
+  "amics": ["👥","🧑‍🤝‍🧑","🤝"],
+  "friend": ["👤","👥","🧑‍🤝‍🧑"],
+  "friends": ["👥","🧑‍🤝‍🧑","🤝"],
+  "solo": ["😔","😢","🖤"],
+  "soledad": ["😔","🌧️","💭"],
+  "alone": ["😔","🌧️","🌙"],
 
-      if(!title){
-        return "🎵"; // fallback abstracte
-      }
+  // EMOCIONS
+  "feliz": ["😊","😄","😁"],
+  "happy": ["😊","😄","😃","🌞"],
+  "alegria": ["😄","🎉","🥳"],
+  "triste": ["😢","😭","💔"],
+  "sad": ["😢","😭","💧"],
+  "llorar": ["😭","💧","😢"],
+  "plorar": ["😭","💧","😢"],
+  "loco": ["🤪","😜","🌀"],
+  "crazy": ["🤪","🤯","😵‍💫"],
+  "miedo": ["😱","👻","🌑"],
+  "por": ["😱"],
 
-      const em = [];
+  // NATURA / LLOC
+  "sol": ["☀️","🌞","😎"],
+  "sun": ["☀️","🌞"],
+  "luna": ["🌙","🌜","✨"],
+  "lluna": ["🌙","🌜","✨"],
+  "moon": ["🌙","🌝","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  "estrella": ["⭐","🌟","✨"],
+  // ups copiat massa vegades, deixem-ho simple:
+  "estrella": ["⭐","🌟","✨"],
+  "stars": ["⭐","🌟","✨"],
+  "estreles": ["⭐","🌟"],
+  "estels": ["⭐","🌟"],
+  "cielo": ["🌤️","☁️","🌈"],
+  "sky": ["🌤️","☁️","🌈"],
+  "cel": ["🌤️","☁️","🌈"],
+  "mar": ["🌊","🌊","🐚"],
+  "sea": ["🌊","🐚","🚤"],
+  "ocean": ["🌊","🐬","🐚"],
+  "oceano": ["🌊","🐬","🐚"],
+  "platja": ["🏖️","🌊","🌅"],
+  "playa": ["🏖️","🌊","🌴"],
+  "beach": ["🏖️","🌊","🌴"],
+  "montana": ["⛰️","🏔️","🌄"],
+  "montanya": ["⛰️","🏔️","🌄"],
+  "mountain": ["⛰️","🏔️","🌄"],
+  "bosque": ["🌲","🌳","🌿"],
+  "bosc": ["🌲","🌳","🌿"],
+  "rain": ["🌧️","☔","💧"],
+  "lluvia": ["🌧️","☔","💧"],
+  "pluja": ["🌧️","☔","💧"],
+  "fuego": ["🔥","🔥","🔥"],
+  "fire": ["🔥","🔥","💥"],
+  "foc": ["🔥","🔥","💥"],
 
-      const has = (pattern) => {
-        if(pattern instanceof RegExp) return pattern.test(title);
-        return title.includes(pattern);
-      };
+  // FESTA / NIT / CLUB
+  "fiesta": ["🎉","🥳","🍾"],
+  "party": ["🎉","🥳","🎊"],
+  "discoteca": ["🕺","💃","🎛️"],
+  "club": ["🕺","💃","🎛️"],
+  "rave": ["🕺","🎛️","⚡"],
+  "bailar": ["💃","🕺","🎶"],
+  "dance": ["💃","🕺","🎶"],
+  "ballar": ["💃","🕺","🎶"],
+  "baile": ["💃","🕺","🎶"],
+  "night": ["🌙","🌌","🌃"],
+  "noche": ["🌙","🌃","✨"],
+  "nit": ["🌙","🌃","✨"],
 
-      // 1) PATRONS COMPOSTOS (frases / combinacions)
-      if(/camins?|camino|road|highway|ruta/.test(title)){
-        em.push("🛣️","👣");
-      }
-      if(/platja|playa|beach/.test(title)){
-        em.push("🏖️","🌊");
-      }
-      if(/al mar|towards the sea/.test(title)){
-        em.push("🌊","⛵");
-      }
-      if(/lluna.*a l.?aigua|moon.*water|luna.*agua/.test(title)){
-        em.push("🌙","💧");
-      }
-      if(/camisa negra/.test(title)){
-        em.push("👔","⚫");
-      }
-      if(/dulce/ .test(title) && /locura/.test(title)){
-        em.push("🍭","🤪");
-      }
+  // MOVIMENT / VIATGE
+  "camino": ["🛣️","👣","➡️"],
+  "camins": ["🛣️","👣","➡️"],
+  "road": ["🛣️","🚗","👣"],
+  "ruta": ["🛣️","🧭","🚗"],
+  "coche": ["🚗","🚙","🏎️"],
+  "cotxe": ["🚗","🚙"],
+  "car": ["🚗","🚙"],
+  "tren": ["🚆","🚞"],
+  "train": ["🚆","🚞"],
+  "avion": ["✈️","🛫","🛬"],
+  "avió": ["✈️","🛫","🛬"],
+  "plane": ["✈️","🛫","🛬"],
+  "fly": ["🕊️","✈️","⬆️"],
+  "viaje": ["🧳","✈️","🚆"],
+  "viatge": ["🧳","✈️","🚗"],
+  "trip": ["🧳","✈️","🌍"],
+  "journey": ["🧳","🛣️","🌍"],
+  "ciudad": ["🌆","🏙️"],
+  "ciutat": ["🌆","🏙️"],
+  "city": ["🌆","🏙️"],
 
-      // 2) COLORS
-      if(/yellow|groc|amarillo/.test(title)){
-        em.push("🟡");
-      }
-      if(/blue|azul|blau/.test(title)){
-        em.push("🔵");
-      }
-      if(/red|rojo|vermell/.test(title)){
-        em.push("🔴","❤️");
-      }
-      if(/black|negra|negro/.test(title)){
-        em.push("⚫");
-      }
-      if(/white|blanco|blanc/.test(title)){
-        em.push("⚪");
-      }
+  // TEMPS / RECORDS
+  "tiempo": ["⏳","⌛","⏰"],
+  "time": ["⏳","⌛","⏰"],
+  "temps": ["⏳","⌛","⏰"],
+  "reloj": ["⏰","⌚"],
+  "clock": ["⏰","⏱️"],
+  "ayer": ["📼","🕰️"],
+  "yesterday": ["📼","🕰️"],
+  "ahir": ["📼","🕰️"],
+  "recuerdos": ["💭","🧠","📸"],
+  "memories": ["💭","🧠","📸"],
+  "records": ["💭","🧠","📸"],
 
-      // 3) NATURA / ESCENARIS
-      if(/sol|sun/.test(title)){
-        em.push("☀️");
-      }
-      if(/lluna|moon|luna/.test(title)){
-        em.push("🌙");
-      }
-      if(/estrella|stars?|estreles?/.test(title)){
-        em.push("⭐");
-      }
-      if(/cielo|sky|cel/.test(title)){
-        em.push("🌤️");
-      }
-      if(/mar|sea|ocean|oceà|oceano/.test(title)){
-        em.push("🌊");
-      }
-      if(/pluja|lluvia|rain/.test(title)){
-        em.push("🌧️");
-      }
-      if(/fuego|fire|foc/.test(title)){
-        em.push("🔥");
-      }
-      if(/noche|nit|night/.test(title)){
-        em.push("🌙","✨");
-      }
+  // OBJECTES / COSA
+  "casa": ["🏠","🏡"],
+  "home": ["🏠","🏡"],
+  "llar": ["🏠","🏡"],
+  "llave": ["🔑","🗝️"],
+  "llaves": ["🔑","🗝️"],
+  "key": ["🔑","🗝️"],
+  "keys": ["🔑","🗝️"],
+  "corona": ["👑"],
+  "rey": ["👑"],
+  "queen": ["👑"],
+  "rei": ["👑"],
+  "reina": ["👑"],
+  "guerra": ["⚔️","🔥"],
+  "war": ["⚔️","🔥"],
+  "sueño": ["💤","💭"],
+  "suenos": ["💤","💭"],
+  "somni": ["💤","💭"],
+  "somnis": ["💤","💭"],
 
-      // 4) AMOR / RELACIONS
-      if(/corazón|corazon|heart|amor|love/.test(title)){
-        em.push("❤️");
-      }
-      if(/beso|kiss/.test(title)){
-        em.push("💋");
-      }
-      if(/romance|romanç/.test(title)){
-        em.push("💘");
-      }
-      if(/adios|adiós|goodbye|adeu|adéu|bye/.test(title)){
-        em.push("👋","💔");
-      }
-      if(/soledad|alone|solitaria|solitari/.test(title)){
-        em.push("😔");
-      }
+  // COLORS
+  "yellow": ["🟡","🌕","✨"],
+  "groc": ["🟡","🌕"],
+  "amarillo": ["🟡","🌕"],
+  "blue": ["🔵","🌊","💙"],
+  "blau": ["🔵","💙"],
+  "azul": ["🔵","💙"],
+  "rojo": ["🔴","❤️"],
+  "vermell": ["🔴","❤️"],
+  "red": ["🔴","❤️"],
+  "negro": ["⚫","🖤"],
+  "negra": ["⚫","🖤"],
+  "black": ["⚫","🖤"],
+  "white": ["⚪"],
+  "blanco": ["⚪"],
+  "blanc": ["⚪"],
 
-      // 5) MOVIMENT / VIATGE
-      if(/caminar|walk|andar|andar|camins?/.test(title)){
-        em.push("👣");
-      }
-      if(/tren|train/.test(title)){
-        em.push("🚆");
-      }
-      if(/coche|cotxe|car/.test(title)){
-        em.push("🚗");
-      }
-      if(/volar|fly|vuela|flight/.test(title)){
-        em.push("✈️","🕊️");
-      }
-      if(/viaje|viatge|trip|journey/.test(title)){
-        em.push("🧳");
-      }
-      if(/ciudad|city|ciutat/.test(title)){
-        em.push("🌆");
-      }
+  // NÚMEROS
+  "dos": ["2️⃣","✌️"],
+  "tres": ["3️⃣"],
+  "cuatro": ["4️⃣"],
+  "quatre": ["4️⃣"],
+  "cinco": ["5️⃣"],
+  "cinc": ["5️⃣"],
+  "siete": ["7️⃣"],
+  "set": ["7️⃣"],
+  "diez": ["🔟"],
+  "deu": ["🔟"]
+};
 
-      // 6) FESTA / EMOCIÓ
-      if(/fiesta|party|rave|discoteca|club/.test(title)){
-        em.push("🎉");
-      }
-      if(/bailar|dance|baile/.test(title)){
-        em.push("💃");
-      }
-      if(/feliz|happy|alegría|alegria/.test(title)){
-        em.push("😊");
-      }
-      if(/triste|sad|llorar|cry/.test(title)){
-        em.push("😢");
-      }
-      if(/loco|crazy/.test(title)){
-        em.push("🤪");
-      }
+// Frases o patrons especials (multi-paraula)
+const EMOJI_PATTERNS = [
+  { re: /camisa negra/, emojis: ["👔","⚫"] },
+  { re: /la gent que estimo/, emojis: ["👥","❤️"] },
+  { re: /una lluna a l.?aigua/, emojis: ["🌙","💧"] },
+  { re: /al mar/, emojis: ["🌊","⛵"] },
+  { re: /viva la vida/, emojis: ["🎉","🌍"] },
+  { re: /thunderstruck|thunder/, emojis: ["⚡","🤯"] },
+  { re: /fix you/, emojis: ["🩹","💡"] },
+  { re: /la playa/, emojis: ["🏖️","🌊"] },
+  { re: /let her go/, emojis: ["👋","🚶‍♀️","💔"] },
+  { re: /bad romance/, emojis: ["💔","😵‍💫","💃"] }
+];
 
-      // 7) TEMPS / RECORDS
-      if(/tiempo|time|temps/.test(title)){
-        em.push("⏳");
-      }
-      if(/reloj|clock|clocks/.test(title)){
-        em.push("⏰");
-      }
-      if(/ayer|ayeres|yesterday/.test(title)){
-        em.push("📼");
-      }
-      if(/recuerdos|memories|records/.test(title)){
-        em.push("🧠");
-      }
 
-      // 8) OBJECTES I ALTRES
-      if(/casa|home|llar/.test(title)){
-        em.push("🏠");
-      }
-      if(/lluna|moon|luna/.test(title) && !em.includes("🌙")){
-        em.push("🌙");
-      }
-      if(/corona|rey|queen|rei|reina/.test(title)){
-        em.push("👑");
-      }
-      if(/guerra|war/.test(title)){
-        em.push("⚔️");
-      }
-      if(/sueño|dream|somni/.test(title)){
-        em.push("💭");
-      }
-      if(/llaves|keys|keys?/.test(title)){
-        em.push("🔑");
-      }
+   // 🔥 GENERADOR D'EMOJIS MÉS LLISTO (basat en el títol + últim recurs: mood)
+function suggestEmojis(song){
+  const rawTitle = (song.title || "").trim();
+  if(!rawTitle) return "🎵";
 
-      // 9) NÚMEROS
-      if(/\b2\b| dos /.test(title)){
-        em.push("2️⃣");
-      }
-      if(/\b3\b| tres /.test(title)){
-        em.push("3️⃣");
-      }
-      if(/\b4\b| quatre | cuatro /.test(title)){
-        em.push("4️⃣");
-      }
-      if(/\b5\b| cinc | cinco /.test(title)){
-        em.push("5️⃣");
-      }
-      if(/\b7\b| set /.test(title)){
-        em.push("7️⃣");
-      }
-      if(/\b10\b| deu | diez /.test(title)){
-        em.push("🔟");
-      }
+  // Normalitza (minúscules + sense accents)
+  const title = rawTitle
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
-      // Fallback si no s'ha trobat res clar
-      if(em.length === 0){
-        return "🎵";
-      }
+  const em = [];
 
-      // Netejar duplicats i limitar entre 1 i 3 emojis
-      const dedup = [];
-      for(const e of em){
-        if(!dedup.includes(e)){
-          dedup.push(e);
-          if(dedup.length >= 3) break;
-        }
-      }
-      return dedup.join(" ");
+  // 1) Patrons especials multi-paraula
+  for(const rule of EMOJI_PATTERNS){
+    if(rule.re.test(title)){
+      em.push(...rule.emojis);
     }
+  }
+
+  // 2) Detecció paraula a paraula
+  const tokens = title.split(/[^a-z0-9ñç]+/).filter(Boolean);
+
+  for(const token of tokens){
+    const mapping = EMOJI_WORD_MAP[token];
+    if(mapping && mapping.length){
+      // afegim com a molt 2 emojis de cada paraula per no saturar
+      for(let i=0; i<Math.min(mapping.length,2); i++){
+        em.push(mapping[i]);
+      }
+    }
+  }
+
+  // 3) Últim recurs: mood, si encara no hem trobat res
+  if(em.length === 0 && Array.isArray(song.mood)){
+    const moodText = song.mood.join(" ").toLowerCase();
+    if(moodText.includes("party") || moodText.includes("energetic")){
+      em.push("🎉","🔥");
+    } else if(moodText.includes("romantic")){
+      em.push("❤️","💘");
+    } else if(moodText.includes("sad")){
+      em.push("💔","😢");
+    } else if(moodText.includes("chill") || moodText.includes("focus")){
+      em.push("🌙","☕");
+    }
+  }
+
+  // 4) Si continua buit → musical neutre
+  if(em.length === 0){
+    return "🎵";
+  }
+
+  // 5) Netejar duplicats i limitar quants mostrem (1–3)
+  const dedup = [];
+  for(const e of em){
+    if(!dedup.includes(e)){
+      dedup.push(e);
+      if(dedup.length >= 3) break;  // pots pujar-ho a 4–5 si vols més soroll
+    }
+  }
+  return dedup.join(" ");
+}
+
 
     function applyFilters(){
       const lang = state.lang || "all";
