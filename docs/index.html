@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify Random List Tester</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
+    <h1>Spotify Random Playlist Generator</h1>
+
+    <div class="controls">
+        <label>Token de Spotify:</label>
+        <input id="tokenInput" type="text" placeholder="Introdueix el token manualment..." />
+
+        <label>Gènere:</label>
+        <input id="genre" type="text" value="pop" />
+
+        <label>Min Energy:</label>
+        <input id="minEnergy" type="number" value="0.4" step="0.1" />
+
+        <label>Max Energy:</label>
+        <input id="maxEnergy" type="number" value="0.8" step="0.1" />
+
+        <label>Min BPM:</label>
+        <input id="minTempo" type="number" value="90" />
+
+        <label>Max BPM:</label>
+        <input id="maxTempo" type="number" value="130" />
+
+        <button id="generateBtn">Generar Playlist</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
