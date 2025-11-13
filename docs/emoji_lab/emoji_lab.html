@@ -479,12 +479,16 @@
   </div>
 
   <script>
+    // 🔗 URL del teu Worker d’IA
+    const EMOJI_API_URL = "https://emoji-worker.ramonpertinez.workers.dev";
+
     const SONGS_URL = "songs_local.json";
     const stateKey = "hitsEmojiState_v1";
 
     let allSongs = [];
     let filteredSongs = [];
     let currentIndex = 0;
+    let currentSongId = null; // per evitar sobrescriure si canvies ràpid de cançó
     let state = {
       validated: {}, // id -> emojis
       deleted: {},   // id -> true
@@ -535,258 +539,270 @@
     }
 
     // 🔡 Diccionari gran paraula → llista d'emojis possibles
-const EMOJI_WORD_MAP = {
-  // AMOR / RELACIONS
-  "amor": ["❤️","💘","💖","💓","💞","💝"],
-  "estima": ["❤️","🤍","💞"],
-  "cor": ["❤️","🫀","💓"],
-  "corazon": ["❤️","💘","💗"],
-  "heart": ["❤️","💘","💗"],
-  "love": ["❤️","💕","💘"],
-  "beso": ["💋","😘","💌"],
-  "kiss": ["💋","😘","😙"],
-  "amigos": ["👥","🧑‍🤝‍🧑","🤝"],
-  "amics": ["👥","🧑‍🤝‍🧑","🤝"],
-  "friend": ["👤","👥","🧑‍🤝‍🧑"],
-  "friends": ["👥","🧑‍🤝‍🧑","🤝"],
-  "solo": ["😔","😢","🖤"],
-  "soledad": ["😔","🌧️","💭"],
-  "alone": ["😔","🌧️","🌙"],
+    const EMOJI_WORD_MAP = {
+      // AMOR / RELACIONS
+      "amor": ["❤️","💘","💖","💓","💞","💝"],
+      "estima": ["❤️","🤍","💞"],
+      "cor": ["❤️","🫀","💓"],
+      "corazon": ["❤️","💘","💗"],
+      "heart": ["❤️","💘","💗"],
+      "love": ["❤️","💕","💘"],
+      "beso": ["💋","😘","💌"],
+      "kiss": ["💋","😘","😙"],
+      "amigos": ["👥","🧑‍🤝‍🧑","🤝"],
+      "amics": ["👥","🧑‍🤝‍🧑","🤝"],
+      "friend": ["👤","👥","🧑‍🤝‍🧑"],
+      "friends": ["👥","🧑‍🤝‍🧑","🤝"],
+      "solo": ["😔","😢","🖤"],
+      "soledad": ["😔","🌧️","💭"],
+      "alone": ["😔","🌧️","🌙"],
 
-  // EMOCIONS
-  "feliz": ["😊","😄","😁"],
-  "happy": ["😊","😄","😃","🌞"],
-  "alegria": ["😄","🎉","🥳"],
-  "triste": ["😢","😭","💔"],
-  "sad": ["😢","😭","💧"],
-  "llorar": ["😭","💧","😢"],
-  "plorar": ["😭","💧","😢"],
-  "loco": ["🤪","😜","🌀"],
-  "crazy": ["🤪","🤯","😵‍💫"],
-  "miedo": ["😱","👻","🌑"],
-  "por": ["😱"],
+      // EMOCIONS
+      "feliz": ["😊","😄","😁"],
+      "happy": ["😊","😄","😃","🌞"],
+      "alegria": ["😄","🎉","🥳"],
+      "triste": ["😢","😭","💔"],
+      "sad": ["😢","😭","💧"],
+      "llorar": ["😭","💧","😢"],
+      "plorar": ["😭","💧","😢"],
+      "loco": ["🤪","😜","🌀"],
+      "crazy": ["🤪","🤯","😵‍💫"],
+      "miedo": ["😱","👻","🌑"],
 
-  // NATURA / LLOC
-  "sol": ["☀️","🌞","😎"],
-  "sun": ["☀️","🌞"],
-  "luna": ["🌙","🌜","✨"],
-  "lluna": ["🌙","🌜","✨"],
-  "moon": ["🌙","🌝","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  // ups copiat massa vegades, deixem-ho simple:
-  "estrella": ["⭐","🌟","✨"],
-  "stars": ["⭐","🌟","✨"],
-  "estreles": ["⭐","🌟"],
-  "estels": ["⭐","🌟"],
-  "cielo": ["🌤️","☁️","🌈"],
-  "sky": ["🌤️","☁️","🌈"],
-  "cel": ["🌤️","☁️","🌈"],
-  "mar": ["🌊","🌊","🐚"],
-  "sea": ["🌊","🐚","🚤"],
-  "ocean": ["🌊","🐬","🐚"],
-  "oceano": ["🌊","🐬","🐚"],
-  "platja": ["🏖️","🌊","🌅"],
-  "playa": ["🏖️","🌊","🌴"],
-  "beach": ["🏖️","🌊","🌴"],
-  "montana": ["⛰️","🏔️","🌄"],
-  "montanya": ["⛰️","🏔️","🌄"],
-  "mountain": ["⛰️","🏔️","🌄"],
-  "bosque": ["🌲","🌳","🌿"],
-  "bosc": ["🌲","🌳","🌿"],
-  "rain": ["🌧️","☔","💧"],
-  "lluvia": ["🌧️","☔","💧"],
-  "pluja": ["🌧️","☔","💧"],
-  "fuego": ["🔥","🔥","🔥"],
-  "fire": ["🔥","🔥","💥"],
-  "foc": ["🔥","🔥","💥"],
+      // NATURA / LLOC
+      "sol": ["☀️","🌞","😎"],
+      "sun": ["☀️","🌞"],
+      "luna": ["🌙","🌜","✨"],
+      "lluna": ["🌙","🌜","✨"],
+      "moon": ["🌙","🌝","✨"],
+      "estrella": ["⭐","🌟","✨"],
+      "stars": ["⭐","🌟","✨"],
+      "estreles": ["⭐","🌟"],
+      "estels": ["⭐","🌟"],
+      "cielo": ["🌤️","☁️","🌈"],
+      "sky": ["🌤️","☁️","🌈"],
+      "cel": ["🌤️","☁️","🌈"],
+      "mar": ["🌊","🌊","🐚"],
+      "sea": ["🌊","🐚","🚤"],
+      "ocean": ["🌊","🐬","🐚"],
+      "oceano": ["🌊","🐬","🐚"],
+      "platja": ["🏖️","🌊","🌅"],
+      "playa": ["🏖️","🌊","🌴"],
+      "beach": ["🏖️","🌊","🌴"],
+      "montana": ["⛰️","🏔️","🌄"],
+      "montanya": ["⛰️","🏔️","🌄"],
+      "mountain": ["⛰️","🏔️","🌄"],
+      "bosque": ["🌲","🌳","🌿"],
+      "bosc": ["🌲","🌳","🌿"],
+      "rain": ["🌧️","☔","💧"],
+      "lluvia": ["🌧️","☔","💧"],
+      "pluja": ["🌧️","☔","💧"],
+      "fuego": ["🔥","🔥","🔥"],
+      "fire": ["🔥","🔥","💥"],
+      "foc": ["🔥","🔥","💥"],
 
-  // FESTA / NIT / CLUB
-  "fiesta": ["🎉","🥳","🍾"],
-  "party": ["🎉","🥳","🎊"],
-  "discoteca": ["🕺","💃","🎛️"],
-  "club": ["🕺","💃","🎛️"],
-  "rave": ["🕺","🎛️","⚡"],
-  "bailar": ["💃","🕺","🎶"],
-  "dance": ["💃","🕺","🎶"],
-  "ballar": ["💃","🕺","🎶"],
-  "baile": ["💃","🕺","🎶"],
-  "night": ["🌙","🌌","🌃"],
-  "noche": ["🌙","🌃","✨"],
-  "nit": ["🌙","🌃","✨"],
+      // FESTA / NIT / CLUB
+      "fiesta": ["🎉","🥳","🍾"],
+      "party": ["🎉","🥳","🎊"],
+      "discoteca": ["🕺","💃","🎛️"],
+      "club": ["🕺","💃","🎛️"],
+      "rave": ["🕺","🎛️","⚡"],
+      "bailar": ["💃","🕺","🎶"],
+      "dance": ["💃","🕺","🎶"],
+      "ballar": ["💃","🕺","🎶"],
+      "baile": ["💃","🕺","🎶"],
+      "night": ["🌙","🌌","🌃"],
+      "noche": ["🌙","🌃","✨"],
+      "nit": ["🌙","🌃","✨"],
 
-  // MOVIMENT / VIATGE
-  "camino": ["🛣️","👣","➡️"],
-  "camins": ["🛣️","👣","➡️"],
-  "road": ["🛣️","🚗","👣"],
-  "ruta": ["🛣️","🧭","🚗"],
-  "coche": ["🚗","🚙","🏎️"],
-  "cotxe": ["🚗","🚙"],
-  "car": ["🚗","🚙"],
-  "tren": ["🚆","🚞"],
-  "train": ["🚆","🚞"],
-  "avion": ["✈️","🛫","🛬"],
-  "avió": ["✈️","🛫","🛬"],
-  "plane": ["✈️","🛫","🛬"],
-  "fly": ["🕊️","✈️","⬆️"],
-  "viaje": ["🧳","✈️","🚆"],
-  "viatge": ["🧳","✈️","🚗"],
-  "trip": ["🧳","✈️","🌍"],
-  "journey": ["🧳","🛣️","🌍"],
-  "ciudad": ["🌆","🏙️"],
-  "ciutat": ["🌆","🏙️"],
-  "city": ["🌆","🏙️"],
+      // MOVIMENT / VIATGE
+      "camino": ["🛣️","👣","➡️"],
+      "camins": ["🛣️","👣","➡️"],
+      "road": ["🛣️","🚗","👣"],
+      "ruta": ["🛣️","🧭","🚗"],
+      "coche": ["🚗","🚙","🏎️"],
+      "cotxe": ["🚗","🚙"],
+      "car": ["🚗","🚙"],
+      "tren": ["🚆","🚞"],
+      "train": ["🚆","🚞"],
+      "avion": ["✈️","🛫","🛬"],
+      "avió": ["✈️","🛫","🛬"],
+      "plane": ["✈️","🛫","🛬"],
+      "fly": ["🕊️","✈️","⬆️"],
+      "viaje": ["🧳","✈️","🚆"],
+      "viatge": ["🧳","✈️","🚗"],
+      "trip": ["🧳","✈️","🌍"],
+      "journey": ["🧳","🛣️","🌍"],
+      "ciudad": ["🌆","🏙️"],
+      "ciutat": ["🌆","🏙️"],
+      "city": ["🌆","🏙️"],
 
-  // TEMPS / RECORDS
-  "tiempo": ["⏳","⌛","⏰"],
-  "time": ["⏳","⌛","⏰"],
-  "temps": ["⏳","⌛","⏰"],
-  "reloj": ["⏰","⌚"],
-  "clock": ["⏰","⏱️"],
-  "ayer": ["📼","🕰️"],
-  "yesterday": ["📼","🕰️"],
-  "ahir": ["📼","🕰️"],
-  "recuerdos": ["💭","🧠","📸"],
-  "memories": ["💭","🧠","📸"],
-  "records": ["💭","🧠","📸"],
+      // TEMPS / RECORDS
+      "tiempo": ["⏳","⌛","⏰"],
+      "time": ["⏳","⌛","⏰"],
+      "temps": ["⏳","⌛","⏰"],
+      "reloj": ["⏰","⌚"],
+      "clock": ["⏰","⏱️"],
+      "ayer": ["📼","🕰️"],
+      "yesterday": ["📼","🕰️"],
+      "ahir": ["📼","🕰️"],
+      "recuerdos": ["💭","🧠","📸"],
+      "memories": ["💭","🧠","📸"],
+      "records": ["💭","🧠","📸"],
 
-  // OBJECTES / COSA
-  "casa": ["🏠","🏡"],
-  "home": ["🏠","🏡"],
-  "llar": ["🏠","🏡"],
-  "llave": ["🔑","🗝️"],
-  "llaves": ["🔑","🗝️"],
-  "key": ["🔑","🗝️"],
-  "keys": ["🔑","🗝️"],
-  "corona": ["👑"],
-  "rey": ["👑"],
-  "queen": ["👑"],
-  "rei": ["👑"],
-  "reina": ["👑"],
-  "guerra": ["⚔️","🔥"],
-  "war": ["⚔️","🔥"],
-  "sueño": ["💤","💭"],
-  "suenos": ["💤","💭"],
-  "somni": ["💤","💭"],
-  "somnis": ["💤","💭"],
+      // OBJECTES / COSA
+      "casa": ["🏠","🏡"],
+      "home": ["🏠","🏡"],
+      "llar": ["🏠","🏡"],
+      "llave": ["🔑","🗝️"],
+      "llaves": ["🔑","🗝️"],
+      "key": ["🔑","🗝️"],
+      "keys": ["🔑","🗝️"],
+      "corona": ["👑"],
+      "rey": ["👑"],
+      "queen": ["👑"],
+      "rei": ["👑"],
+      "reina": ["👑"],
+      "guerra": ["⚔️","🔥"],
+      "war": ["⚔️","🔥"],
+      "sueño": ["💤","💭"],
+      "suenos": ["💤","💭"],
+      "somni": ["💤","💭"],
+      "somnis": ["💤","💭"],
 
-  // COLORS
-  "yellow": ["🟡","🌕","✨"],
-  "groc": ["🟡","🌕"],
-  "amarillo": ["🟡","🌕"],
-  "blue": ["🔵","🌊","💙"],
-  "blau": ["🔵","💙"],
-  "azul": ["🔵","💙"],
-  "rojo": ["🔴","❤️"],
-  "vermell": ["🔴","❤️"],
-  "red": ["🔴","❤️"],
-  "negro": ["⚫","🖤"],
-  "negra": ["⚫","🖤"],
-  "black": ["⚫","🖤"],
-  "white": ["⚪"],
-  "blanco": ["⚪"],
-  "blanc": ["⚪"],
+      // COLORS
+      "yellow": ["🟡","🌕","✨"],
+      "groc": ["🟡","🌕"],
+      "amarillo": ["🟡","🌕"],
+      "blue": ["🔵","🌊","💙"],
+      "blau": ["🔵","💙"],
+      "azul": ["🔵","💙"],
+      "rojo": ["🔴","❤️"],
+      "vermell": ["🔴","❤️"],
+      "red": ["🔴","❤️"],
+      "negro": ["⚫","🖤"],
+      "negra": ["⚫","🖤"],
+      "black": ["⚫","🖤"],
+      "white": ["⚪"],
+      "blanco": ["⚪"],
+      "blanc": ["⚪"],
 
-  // NÚMEROS
-  "dos": ["2️⃣","✌️"],
-  "tres": ["3️⃣"],
-  "cuatro": ["4️⃣"],
-  "quatre": ["4️⃣"],
-  "cinco": ["5️⃣"],
-  "cinc": ["5️⃣"],
-  "siete": ["7️⃣"],
-  "set": ["7️⃣"],
-  "diez": ["🔟"],
-  "deu": ["🔟"]
-};
+      // NÚMEROS
+      "dos": ["2️⃣","✌️"],
+      "tres": ["3️⃣"],
+      "cuatro": ["4️⃣"],
+      "quatre": ["4️⃣"],
+      "cinco": ["5️⃣"],
+      "cinc": ["5️⃣"],
+      "siete": ["7️⃣"],
+      "set": ["7️⃣"],
+      "diez": ["🔟"],
+      "deu": ["🔟"]
+    };
 
-// Frases o patrons especials (multi-paraula)
-const EMOJI_PATTERNS = [
-  { re: /camisa negra/, emojis: ["👔","⚫"] },
-  { re: /la gent que estimo/, emojis: ["👥","❤️"] },
-  { re: /una lluna a l.?aigua/, emojis: ["🌙","💧"] },
-  { re: /al mar/, emojis: ["🌊","⛵"] },
-  { re: /viva la vida/, emojis: ["🎉","🌍"] },
-  { re: /thunderstruck|thunder/, emojis: ["⚡","🤯"] },
-  { re: /fix you/, emojis: ["🩹","💡"] },
-  { re: /la playa/, emojis: ["🏖️","🌊"] },
-  { re: /let her go/, emojis: ["👋","🚶‍♀️","💔"] },
-  { re: /bad romance/, emojis: ["💔","😵‍💫","💃"] }
-];
+    // Frases o patrons especials (multi-paraula)
+    const EMOJI_PATTERNS = [
+      { re: /camisa negra/, emojis: ["👔","⚫"] },
+      { re: /la gent que estimo/, emojis: ["👥","❤️"] },
+      { re: /una lluna a l.?aigua/, emojis: ["🌙","💧"] },
+      { re: /al mar/, emojis: ["🌊","⛵"] },
+      { re: /viva la vida/, emojis: ["🎉","🌍"] },
+      { re: /thunderstruck|thunder/, emojis: ["⚡","🤯"] },
+      { re: /fix you/, emojis: ["🩹","💡"] },
+      { re: /la playa/, emojis: ["🏖️","🌊"] },
+      { re: /let her go/, emojis: ["👋","🚶‍♀️","💔"] },
+      { re: /bad romance/, emojis: ["💔","😵‍💫","💃"] }
+    ];
 
+    // 🔥 GENERADOR D'EMOJIS LOCAL (títol + últim recurs: mood)
+    function suggestEmojis(song){
+      const rawTitle = (song.title || "").trim();
+      if(!rawTitle) return "🎵";
 
-   // 🔥 GENERADOR D'EMOJIS MÉS LLISTO (basat en el títol + últim recurs: mood)
-function suggestEmojis(song){
-  const rawTitle = (song.title || "").trim();
-  if(!rawTitle) return "🎵";
+      // Normalitza (minúscules + sense accents)
+      const title = rawTitle
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
 
-  // Normalitza (minúscules + sense accents)
-  const title = rawTitle
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+      const em = [];
 
-  const em = [];
+      // 1) Patrons especials multi-paraula
+      for(const rule of EMOJI_PATTERNS){
+        if(rule.re.test(title)){
+          em.push(...rule.emojis);
+        }
+      }
 
-  // 1) Patrons especials multi-paraula
-  for(const rule of EMOJI_PATTERNS){
-    if(rule.re.test(title)){
-      em.push(...rule.emojis);
+      // 2) Detecció paraula a paraula
+      const tokens = title.split(/[^a-z0-9ñç]+/).filter(Boolean);
+
+      for(const token of tokens){
+        const mapping = EMOJI_WORD_MAP[token];
+        if(mapping && mapping.length){
+          // afegim com a molt 2 emojis de cada paraula per no saturar
+          for(let i=0; i<Math.min(mapping.length,2); i++){
+            em.push(mapping[i]);
+          }
+        }
+      }
+
+      // 3) Últim recurs: mood, si encara no hem trobat res
+      if(em.length === 0 && Array.isArray(song.mood)){
+        const moodText = song.mood.join(" ").toLowerCase();
+        if(moodText.includes("party") || moodText.includes("energetic")){
+          em.push("🎉","🔥");
+        } else if(moodText.includes("romantic")){
+          em.push("❤️","💘");
+        } else if(moodText.includes("sad")){
+          em.push("💔","😢");
+        } else if(moodText.includes("chill") || moodText.includes("focus")){
+          em.push("🌙","☕");
+        }
+      }
+
+      // 4) Si continua buit → musical neutre
+      if(em.length === 0){
+        return "🎵";
+      }
+
+      // 5) Netejar duplicats i limitar quants mostrem (1–3)
+      const dedup = [];
+      for(const e of em){
+        if(!dedup.includes(e)){
+          dedup.push(e);
+          if(dedup.length >= 3) break;
+        }
+      }
+      return dedup.join(" ");
     }
-  }
 
-  // 2) Detecció paraula a paraula
-  const tokens = title.split(/[^a-z0-9ñç]+/).filter(Boolean);
+    // 🔗 Crida al Worker d'IA
+    async function fetchAIEmojisForSong(song) {
+      try {
+        const res = await fetch(EMOJI_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: song.title,
+            artist: song.artist,
+            language: song.language,
+            mood: song.mood || []
+          })
+        });
 
-  for(const token of tokens){
-    const mapping = EMOJI_WORD_MAP[token];
-    if(mapping && mapping.length){
-      // afegim com a molt 2 emojis de cada paraula per no saturar
-      for(let i=0; i<Math.min(mapping.length,2); i++){
-        em.push(mapping[i]);
+        if (!res.ok) {
+          console.warn("Emoji IA error:", await res.text());
+          return null;
+        }
+
+        const data = await res.json();
+        return data.emojis || null;
+      } catch (e) {
+        console.error("Error cridant Worker IA:", e);
+        return null;
       }
     }
-  }
-
-  // 3) Últim recurs: mood, si encara no hem trobat res
-  if(em.length === 0 && Array.isArray(song.mood)){
-    const moodText = song.mood.join(" ").toLowerCase();
-    if(moodText.includes("party") || moodText.includes("energetic")){
-      em.push("🎉","🔥");
-    } else if(moodText.includes("romantic")){
-      em.push("❤️","💘");
-    } else if(moodText.includes("sad")){
-      em.push("💔","😢");
-    } else if(moodText.includes("chill") || moodText.includes("focus")){
-      em.push("🌙","☕");
-    }
-  }
-
-  // 4) Si continua buit → musical neutre
-  if(em.length === 0){
-    return "🎵";
-  }
-
-  // 5) Netejar duplicats i limitar quants mostrem (1–3)
-  const dedup = [];
-  for(const e of em){
-    if(!dedup.includes(e)){
-      dedup.push(e);
-      if(dedup.length >= 3) break;  // pots pujar-ho a 4–5 si vols més soroll
-    }
-  }
-  return dedup.join(" ");
-}
-
 
     function applyFilters(){
       const lang = state.lang || "all";
@@ -834,6 +850,8 @@ function suggestEmojis(song){
       if(currentIndex >= total) currentIndex = total - 1;
 
       const song = filteredSongs[currentIndex];
+      currentSongId = song.id; // marquem quina cançó està renderitzada ara mateix
+
       const idxLabel = `${currentIndex+1} / ${total}`;
       $("songIndexLabel").textContent = idxLabel;
 
@@ -857,14 +875,38 @@ function suggestEmojis(song){
         "Playlist original: " + (song.source_playlist || "—");
 
       const existing = state.validated[song.id];
-      const suggestion = existing || suggestEmojis(song);
-      $("emojiSuggest").textContent = suggestion || "—";
-      $("emojiInput").value = suggestion;
 
       if(existing){
+        // Ja validada → no molestem a la IA
+        $("emojiSuggest").textContent = existing || "—";
+        $("emojiInput").value = existing;
         $("emojiStatusText").textContent = "✅ Ja validada (pots editar-la)";
-      }else{
-        $("emojiStatusText").textContent = "Encara no validat";
+      } else {
+        // 1) Proposta local immediata
+        const localSuggestion = suggestEmojis(song);
+        $("emojiSuggest").textContent = localSuggestion || "—";
+        $("emojiInput").value = localSuggestion;
+        $("emojiStatusText").textContent = "✨ Proposta local... esperant IA";
+
+        // 2) Crida a la IA (async)
+        fetchAIEmojisForSong(song).then(ai => {
+          if (!ai) {
+            if (currentSongId === song.id && !state.validated[song.id]) {
+              $("emojiStatusText").textContent = "✨ Proposta local (IA no disponible)";
+            }
+            return;
+          }
+
+          // Només actualitzem si seguim a la mateixa cançó i encara no està validada
+          if (currentSongId === song.id && !state.validated[song.id]) {
+            // També evitem sobreescriure si l’usuari ha tocat manualment
+            if ($("emojiInput").value === localSuggestion) {
+              $("emojiInput").value = ai;
+              $("emojiSuggest").textContent = ai;
+              $("emojiStatusText").textContent = "🤖 Proposta amb IA";
+            }
+          }
+        });
       }
 
       const totalSongs = allSongs.filter(s => !state.deleted[s.id]).length;
