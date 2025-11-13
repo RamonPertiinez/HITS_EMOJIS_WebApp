@@ -434,7 +434,7 @@
       <section class="emoji-card">
         <div class="emoji-label">
           <span class="left">
-            <span>✨ Proposta d’emojis</span>
+            <span>✨ Proposta d’emojis (basada en el títol)</span>
           </span>
           <span id="emojiStatusText">Encara no validat</span>
         </div>
@@ -480,7 +480,6 @@
 
   <script>
     const SONGS_URL = "songs_local.json";
-
     const stateKey = "hitsEmojiState_v1";
 
     let allSongs = [];
@@ -535,59 +534,204 @@
       return map[code] || code || "—";
     }
 
+    // 🔥 GENERADOR D'EMOJIS BASAT EN EL TÍTOL
     function suggestEmojis(song){
-      const t = (song.title || "").toLowerCase();
-      const a = (song.artist || "").toLowerCase();
-      const genres = (song.genres || []).join(" ").toLowerCase();
-      const mood = (song.mood || []).join(" ").toLowerCase();
-      const lang = song.language || "en";
+      const title = (song.title || "").toLowerCase().trim();
+
+      if(!title){
+        return "🎵"; // fallback abstracte
+      }
 
       const em = [];
 
-      // idioma
-      if(lang === "es") em.push("🇪🇸");
-      else if(lang === "ca") em.push("📍"); // Català (potser canvies més tard)
-      else if(lang === "en") em.push("🇬🇧");
-      else if(lang === "pt") em.push("🇧🇷");
-      else if(lang === "fr") em.push("🇫🇷");
-      else if(lang === "it") em.push("🇮🇹");
-      else if(lang === "de") em.push("🇩🇪");
+      const has = (pattern) => {
+        if(pattern instanceof RegExp) return pattern.test(title);
+        return title.includes(pattern);
+      };
 
-      // gènere
-      if(genres.includes("rock")) em.push("🎸");
-      if(genres.includes("indie")) em.push("🌙");
-      if(genres.includes("electronic")) em.push("🎛️");
-      if(genres.includes("hiphop")) em.push("🎤");
-      if(genres.includes("reggaeton")) em.push("🍑");
-      if(genres.includes("rnb")) em.push("💜");
-      if(genres.includes("latin")) em.push("🌴");
-      if(genres.includes("acoustic")) em.push("🎻");
-      if(genres.includes("classics")) em.push("📀");
-      if(!em.length) em.push("🎵");
+      // 1) PATRONS COMPOSTOS (frases / combinacions)
+      if(/camins?|camino|road|highway|ruta/.test(title)){
+        em.push("🛣️","👣");
+      }
+      if(/platja|playa|beach/.test(title)){
+        em.push("🏖️","🌊");
+      }
+      if(/al mar|towards the sea/.test(title)){
+        em.push("🌊","⛵");
+      }
+      if(/lluna.*a l.?aigua|moon.*water|luna.*agua/.test(title)){
+        em.push("🌙","💧");
+      }
+      if(/camisa negra/.test(title)){
+        em.push("👔","⚫");
+      }
+      if(/dulce/ .test(title) && /locura/.test(title)){
+        em.push("🍭","🤪");
+      }
 
-      // mood
-      if(mood.includes("party") || mood.includes("energetic")) em.push("🎉","🔥");
-      if(mood.includes("chill") || mood.includes("focus")) em.push("🌙","☕");
-      if(mood.includes("romantic")) em.push("❤️");
-      if(mood.includes("sad")) em.push("💔");
-      if(mood.includes("happy")) em.push("😊");
-      if(mood.includes("throwback")) em.push("📼");
+      // 2) COLORS
+      if(/yellow|groc|amarillo/.test(title)){
+        em.push("🟡");
+      }
+      if(/blue|azul|blau/.test(title)){
+        em.push("🔵");
+      }
+      if(/red|rojo|vermell/.test(title)){
+        em.push("🔴","❤️");
+      }
+      if(/black|negra|negro/.test(title)){
+        em.push("⚫");
+      }
+      if(/white|blanco|blanc/.test(title)){
+        em.push("⚪");
+      }
 
-      // paraules clau al títol
-      if(/corazón|corazon|heart|love|amor/.test(t)) em.push("❤️");
-      if(/noche|night/.test(t)) em.push("🌙");
-      if(/party|fiesta|discoteca|club/.test(t)) em.push("🎉");
-      if(/sol|sun/.test(t)) em.push("☀️");
-      if(/luna|moon/.test(t)) em.push("🌙");
-      if(/baile|dance|bailar/.test(t)) em.push("💃");
-      if(/lluvia|rain/.test(t)) em.push("🌧️");
-      if(/mar|sea|ocean/.test(t)) em.push("🌊");
+      // 3) NATURA / ESCENARIS
+      if(/sol|sun/.test(title)){
+        em.push("☀️");
+      }
+      if(/lluna|moon|luna/.test(title)){
+        em.push("🌙");
+      }
+      if(/estrella|stars?|estreles?/.test(title)){
+        em.push("⭐");
+      }
+      if(/cielo|sky|cel/.test(title)){
+        em.push("🌤️");
+      }
+      if(/mar|sea|ocean|oceà|oceano/.test(title)){
+        em.push("🌊");
+      }
+      if(/pluja|lluvia|rain/.test(title)){
+        em.push("🌧️");
+      }
+      if(/fuego|fire|foc/.test(title)){
+        em.push("🔥");
+      }
+      if(/noche|nit|night/.test(title)){
+        em.push("🌙","✨");
+      }
 
-      // neteja duplicats, màxim ~10
+      // 4) AMOR / RELACIONS
+      if(/corazón|corazon|heart|amor|love/.test(title)){
+        em.push("❤️");
+      }
+      if(/beso|kiss/.test(title)){
+        em.push("💋");
+      }
+      if(/romance|romanç/.test(title)){
+        em.push("💘");
+      }
+      if(/adios|adiós|goodbye|adeu|adéu|bye/.test(title)){
+        em.push("👋","💔");
+      }
+      if(/soledad|alone|solitaria|solitari/.test(title)){
+        em.push("😔");
+      }
+
+      // 5) MOVIMENT / VIATGE
+      if(/caminar|walk|andar|andar|camins?/.test(title)){
+        em.push("👣");
+      }
+      if(/tren|train/.test(title)){
+        em.push("🚆");
+      }
+      if(/coche|cotxe|car/.test(title)){
+        em.push("🚗");
+      }
+      if(/volar|fly|vuela|flight/.test(title)){
+        em.push("✈️","🕊️");
+      }
+      if(/viaje|viatge|trip|journey/.test(title)){
+        em.push("🧳");
+      }
+      if(/ciudad|city|ciutat/.test(title)){
+        em.push("🌆");
+      }
+
+      // 6) FESTA / EMOCIÓ
+      if(/fiesta|party|rave|discoteca|club/.test(title)){
+        em.push("🎉");
+      }
+      if(/bailar|dance|baile/.test(title)){
+        em.push("💃");
+      }
+      if(/feliz|happy|alegría|alegria/.test(title)){
+        em.push("😊");
+      }
+      if(/triste|sad|llorar|cry/.test(title)){
+        em.push("😢");
+      }
+      if(/loco|crazy/.test(title)){
+        em.push("🤪");
+      }
+
+      // 7) TEMPS / RECORDS
+      if(/tiempo|time|temps/.test(title)){
+        em.push("⏳");
+      }
+      if(/reloj|clock|clocks/.test(title)){
+        em.push("⏰");
+      }
+      if(/ayer|ayeres|yesterday/.test(title)){
+        em.push("📼");
+      }
+      if(/recuerdos|memories|records/.test(title)){
+        em.push("🧠");
+      }
+
+      // 8) OBJECTES I ALTRES
+      if(/casa|home|llar/.test(title)){
+        em.push("🏠");
+      }
+      if(/lluna|moon|luna/.test(title) && !em.includes("🌙")){
+        em.push("🌙");
+      }
+      if(/corona|rey|queen|rei|reina/.test(title)){
+        em.push("👑");
+      }
+      if(/guerra|war/.test(title)){
+        em.push("⚔️");
+      }
+      if(/sueño|dream|somni/.test(title)){
+        em.push("💭");
+      }
+      if(/llaves|keys|keys?/.test(title)){
+        em.push("🔑");
+      }
+
+      // 9) NÚMEROS
+      if(/\b2\b| dos /.test(title)){
+        em.push("2️⃣");
+      }
+      if(/\b3\b| tres /.test(title)){
+        em.push("3️⃣");
+      }
+      if(/\b4\b| quatre | cuatro /.test(title)){
+        em.push("4️⃣");
+      }
+      if(/\b5\b| cinc | cinco /.test(title)){
+        em.push("5️⃣");
+      }
+      if(/\b7\b| set /.test(title)){
+        em.push("7️⃣");
+      }
+      if(/\b10\b| deu | diez /.test(title)){
+        em.push("🔟");
+      }
+
+      // Fallback si no s'ha trobat res clar
+      if(em.length === 0){
+        return "🎵";
+      }
+
+      // Netejar duplicats i limitar entre 1 i 3 emojis
       const dedup = [];
       for(const e of em){
-        if(!dedup.includes(e)) dedup.push(e);
-        if(dedup.length >= 10) break;
+        if(!dedup.includes(e)){
+          dedup.push(e);
+          if(dedup.length >= 3) break;
+        }
       }
       return dedup.join(" ");
     }
@@ -606,7 +750,6 @@
       });
 
       filteredSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
-
       currentIndex = 0;
       render();
     }
