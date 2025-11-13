@@ -6,7 +6,7 @@
 // 🔐 CONFIGURACIÓ SPOTIFY
 const SPOTIFY_CLIENT_ID = "ebaa4a1061024cd7a18aa6dca3ab3e6b";
 const SPOTIFY_REDIRECT_URI =
-  "https://ramonpertiinez.github.io/HITS_EMOJIS_WebApp/";
+  "https://ramonpertinez.github.io/HITS_EMOJIS_WebApp/";
 const SPOTIFY_SCOPES = [
   "user-read-email",
   "playlist-modify-private",
@@ -153,12 +153,35 @@ function applyPromptToControls(promptText) {
 
   // Detectar artístes típics
   if (p.includes("canto del loco")) {
-    $("genre").value = "pop rock espanyol";
+    $("genre").value = "pop rock espanyol"; // text lliure per tu
     $("decade").value = "2000s";
+
+    // 👉 també assignem un gènere oficial de Spotify
+    const genreSelect = $("genreSelect");
+    if (genreSelect) {
+      // tria el que tinguis a la llista: "spanish", "rock", "pop", etc.
+      // si "spanish" existeix, millor
+      if ([...genreSelect.options].some(o => o.value === "spanish")) {
+        genreSelect.value = "spanish";
+      } else if ([...genreSelect.options].some(o => o.value === "rock")) {
+        genreSelect.value = "rock";
+      } else {
+        genreSelect.value = "pop";
+      }
+    }
   }
+
   if (p.includes("reggaeton") || p.includes("perrear")) {
     $("genre").value = "reggaeton";
     $("decade").value = "2010s";
+    const genreSelect = $("genreSelect");
+    if (genreSelect) {
+      if ([...genreSelect.options].some(o => o.value === "reggaeton")) {
+        genreSelect.value = "reggaeton";
+      } else {
+        genreSelect.value = "latin";
+      }
+    }
   }
 
   // Detectar paraules de vibe
@@ -216,10 +239,21 @@ async function generatePlaylist() {
   const decade = $("decade")?.value || "";
   const minEnergy = parseFloat($("minEnergy")?.value || "0.4");
   const maxEnergy = parseFloat($("maxEnergy")?.value || "0.8");
-  const minTempo = parseInt($("minTempo")?.value || "90");
-  const maxTempo = parseInt($("maxTempo")?.value || "130");
+  const minTempo = parseInt($("minTempo")?.value || "90", 10);
+  const maxTempo = parseInt($("maxTempo")?.value || "130", 10);
 
-  const seedGenre = genreAPI || genreFree || "pop";
+  // ⚠️ PROTECCIÓ: només enviem al seed_génres coses "netes"
+  let seedGenre = "pop";
+
+  if (genreAPI) {
+    // si hi ha gènere oficial seleccionat, fem servir aquest
+    seedGenre = genreAPI;
+  } else if (genreFree && !genreFree.includes(" ")) {
+    // només si és una sola paraula sense espais
+    seedGenre = genreFree;
+  }
+
+  console.log("🎯 seedGenre que enviarem a Spotify:", seedGenre);
 
   // Dècada → només per info, no entra a /recommendations
   let decadeLabel = "";
@@ -234,13 +268,15 @@ async function generatePlaylist() {
   const params = new URLSearchParams();
   params.append("seed_genres", seedGenre);
   params.append("limit", "20");
-  params.append("min_energy", minEnergy);
-  params.append("max_energy", maxEnergy);
-  params.append("min_tempo", minTempo);
-  params.append("max_tempo", maxTempo);
+  params.append("min_energy", String(minEnergy));
+  params.append("max_energy", String(maxEnergy));
+  params.append("min_tempo", String(minTempo));
+  params.append("max_tempo", String(maxTempo));
 
   const url =
     "https://api.spotify.com/v1/recommendations?" + params.toString();
+
+  console.log("🔗 URL Spotify recommendations:", url);
 
   const btn = $("generateBtn");
   btn.disabled = true;
@@ -252,8 +288,9 @@ async function generatePlaylist() {
     });
 
     if (!res.ok) {
-      console.error("Error generating playlist:", await res.text());
-      alert("Error generant playlist amb Spotify!");
+      const errorText = await res.text();
+      console.error("Error generating playlist:", errorText);
+      alert("Error generant playlist amb Spotify!\n\n" + errorText);
       return;
     }
 
