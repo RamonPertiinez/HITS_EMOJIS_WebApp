@@ -1,42 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spotify Random Playlist Generator</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Random Playlist Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <h1>Spotify Random Playlist Generator</h1>
 
-    <h1>Spotify Random Playlist Generator</h1>
+  <!-- Login -->
+  <button id="loginBtn">Login with Spotify</button>
 
-    <!-- 🔑 Botó de login amb Spotify -->
-    <button id="loginBtn">Login with Spotify</button>
+  <div class="layout">
+    <section class="panel">
+      <h2>Configuració bàsica</h2>
 
-    <div class="controls">
-        <label>Token de Spotify:</label>
-        <input id="tokenInput" type="text" placeholder="Introdueix el token manualment..." />
+      <label>Token de Spotify:</label>
+      <input id="tokenInput" type="text" placeholder="Introdueix el token manualment..." />
 
-        <label>Gènere:</label>
-        <input id="genre" type="text" value="pop" />
+      <label>Gènere (text lliure):</label>
+      <input id="genre" type="text" value="pop" />
 
-        <label>Min Energy:</label>
-        <input id="minEnergy" type="number" value="0.4" step="0.1" />
+      <label>Gènere (llista oficial Spotify):</label>
+      <select id="genreSelect">
+        <option value="">-- Qualsevol --</option>
+      </select>
 
-        <label>Max Energy:</label>
-        <input id="maxEnergy" type="number" value="0.8" step="0.1" />
+      <label>Dècada:</label>
+      <select id="decade">
+        <option value="">-- Qualsevol --</option>
+        <option value="2000s">2000–2009</option>
+        <option value="2010s">2010–2019</option>
+        <option value="2020s">2020–2029</option>
+      </select>
 
-        <label>Min BPM:</label>
-        <input id="minTempo" type="number" value="90" />
+      <label>Min Energy:</label>
+      <input id="minEnergy" type="number" value="0.4" step="0.1" min="0" max="1" />
 
-        <label>Max BPM:</label>
-        <input id="maxTempo" type="number" value="130" />
+      <label>Max Energy:</label>
+      <input id="maxEnergy" type="number" value="0.8" step="0.1" min="0" max="1" />
 
-        <button id="generateBtn">Generar Playlist</button>
-    </div>
+      <label>Min BPM:</label>
+      <input id="minTempo" type="number" value="90" />
 
-    <div id="results"></div>
+      <label>Max BPM:</label>
+      <input id="maxTempo" type="number" value="130" />
+    </section>
 
-    <script src="script.js"></script>
+    <section class="panel">
+      <h2>Descripció amb llenguatge natural (opcional)</h2>
+      <p class="hint">
+        Escriu coses del tipus:<br/>
+        <em>“Vull cançons tipus El Canto del Loco, dels 2000 fins al 2020, bastant animades.”</em>
+      </p>
+      <textarea id="nlPrompt" rows="5"
+        placeholder="Ex: Vull una random list amb cançons de El Canto del Loco, dels 2000 fins al 2020..."></textarea>
+
+      <button id="generateBtn" class="primary">Generar Playlist</button>
+    </section>
+  </div>
+
+  <section id="results"></section>
+
+  <script src="script.js"></script>
 </body>
 </html>
