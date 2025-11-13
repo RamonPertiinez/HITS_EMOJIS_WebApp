@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <title>HITS with EMOJIS – Emoji Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg:#0b1020;
+      --card:#151a2c;
+      --accent:#ffbf3c;
+      --accent-soft:rgba(255,191,60,.15);
+      --accent-strong:#ff9f1c;
+      --text:#f5f7ff;
+      --muted:#a0a4c0;
+      --danger:#ff4d6a;
+      --success:#45d483;
+      --radius:18px;
+      --shadow:0 20px 60px rgba(0,0,0,.55);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      min-height:100vh;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(circle at top,#283157 0,#050816 55%,#020308 100%);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .app{
+      width:100%;
+      max-width:960px;
+      background:linear-gradient(145deg,rgba(255,255,255,.02),rgba(11,16,32,.95));
+      border-radius:28px;
+      padding:24px 24px 20px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .app::before{
+      content:"";
+      position:absolute;
+      inset:-80px -120px auto auto;
+      background:radial-gradient(circle at top right,rgba(255,191,60,.22),transparent 65%);
+      opacity:.9;
+      pointer-events:none;
+      z-index:-1;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .logo-pill{
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      background:var(--accent-soft);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+    }
+    h1{
+      font-size:20px;
+      font-weight:600;
+      letter-spacing:0.02em;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    h1 span.small{
+      font-size:13px;
+      font-weight:500;
+      color:var(--muted);
+    }
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:flex-end;
+      font-size:13px;
+      color:var(--muted);
+    }
+    select,input{
+      background:#0f1322;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--text);
+      padding:6px 12px;
+      font-family:inherit;
+      font-size:13px;
+      outline:none;
+    }
+    select:focus,input:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(255,191,60,.4);
+    }
+    .pill{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      padding:4px 10px;
+      font-size:12px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:rgba(7,10,24,.9);
+    }
+    .pill strong{font-weight:600}
+    main{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,1.1fr);
+      gap:20px;
+    }
+    @media (max-width:780px){
+      main{grid-template-columns:1fr;}
+    }
+    .song-card{
+      background:rgba(9,12,28,.9);
+      border-radius:var(--radius);
+      padding:16px 16px 14px;
+      border:1px solid rgba(255,255,255,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .song-card::after{
+      content:"";
+      position:absolute;
+      inset:auto -40px -80px auto;
+      background:radial-gradient(circle at bottom right,rgba(255,159,28,.38),transparent 64%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    .song-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      padding:3px 9px;
+      border-radius:999px;
+      background:rgba(5,8,24,.9);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--muted);
+      margin-bottom:6px;
+      position:relative;
+      z-index:1;
+    }
+    .song-badge span.icon{font-size:13px}
+    .song-main-title{
+      font-size:18px;
+      font-weight:600;
+      margin-bottom:4px;
+      position:relative;
+      z-index:1;
+    }
+    .song-artist{
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:10px;
+      position:relative;
+      z-index:1;
+    }
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font-size:11px;
+      margin-bottom:8px;
+      position:relative;
+      z-index:1;
+    }
+    .meta-pill{
+      padding:3px 8px;
+      border-radius:999px;
+      background:rgba(10,14,32,.9);
+      border:1px solid rgba(255,255,255,.08);
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+    }
+    .meta-label{
+      color:var(--muted);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .meta-value{
+      font-size:11px;
+    }
+    .tags-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:4px;
+      position:relative;
+      z-index:1;
+    }
+    .tag{
+      padding:3px 9px;
+      border-radius:999px;
+      background:rgba(3,5,14,.9);
+      border:1px solid rgba(255,255,255,.10);
+      font-size:11px;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+    }
+    .tag span.dot{
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      background:var(--accent);
+    }
+    .emoji-card{
+      background:rgba(10,14,30,.95);
+      border-radius:var(--radius);
+      padding:14px 14px 12px;
+      border:1px solid rgba(255,255,255,.06);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .emoji-label{
+      font-size:12px;
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .emoji-label span.left{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .emoji-suggest{
+      font-size:26px;
+      margin-bottom:4px;
+      min-height:34px;
+    }
+    .emoji-input{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      padding:8px 10px;
+      background:#070a17;
+      color:var(--text);
+      font-size:18px;
+      font-family:inherit;
+      outline:none;
+    }
+    .emoji-input:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(255,191,60,.4);
+    }
+    .buttons-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    button{
+      border:none;
+      border-radius:999px;
+      padding:7px 14px;
+      font-family:inherit;
+      font-size:13px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      transition:.15s transform,.15s box-shadow,.15s background;
+      white-space:nowrap;
+    }
+    button:active{
+      transform:translateY(1px);
+      box-shadow:none;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent-strong));
+      color:#1b1205;
+      box-shadow:0 8px 25px rgba(255,191,60,.35);
+      font-weight:600;
+    }
+    .btn-primary.outline{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(255,191,60,.7);
+      box-shadow:none;
+    }
+    .btn-ghost{
+      background:rgba(8,12,26,.9);
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,.15);
+    }
+    .btn-danger{
+      background:rgba(255,77,106,.12);
+      color:var(--danger);
+      border:1px solid rgba(255,77,106,.6);
+    }
+    .footer-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:12px;
+      font-size:11px;
+      color:var(--muted);
+      gap:10px;
+    }
+    .footer-row strong{color:var(--accent);}
+    .status-dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      margin-right:4px;
+      background:var(--success);
+    }
+    .progress-bar{
+      flex:1;
+      height:6px;
+      border-radius:999px;
+      background:#111426;
+      overflow:hidden;
+    }
+    .progress-bar span{
+      display:block;
+      height:100%;
+      width:0;
+      background:linear-gradient(90deg,var(--accent-strong),var(--success));
+      transition:width .2s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title">
+        <div class="logo-pill">🎧</div>
+        <div>
+          <h1>HITS with EMOJIS <span class="small">· Emoji Lab</span></h1>
+          <div style="font-size:11px;color:var(--muted);">
+            Valida els emojis per cada cançó · es guarda al teu navegador
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="pill">
+          <strong>Idioma:</strong>
+          <select id="langFilter">
+            <option value="all">Tots</option>
+            <option value="ca">Català</option>
+            <option value="es">Castellà</option>
+            <option value="en">Anglès</option>
+            <option value="pt">Portuguès</option>
+            <option value="fr">Francès</option>
+            <option value="it">Italià</option>
+            <option value="de">Alemany</option>
+          </select>
+        </div>
+        <div class="pill">
+          <strong>Popularitat mín.:</strong>
+          <input id="minPop" type="number" min="0" max="100" value="0" style="width:64px;text-align:center;">
+        </div>
+        <button id="downloadJsonBtn" class="btn-ghost">
+          📥 Descarregar JSON
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="song-card">
+        <div class="song-badge">
+          <span class="icon">🎵</span>
+          <span id="songIndexLabel">0 / 0</span>
+        </div>
+        <div class="song-main-title" id="songTitle">Carregant cançons…</div>
+        <div class="song-artist" id="songArtist"></div>
+
+        <div class="meta-row">
+          <div class="meta-pill">
+            <span class="meta-label">Dècada</span>
+            <span class="meta-value" id="songDecade">—</span>
+          </div>
+          <div class="meta-pill">
+            <span class="meta-label">Any</span>
+            <span class="meta-value" id="songYear">—</span>
+          </div>
+          <div class="meta-pill">
+            <span class="meta-label">Idioma</span>
+            <span class="meta-value" id="songLang">—</span>
+          </div>
+          <div class="meta-pill">
+            <span class="meta-label">Popularitat</span>
+            <span class="meta-value" id="songPopularity">—</span>
+          </div>
+        </div>
+
+        <div class="tags-row">
+          <div class="tag" id="genresTag">
+            <span class="dot"></span><span id="songGenres">—</span>
+          </div>
+          <div class="tag" id="moodTag">
+            <span class="dot"></span><span id="songMood">—</span>
+          </div>
+          <div class="tag">
+            <span>👁️</span><span id="songViews">—</span>
+          </div>
+        </div>
+
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;">
+          <span id="songSource">Playlist original: —</span>
+        </div>
+      </section>
+
+      <section class="emoji-card">
+        <div class="emoji-label">
+          <span class="left">
+            <span>✨ Proposta d’emojis</span>
+          </span>
+          <span id="emojiStatusText">Encara no validat</span>
+        </div>
+
+        <div class="emoji-suggest" id="emojiSuggest"></div>
+
+        <input
+          id="emojiInput"
+          class="emoji-input"
+          placeholder="Escriu o edita aquí els emojis per aquesta cançó…"
+        />
+
+        <div class="buttons-row">
+          <button id="btnAccept" class="btn-primary">
+            ✅ Acceptar i següent
+          </button>
+          <button id="btnSaveOnly" class="btn-primary outline">
+            ✏️ Només guardar emojis
+          </button>
+          <button id="btnSkip" class="btn-ghost">
+            ⏭️ Saltar (no fer res)
+          </button>
+          <button id="btnDeleteSong" class="btn-danger">
+            🗑️ Eliminar aquesta cançó
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <div class="footer-row">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="status-dot"></span>
+        <span id="summaryText">Carregant…</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;min-width:140px;">
+        <div class="progress-bar">
+          <span id="progressBarFill"></span>
+        </div>
+        <span id="progressPercent">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SONGS_URL = "songs_local.json";
+
+    const stateKey = "hitsEmojiState_v1";
+
+    let allSongs = [];
+    let filteredSongs = [];
+    let currentIndex = 0;
+    let state = {
+      validated: {}, // id -> emojis
+      deleted: {},   // id -> true
+      lang: "all",
+      minPop: 0
+    };
+
+    function $(id){return document.getElementById(id);}
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(stateKey);
+        if(!raw) return;
+        const parsed = JSON.parse(raw);
+        state = Object.assign(state, parsed || {});
+      }catch(e){
+        console.warn("No s'ha pogut carregar l'estat", e);
+      }
+    }
+
+    function saveState(){
+      try{
+        localStorage.setItem(stateKey, JSON.stringify(state));
+      }catch(e){
+        console.warn("No s'ha pogut guardar l'estat", e);
+      }
+    }
+
+    function formatViews(n){
+      if(!n && n !== 0) return "—";
+      if(n >= 1_000_000_000) return (n/1_000_000_000).toFixed(1).replace(/\.0$/,"")+"B";
+      if(n >= 1_000_000) return (n/1_000_000).toFixed(1).replace(/\.0$/,"")+"M";
+      if(n >= 1_000) return (n/1_000).toFixed(1).replace(/\.0$/,"")+"k";
+      return n.toString();
+    }
+
+    function langLabel(code){
+      const map = {
+        ca:"Català",
+        es:"Castellà",
+        en:"Anglès",
+        pt:"Portuguès",
+        fr:"Francès",
+        it:"Italià",
+        de:"Alemany"
+      };
+      return map[code] || code || "—";
+    }
+
+    function suggestEmojis(song){
+      const t = (song.title || "").toLowerCase();
+      const a = (song.artist || "").toLowerCase();
+      const genres = (song.genres || []).join(" ").toLowerCase();
+      const mood = (song.mood || []).join(" ").toLowerCase();
+      const lang = song.language || "en";
+
+      const em = [];
+
+      // idioma
+      if(lang === "es") em.push("🇪🇸");
+      else if(lang === "ca") em.push("📍"); // Català (potser canvies més tard)
+      else if(lang === "en") em.push("🇬🇧");
+      else if(lang === "pt") em.push("🇧🇷");
+      else if(lang === "fr") em.push("🇫🇷");
+      else if(lang === "it") em.push("🇮🇹");
+      else if(lang === "de") em.push("🇩🇪");
+
+      // gènere
+      if(genres.includes("rock")) em.push("🎸");
+      if(genres.includes("indie")) em.push("🌙");
+      if(genres.includes("electronic")) em.push("🎛️");
+      if(genres.includes("hiphop")) em.push("🎤");
+      if(genres.includes("reggaeton")) em.push("🍑");
+      if(genres.includes("rnb")) em.push("💜");
+      if(genres.includes("latin")) em.push("🌴");
+      if(genres.includes("acoustic")) em.push("🎻");
+      if(genres.includes("classics")) em.push("📀");
+      if(!em.length) em.push("🎵");
+
+      // mood
+      if(mood.includes("party") || mood.includes("energetic")) em.push("🎉","🔥");
+      if(mood.includes("chill") || mood.includes("focus")) em.push("🌙","☕");
+      if(mood.includes("romantic")) em.push("❤️");
+      if(mood.includes("sad")) em.push("💔");
+      if(mood.includes("happy")) em.push("😊");
+      if(mood.includes("throwback")) em.push("📼");
+
+      // paraules clau al títol
+      if(/corazón|corazon|heart|love|amor/.test(t)) em.push("❤️");
+      if(/noche|night/.test(t)) em.push("🌙");
+      if(/party|fiesta|discoteca|club/.test(t)) em.push("🎉");
+      if(/sol|sun/.test(t)) em.push("☀️");
+      if(/luna|moon/.test(t)) em.push("🌙");
+      if(/baile|dance|bailar/.test(t)) em.push("💃");
+      if(/lluvia|rain/.test(t)) em.push("🌧️");
+      if(/mar|sea|ocean/.test(t)) em.push("🌊");
+
+      // neteja duplicats, màxim ~10
+      const dedup = [];
+      for(const e of em){
+        if(!dedup.includes(e)) dedup.push(e);
+        if(dedup.length >= 10) break;
+      }
+      return dedup.join(" ");
+    }
+
+    function applyFilters(){
+      const lang = state.lang || "all";
+      const minPop = Number(state.minPop) || 0;
+
+      filteredSongs = allSongs.filter(s => {
+        if(state.deleted[s.id]) return false;
+        if(lang !== "all" && s.language !== lang) return false;
+        if(typeof s.popularity === "number" && !isNaN(s.popularity)){
+          if(s.popularity < minPop) return false;
+        }
+        return true;
+      });
+
+      filteredSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
+
+      currentIndex = 0;
+      render();
+    }
+
+    function render(){
+      const total = filteredSongs.length;
+      if(total === 0){
+        $("songTitle").textContent = "Cap cançó amb aquest filtre 🥲";
+        $("songArtist").textContent = "";
+        $("songDecade").textContent = "—";
+        $("songYear").textContent = "—";
+        $("songLang").textContent = "—";
+        $("songPopularity").textContent = "—";
+        $("songGenres").textContent = "—";
+        $("songMood").textContent = "—";
+        $("songViews").textContent = "—";
+        $("songSource").textContent = "Playlist original: —";
+        $("emojiSuggest").textContent = "";
+        $("emojiInput").value = "";
+        $("songIndexLabel").textContent = "0 / 0";
+        $("summaryText").textContent =
+          "Cap cançó pendent amb aquests filtres. Canvia d'idioma o de popularitat mínima.";
+        $("progressBarFill").style.width = "0%";
+        $("progressPercent").textContent = "0%";
+        $("emojiStatusText").textContent = "—";
+        return;
+      }
+
+      if(currentIndex < 0) currentIndex = 0;
+      if(currentIndex >= total) currentIndex = total - 1;
+
+      const song = filteredSongs[currentIndex];
+      const idxLabel = `${currentIndex+1} / ${total}`;
+      $("songIndexLabel").textContent = idxLabel;
+
+      $("songTitle").textContent = song.title || "—";
+      $("songArtist").textContent = song.artist || "—";
+      $("songDecade").textContent = song.decade || "—";
+      $("songYear").textContent = song.year || "—";
+      $("songLang").textContent = langLabel(song.language);
+      $("songPopularity").textContent =
+        (song.popularity ?? "—").toString();
+      $("songGenres").textContent =
+        (song.genres && song.genres.length)
+          ? song.genres.join(", ")
+          : "—";
+      $("songMood").textContent =
+        (song.mood && song.mood.length)
+          ? song.mood.join(", ")
+          : "—";
+      $("songViews").textContent = formatViews(song.youtube_views_estimate);
+      $("songSource").textContent =
+        "Playlist original: " + (song.source_playlist || "—");
+
+      const existing = state.validated[song.id];
+      const suggestion = existing || suggestEmojis(song);
+      $("emojiSuggest").textContent = suggestion || "—";
+      $("emojiInput").value = suggestion;
+
+      if(existing){
+        $("emojiStatusText").textContent = "✅ Ja validada (pots editar-la)";
+      }else{
+        $("emojiStatusText").textContent = "Encara no validat";
+      }
+
+      const totalSongs = allSongs.filter(s => !state.deleted[s.id]).length;
+      const validatedCount = Object.keys(state.validated).filter(id => !state.deleted[id]).length;
+      const percent = totalSongs ? Math.round(validatedCount * 100 / totalSongs) : 0;
+
+      $("summaryText").textContent =
+        `Validades: ${validatedCount} · Eliminades: ${Object.keys(state.deleted).length} · Total actives: ${totalSongs}`;
+      $("progressBarFill").style.width = percent + "%";
+      $("progressPercent").textContent = percent + "%";
+    }
+
+    function nextSong(){
+      currentIndex++;
+      if(currentIndex >= filteredSongs.length){
+        currentIndex = filteredSongs.length - 1;
+      }
+      render();
+    }
+
+    function saveEmojisForCurrent(){
+      if(!filteredSongs.length) return;
+      const song = filteredSongs[currentIndex];
+      const val = $("emojiInput").value.trim();
+      if(val){
+        state.validated[song.id] = val;
+      }else{
+        delete state.validated[song.id];
+      }
+      saveState();
+      render();
+    }
+
+    function deleteCurrentSong(){
+      if(!filteredSongs.length) return;
+      const song = filteredSongs[currentIndex];
+      state.deleted[song.id] = true;
+      delete state.validated[song.id];
+      saveState();
+      applyFilters();
+    }
+
+    function downloadJson(){
+      const entries = allSongs.map(s => ({
+        id: s.id,
+        title: s.title,
+        artist: s.artist,
+        emojis: state.validated[s.id] || "",
+        deleted: !!state.deleted[s.id],
+        language: s.language,
+        decade: s.decade,
+        popularity: s.popularity
+      }));
+      const blob = new Blob(
+        [JSON.stringify(entries,null,2)],
+        {type:"application/json"}
+      );
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "hits_emojis_mapping.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function init(){
+      loadState();
+
+      $("langFilter").value = state.lang || "all";
+      $("minPop").value = state.minPop || 0;
+
+      $("langFilter").addEventListener("change", () => {
+        state.lang = $("langFilter").value;
+        saveState();
+        applyFilters();
+      });
+      $("minPop").addEventListener("change", () => {
+        state.minPop = Number($("minPop").value) || 0;
+        saveState();
+        applyFilters();
+      });
+
+      $("btnAccept").addEventListener("click", () => {
+        saveEmojisForCurrent();
+        nextSong();
+      });
+      $("btnSaveOnly").addEventListener("click", () => {
+        saveEmojisForCurrent();
+      });
+      $("btnSkip").addEventListener("click", () => {
+        nextSong();
+      });
+      $("btnDeleteSong").addEventListener("click", () => {
+        if(confirm("Segur que vols eliminar aquesta cançó del joc?")){
+          deleteCurrentSong();
+        }
+      });
+      $("downloadJsonBtn").addEventListener("click", downloadJson);
+
+      try{
+        const res = await fetch(SONGS_URL);
+        if(!res.ok){
+          $("songTitle").textContent = "No s'ha pogut carregar songs_local.json";
+          return;
+        }
+        allSongs = await res.json();
+        allSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
+        applyFilters();
+      }catch(e){
+        console.error(e);
+        $("songTitle").textContent = "Error carregant songs_local.json";
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
