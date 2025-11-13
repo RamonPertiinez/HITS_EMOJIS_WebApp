@@ -1,82 +1,130 @@
-// =========================
-// 1) CONFIG BÀSICA
-// =========================
+/****************************************************
+ * HITS with EMOJIS – Spotify Lab
+ * script.js – Versió 100% adaptada al teu index.html
+ * Flux Spotify Authorization Code + PKCE
+ ****************************************************/
 
-// IMPORTANT: ha de coincidir EXACTAMENT amb el Redirect URI del dashboard de Spotify
-const REDIRECT_URI = "https://ramonpertiinez.github.io/HITS_EMOJIS_WebApp/";
+// 🔐 CONFIGURACIÓ SPOTIFY
+const SPOTIFY_CLIENT_ID = "ebaa4a1061024cd7a18aa6dca3ab3e6b";
+const SPOTIFY_REDIRECT_URI =
+  "https://ramonpertinez.github.io/HITS_EMOJIS_WebApp/";
+const SPOTIFY_SCOPES = [
+  "user-read-email",
+  "playlist-modify-private",
+  "playlist-modify-public"
+].join(" ");
 
-// El teu Client ID (NO el secret)
-const clientId = "ebaa4a1061024cd7a18aa6dca3ab3e6b";
+// Helpers ràpids
+const $ = (id) => document.getElementById(id);
 
-// Scopes mínims
-const scopes = ["user-read-email"];
-
-// Endpoint on tu muntaràs la IA (Cloudflare Worker, n8n, backend propi...)
-// Ha de retornar un JSON del tipus:
-// { artists: [...], genres: [...], year_from: 2000, year_to: 2020, energy: "high", danceability: "medium" }
-const AI_ENDPOINT = "https://TU_BACKEND_DE_IA/interpret"; // ← CANVIA AIXÒ QUAN EL TINGUIS
-
-const tokenInput = document.getElementById("tokenInput");
-const aiStatus = document.getElementById("aiStatus");
-
-const DECADES = {
-  "2000s": { from: 2000, to: 2009 },
-  "2010s": { from: 2010, to: 2019 },
-  "2020s": { from: 2020, to: 2029 }
-};
-
-// =========================
-// 2) TOKEN DESPRÉS DEL LOGIN
-// =========================
-(function initTokenFromHash() {
-  const hash = window.location.hash.substring(1);
-  if (!hash) return;
-
-  const params = new URLSearchParams(hash);
-  const tokenFromSpotify = params.get("access_token");
-
-  if (tokenFromSpotify && tokenInput) {
-    tokenInput.value = tokenFromSpotify;
-
-    // Netegem l'URL
-    window.history.replaceState({}, document.title, REDIRECT_URI);
-
-    // Carreguem la llista de gèneres de Spotify
-    loadGenres(tokenFromSpotify).catch(console.error);
+/****************************************************
+ * 1) PKCE: VERIFIER + CHALLENGE
+ ****************************************************/
+function generateCodeVerifier(length) {
+  let text = "";
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < length; i++) {
+    text += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-})();
+  return text;
+}
 
-// =========================
-// 3) LOGIN AMB SPOTIFY
-// =========================
-document.getElementById("loginBtn").addEventListener("click", () => {
-  const authUrl =
-    "https://accounts.spotify.com/authorize" +
-    "?response_type=token" +
-    "&client_id=" + encodeURIComponent(clientId) +
-    "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
-    "&scope=" + encodeURIComponent(scopes.join(" "));
+async function generateCodeChallenge(verifier) {
+  const data = new TextEncoder().encode(verifier);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return btoa(String.fromCharCode(...new Uint8Array(digest)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
 
-  window.location.href = authUrl;
-});
+/****************************************************
+ * 2) LOGIN: REDIRIGIR A SPOTIFY
+ ****************************************************/
+async function redirectToSpotify() {
+  const verifier = generateCodeVerifier(128);
+  const challenge = await generateCodeChallenge(verifier);
 
-// =========================
-// 4) CARREGAR GÈNERES DE SPOTIFY
-// =========================
-async function loadGenres(token) {
-  const res = await fetch(
-    "https://api.spotify.com/v1/recommendations/available-genre-seeds",
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
+  localStorage.setItem("spotify_verifier", verifier);
+
+  const params = new URLSearchParams();
+  params.append("client_id", SPOTIFY_CLIENT_ID);
+  params.append("response_type", "code");
+  params.append("redirect_uri", SPOTIFY_REDIRECT_URI);
+  params.append("scope", SPOTIFY_SCOPES);
+  params.append("code_challenge_method", "S256");
+  params.append("code_challenge", challenge);
+
+  const url =
+    "https://accounts.spotify.com/authorize?" + params.toString();
+
+  window.location.href = url;
+}
+
+/****************************************************
+ * 3) CALLBACK: INTERCANVIAR CODE PER TOKEN
+ ****************************************************/
+async function exchangeCodeForToken(code) {
+  const verifier = localStorage.getItem("spotify_verifier");
+  if (!verifier) {
+    alert("Error intern: falta verifier al localStorage.");
+    return null;
+  }
+
+  const params = new URLSearchParams();
+  params.append("client_id", SPOTIFY_CLIENT_ID);
+  params.append("grant_type", "authorization_code");
+  params.append("code", code);
+  params.append("redirect_uri", SPOTIFY_REDIRECT_URI);
+  params.append("code_verifier", verifier);
+
+  const res = await fetch("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params
+  });
 
   if (!res.ok) {
-    console.warn("No s'han pogut carregar els gèneres", await res.text());
-    return;
+    console.error("Token error:", await res.text());
+    alert("Error obtenint token de Spotify.");
+    return null;
   }
 
   const data = await res.json();
-  const select = document.getElementById("genreSelect");
-  if (!select) return;
+  console.log("🎫 TOKEN DATA", data);
+
+  const expiresAt = Date.now() + data.expires_in * 1000;
+  localStorage.setItem("spotify_access_token", data.access_token);
+  localStorage.setItem("spotify_expires_at", expiresAt);
+
+  if (data.refresh_token)
+    localStorage.setItem("spotify_refresh_token", data.refresh_token);
+
+  return data.access_token;
+}
+
+/****************************************************
+ * 4) TOKEN STORAGE + VALIDACIÓ
+ ****************************************************/
+function getValidToken() {
+  const token = localStorage.getItem("spotify_access_token");
+  const exp = Number(localStorage.getItem("spotify_expires_at"));
+  if (!token) return null;
+  if (Date.now() > exp) return null;
+  return token;
+}
+
+/****************************************************
+ * 5) CARREGAR GÈNERES OFICIALS
+ ****************************************************/
+async function loadSpotifyGenres(token) {
+  const res = await fetch("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
+    headers: { Authorization: "Bearer " + token }
+  });
+
+  const data = await res.json();
+  const select = $("genreSelect");
 
   data.genres.forEach((g) => {
     const opt = document.createElement("option");
@@ -86,279 +134,138 @@ async function loadGenres(token) {
   });
 }
 
-// =========================
-// 5) HELPERS PER A SPOTIFY
-// =========================
-
-// Recomanacions clàssiques (gènere + energia + tempo)
-async function getSpotifyRandomList(token, config) {
-  const url = new URL("https://api.spotify.com/v1/recommendations");
-
-  url.searchParams.append("seed_genres", config.genres);
-  url.searchParams.append("limit", config.limit ?? 20);
-
-  if (config.minEnergy != null) url.searchParams.append("min_energy", config.minEnergy);
-  if (config.maxEnergy != null) url.searchParams.append("max_energy", config.maxEnergy);
-  if (config.minTempo != null) url.searchParams.append("min_tempo", config.minTempo);
-  if (config.maxTempo != null) url.searchParams.append("max_tempo", config.maxTempo);
-
-  const res = await fetch(url.toString(), {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-
-  if (!res.ok) {
-    console.error("Error recommendations:", await res.text());
-    return [];
-  }
-
-  const data = await res.json();
-  return data.tracks || [];
-}
-
-// Buscar per dècada + gènere via /search
-async function getTracksByDecade(token, { decadeKey, genre, limit = 30 }) {
-  const decade = DECADES[decadeKey];
-  if (!decade) return [];
-
-  const url = new URL("https://api.spotify.com/v1/search");
-  const qParts = [];
-
-  if (genre) qParts.push(`genre:"${genre}"`);
-  qParts.push(`year:${decade.from}-${decade.to}`);
-
-  url.searchParams.set("q", qParts.join(" "));
-  url.searchParams.set("type", "track");
-  url.searchParams.set("limit", limit);
-
-  const res = await fetch(url.toString(), {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-
-  if (!res.ok) {
-    console.error("Error search by decade:", await res.text());
-    return [];
-  }
-
-  const data = await res.json();
-  return data.tracks?.items || [];
-}
-
-// =========================
-// 6) IA – INTERPRETAR EL PROMPT
-// =========================
-
-// Intent amb IA externa (backend teu)
-async function interpretPromptWithAI(prompt) {
-  aiStatus.textContent = "🤖 Analitzant el que has escrit amb IA...";
-  try {
-    const res = await fetch(AI_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt })
-    });
-
-    if (!res.ok) {
-      throw new Error(await res.text());
-    }
-
-    const data = await res.json();
-    aiStatus.textContent = "✅ IA interpretada, generant playlist...";
-    return data; // {artists, genres, year_from, year_to, energy, danceability...}
-  } catch (err) {
-    console.warn("Error IA, fem servir parser simple:", err.message);
-    aiStatus.textContent = "⚠️ No s'ha pogut usar la IA externa, faig una interpretació bàsica.";
-    return null;
-  }
-}
-
-// Parser cutre local per si la IA falla
-function parsePromptNaive(prompt) {
-  const cfg = {
-    artists: [],
-    genres: [],
-    year_from: null,
-    year_to: null,
-    decadeKey: null
-  };
-
-  const p = prompt.toLowerCase();
-
-  if (p.includes("canto del loco") || p.includes("el canto del loco")) {
-    cfg.artists.push("El Canto del Loco");
-  }
-
-  if (p.includes("2000s") || p.includes("00s")) cfg.decadeKey = "2000s";
-  if (p.includes("2010s") || p.includes("10s")) cfg.decadeKey = "2010s";
-  if (p.includes("2020s") || p.includes("20s")) cfg.decadeKey = "2020s";
-
-  const rangeMatch = p.match(/(19|20)\d{2}.*(19|20)\d{2}/);
-  if (rangeMatch) {
-    const nums = rangeMatch[0].match(/(19|20)\d{2}/g);
-    if (nums && nums.length >= 2) {
-      cfg.year_from = parseInt(nums[0], 10);
-      cfg.year_to = parseInt(nums[1], 10);
-    }
-  }
-
-  return cfg;
-}
-
-// Buscar cançons a partir de la interpretació (IA o naive)
-async function getTracksFromPromptConfig(token, config, fallbackGenre, limit = 40) {
-  const url = new URL("https://api.spotify.com/v1/search");
-  const qParts = [];
-
-  if (config.artists && config.artists.length > 0) {
-    // només agafem el primer per simplicitat
-    qParts.push(`artist:"${config.artists[0]}"`);
-  }
-
-  let from = config.year_from;
-  let to = config.year_to;
-
-  if ((!from || !to) && config.decadeKey && DECADES[config.decadeKey]) {
-    from = DECADES[config.decadeKey].from;
-    to = DECADES[config.decadeKey].to;
-  }
-
-  if (from && to) {
-    qParts.push(`year:${from}-${to}`);
-  }
-
-  const genreFromIA =
-    config.genres && config.genres.length ? config.genres[0] : fallbackGenre;
-  if (genreFromIA) {
-    qParts.push(`genre:"${genreFromIA}"`);
-  }
-
-  if (!qParts.length) return [];
-
-  url.searchParams.set("q", qParts.join(" "));
-  url.searchParams.set("type", "track");
-  url.searchParams.set("limit", limit);
-
-  const res = await fetch(url.toString(), {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-
-  if (!res.ok) {
-    console.error("Error search from prompt:", await res.text());
-    return [];
-  }
-
-  const data = await res.json();
-  return data.tracks?.items || [];
-}
-
-// =========================
-// 7) UTILITAT – MOSTRA ALEATÒRIA
-// =========================
-function randomSample(arr, n) {
-  if (arr.length <= n) return arr;
-  const copy = [...arr];
-  const out = [];
-  while (out.length < n && copy.length) {
-    const idx = Math.floor(Math.random() * copy.length);
-    out.push(copy.splice(idx, 1)[0]);
-  }
-  return out;
-}
-
-// =========================
-// 8) BOTÓ "GENERAR PLAYLIST"
-// =========================
-document.getElementById("generateBtn").addEventListener("click", async () => {
-  const token = (tokenInput.value || "").trim();
+/****************************************************
+ * 6) GENERAR PLAYLIST
+ ****************************************************/
+async function generatePlaylist() {
+  const token = getValidToken();
   if (!token) {
-    alert("Cal un token de Spotify (fes login o enganxa'n un).");
+    alert("Fes login amb Spotify abans de generar la playlist!");
     return;
   }
 
-  const genreFromSelect = document.getElementById("genreSelect").value;
-  const genreFallback = document.getElementById("genre").value;
-  const finalGenre = genreFromSelect || genreFallback || "pop";
+  // Paràmetres del formulari
+  const genreFree = $("genre")?.value.trim().toLowerCase() || "";
+  const genreAPI = $("genreSelect")?.value || "";
+  const decade = $("decade")?.value || "";
+  const minEnergy = parseFloat($("minEnergy")?.value || "0.4");
+  const maxEnergy = parseFloat($("maxEnergy")?.value || "0.8");
+  const minTempo = parseInt($("minTempo")?.value || "90");
+  const maxTempo = parseInt($("maxTempo")?.value || "130");
 
-  const decadeKey = document.getElementById("decade").value || null;
-  const minEnergy = parseFloat(document.getElementById("minEnergy").value);
-  const maxEnergy = parseFloat(document.getElementById("maxEnergy").value);
-  const minTempo = parseFloat(document.getElementById("minTempo").value);
-  const maxTempo = parseFloat(document.getElementById("maxTempo").value);
-
-  const nlPrompt = document.getElementById("nlPrompt").value.trim();
-
-  let songs = [];
-
-  try {
-    // 1) Intentem IA si hi ha prompt
-    if (nlPrompt) {
-      const aiConfig = await interpretPromptWithAI(nlPrompt);
-      let effectiveConfig = aiConfig;
-
-      if (!effectiveConfig) {
-        // Si la IA ha fallat, fem servir parser simple
-        effectiveConfig = parsePromptNaive(nlPrompt);
-      }
-
-      songs = await getTracksFromPromptConfig(token, effectiveConfig, finalGenre, 40);
-    }
-
-    // 2) Si no hi ha prompt o no ha trobat res, provem dècada
-    if (!songs.length && decadeKey) {
-      aiStatus.textContent = "🎛️ Fent servir filtre per dècades...";
-      songs = await getTracksByDecade(token, { decadeKey, genre: finalGenre, limit: 40 });
-    }
-
-    // 3) Fallback: recomanacions clàssiques
-    if (!songs.length) {
-      aiStatus.textContent = "🎲 Generant recomanacions clàssiques amb gènere + BPM + energy...";
-      songs = await getSpotifyRandomList(token, {
-        genres: finalGenre,
-        minEnergy,
-        maxEnergy,
-        minTempo,
-        maxTempo,
-        limit: 40
-      });
-    }
-  } catch (err) {
-    console.error(err);
-    aiStatus.textContent = "❌ Error generant la playlist, mira la consola.";
-    alert("Hi ha hagut un error fent la crida a Spotify.");
-    return;
+  const nlPrompt = $("nlPrompt")?.value.trim() || "";
+  if (nlPrompt.length > 6) {
+    // futura integració IA
+    console.log("🤖 Prompt IA rebut:", nlPrompt);
   }
 
-  // =========================
-  // 9) PINTAR RESULTATS
-  // =========================
-  const container = document.getElementById("results");
-  container.innerHTML = "<h2>📻 Resultats de la playlist</h2>";
+  // Decidir gènere final
+  const seedGenre = genreAPI || genreFree || "pop";
 
-  if (!songs.length) {
-    container.innerHTML +=
-      "<p>No s’han trobat cançons amb aquests paràmetres. Prova amb un gènere més general o una dècada diferent. 😅</p>";
-    return;
-  }
+  // Dècada → filtre any
+  let yearQuery = "";
+  if (decade.includes("2000")) yearQuery = " year:2000-2009";
+  if (decade.includes("2010")) yearQuery = " year:2010-2019";
+  if (decade.includes("2020")) yearQuery = " year:2020-2029";
 
-  const finalList = randomSample(songs, 20);
+  // Recomanacions
+  const params = new URLSearchParams();
+  params.append("seed_genres", seedGenre);
+  params.append("limit", "20");
+  params.append("min_energy", minEnergy);
+  params.append("max_energy", maxEnergy);
+  params.append("min_tempo", minTempo);
+  params.append("max_tempo", maxTempo);
 
-  finalList.forEach((song, idx) => {
-    const img = song.album.images?.[0]?.url || "";
-    const artists = song.artists.map((a) => a.name).join(", ");
-    const url = song.external_urls?.spotify || "#";
+  const url =
+    "https://api.spotify.com/v1/recommendations?" + params.toString();
 
-    const div = document.createElement("div");
-    div.className = "song";
-    div.innerHTML = `
-      ${img ? `<img src="${img}" alt="cover" />` : ""}
-      <div>
-        <div class="song-title">#${idx + 1} – ${song.name}</div>
-        <div class="song-artist">👨‍🎤 ${artists}</div>
-        <div class="song-meta">💽 ${song.album.name}</div>
-        <a href="${url}" target="_blank">▶️ Obrir a Spotify</a>
-      </div>
-    `;
-    container.appendChild(div);
+  const res = await fetch(url, {
+    headers: { Authorization: "Bearer " + token }
   });
 
-  aiStatus.textContent = "✅ Playlist generada! Ja pots fer de DJ. 🎧";
+  if (!res.ok) {
+    console.error("Error generating playlist:", await res.text());
+    alert("Error generant playlist amb Spotify!");
+    return;
+  }
+
+  const data = await res.json();
+  renderResults(data.tracks);
+}
+
+/****************************************************
+ * 7) MOSTRAR RESULTATS
+ ****************************************************/
+function renderResults(tracks) {
+  const container = $("results");
+  if (!container) return;
+
+  if (!tracks.length) {
+    container.innerHTML = "<p>No s'han trobat cançons 😢</p>";
+    return;
+  }
+
+  container.innerHTML = tracks
+    .map((t, i) => {
+      const name = t.name;
+      const artist = t.artists.map((a) => a.name).join(", ");
+      const link = t.external_urls.spotify;
+      const cover = t.album.images[1]?.url || t.album.images[0]?.url || "";
+      const preview = t.preview_url;
+
+      return `
+        <article class="track-card">
+          <div class="track-index">#${i + 1}</div>
+          ${
+            cover
+              ? `<img src="${cover}" class="track-cover" />`
+              : `<div class="track-cover no-img">🎵</div>`
+          }
+          <div class="track-info">
+            <a href="${link}" target="_blank" class="track-title">${name}</a>
+            <div class="track-artist">${artist}</div>
+            ${
+              preview
+                ? `<audio controls src="${preview}" class="track-preview"></audio>`
+                : `<div class="track-no-preview">Sense preview 🎧</div>`
+            }
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+/****************************************************
+ * 8) INIT
+ ****************************************************/
+document.addEventListener("DOMContentLoaded", async () => {
+  // Botó LOGIN
+  $("loginBtn").addEventListener("click", redirectToSpotify);
+
+  // Botó GENERAR PLAYLIST
+  $("generateBtn").addEventListener("click", generatePlaylist);
+
+  // Detectar ?code= a la URL
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+
+  if (code) {
+    const token = await exchangeCodeForToken(code);
+    if (token) {
+      $("tokenInput").value = token;
+      await loadSpotifyGenres(token);
+    }
+
+    // Netejar el ?code de la URL
+    window.history.replaceState({}, document.title, SPOTIFY_REDIRECT_URI);
+  } else {
+    // Si ja tens token guardat → carregar gèneres
+    const token = getValidToken();
+    if (token) {
+      $("tokenInput").value = token;
+      await loadSpotifyGenres(token);
+    }
+  }
 });
