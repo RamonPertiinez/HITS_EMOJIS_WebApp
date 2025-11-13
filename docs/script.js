@@ -1,7 +1,6 @@
 /****************************************************
  * HITS with EMOJIS – Spotify Lab
- * script.js – Versió 100% adaptada al teu index.html
- * Flux Spotify Authorization Code + PKCE
+ * script.js – Versió amb PKCE + IA simple + guardar playlist
  ****************************************************/
 
 // 🔐 CONFIGURACIÓ SPOTIFY
@@ -16,6 +15,10 @@ const SPOTIFY_SCOPES = [
 
 // Helpers ràpids
 const $ = (id) => document.getElementById(id);
+
+// Última llista generada (per guardar-la com a playlist)
+let lastTracks = [];
+let lastPlaylistName = "";
 
 /****************************************************
  * 1) PKCE: VERIFIER + CHALLENGE
@@ -111,7 +114,7 @@ function getValidToken() {
   const token = localStorage.getItem("spotify_access_token");
   const exp = Number(localStorage.getItem("spotify_expires_at"));
   if (!token) return null;
-  if (Date.now() > exp) return null;
+  if (!exp || Date.now() > exp) return null;
   return token;
 }
 
@@ -119,23 +122,80 @@ function getValidToken() {
  * 5) CARREGAR GÈNERES OFICIALS
  ****************************************************/
 async function loadSpotifyGenres(token) {
-  const res = await fetch("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
-    headers: { Authorization: "Bearer " + token }
-  });
-
-  const data = await res.json();
-  const select = $("genreSelect");
-
-  data.genres.forEach((g) => {
-    const opt = document.createElement("option");
-    opt.value = g;
-    opt.textContent = g;
-    select.appendChild(opt);
-  });
+  try {
+    const res = await fetch(
+      "https://api.spotify.com/v1/recommendations/available-genre-seeds",
+      { headers: { Authorization: "Bearer " + token } }
+    );
+    if (!res.ok) {
+      console.warn("No s'han pogut carregar gèneres:", await res.text());
+      return;
+    }
+    const data = await res.json();
+    const select = $("genreSelect");
+    data.genres.forEach((g) => {
+      const opt = document.createElement("option");
+      opt.value = g;
+      opt.textContent = g;
+      select.appendChild(opt);
+    });
+  } catch (e) {
+    console.error("Error carregant gèneres:", e);
+  }
 }
 
 /****************************************************
- * 6) GENERAR PLAYLIST
+ * 6) “IA” SIMPLE PER INTERPRETAR EL PROMPT
+ ****************************************************/
+function applyPromptToControls(promptText) {
+  const p = promptText.toLowerCase();
+  const aiStatus = $("aiStatus");
+
+  // Detectar artístes típics
+  if (p.includes("canto del loco")) {
+    $("genre").value = "pop rock espanyol";
+    $("decade").value = "2000s";
+  }
+  if (p.includes("reggaeton") || p.includes("perrear")) {
+    $("genre").value = "reggaeton";
+    $("decade").value = "2010s";
+  }
+
+  // Detectar paraules de vibe
+  if (p.includes("tranquil") || p.includes("relax") || p.includes("chill")) {
+    $("minEnergy").value = 0.2;
+    $("maxEnergy").value = 0.6;
+    $("minTempo").value = 70;
+    $("maxTempo").value = 120;
+  }
+  if (
+    p.includes("animad") ||
+    p.includes("fiesta") ||
+    p.includes("party") ||
+    p.includes("motivat")
+  ) {
+    $("minEnergy").value = 0.6;
+    $("maxEnergy").value = 1.0;
+    $("minTempo").value = 110;
+    $("maxTempo").value = 150;
+  }
+
+  // Detectar anys per mapejar a dècades
+  const years = p.match(/(19|20)\d{2}/g);
+  if (years && years.length) {
+    const first = parseInt(years[0], 10);
+    if (first >= 2000 && first <= 2009) $("decade").value = "2000s";
+    else if (first >= 2010 && first <= 2019) $("decade").value = "2010s";
+    else if (first >= 2020 && first <= 2029) $("decade").value = "2020s";
+  }
+
+  if (aiStatus) {
+    aiStatus.textContent = "✨ El prompt s'ha traduït a paràmetres automàticament.";
+  }
+}
+
+/****************************************************
+ * 7) GENERAR PLAYLIST
  ****************************************************/
 async function generatePlaylist() {
   const token = getValidToken();
@@ -144,7 +204,13 @@ async function generatePlaylist() {
     return;
   }
 
-  // Paràmetres del formulari
+  // Primer, si hi ha prompt IA, ajustem els controls
+  const nlPrompt = $("nlPrompt")?.value.trim() || "";
+  if (nlPrompt.length > 6) {
+    applyPromptToControls(nlPrompt);
+  }
+
+  // Ara llegim paràmetres del formulari (ja modificats per la “IA”)
   const genreFree = $("genre")?.value.trim().toLowerCase() || "";
   const genreAPI = $("genreSelect")?.value || "";
   const decade = $("decade")?.value || "";
@@ -153,22 +219,18 @@ async function generatePlaylist() {
   const minTempo = parseInt($("minTempo")?.value || "90");
   const maxTempo = parseInt($("maxTempo")?.value || "130");
 
-  const nlPrompt = $("nlPrompt")?.value.trim() || "";
-  if (nlPrompt.length > 6) {
-    // futura integració IA
-    console.log("🤖 Prompt IA rebut:", nlPrompt);
-  }
-
-  // Decidir gènere final
   const seedGenre = genreAPI || genreFree || "pop";
 
-  // Dècada → filtre any
-  let yearQuery = "";
-  if (decade.includes("2000")) yearQuery = " year:2000-2009";
-  if (decade.includes("2010")) yearQuery = " year:2010-2019";
-  if (decade.includes("2020")) yearQuery = " year:2020-2029";
+  // Dècada → només per info, no entra a /recommendations
+  let decadeLabel = "";
+  if (decade === "2000s") decadeLabel = "2000–2009";
+  if (decade === "2010s") decadeLabel = "2010–2019";
+  if (decade === "2020s") decadeLabel = "2020–2029";
 
-  // Recomanacions
+  lastPlaylistName =
+    "HITS with EMOJIS – " +
+    (decadeLabel || seedGenre || "Random Mix");
+
   const params = new URLSearchParams();
   params.append("seed_genres", seedGenre);
   params.append("limit", "20");
@@ -180,22 +242,129 @@ async function generatePlaylist() {
   const url =
     "https://api.spotify.com/v1/recommendations?" + params.toString();
 
-  const res = await fetch(url, {
-    headers: { Authorization: "Bearer " + token }
-  });
+  const btn = $("generateBtn");
+  btn.disabled = true;
+  btn.textContent = "Generant... 🔄";
 
-  if (!res.ok) {
-    console.error("Error generating playlist:", await res.text());
-    alert("Error generant playlist amb Spotify!");
-    return;
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: "Bearer " + token }
+    });
+
+    if (!res.ok) {
+      console.error("Error generating playlist:", await res.text());
+      alert("Error generant playlist amb Spotify!");
+      return;
+    }
+
+    const data = await res.json();
+    lastTracks = data.tracks || [];
+    renderResults(lastTracks);
+  } catch (e) {
+    console.error(e);
+    alert("Error desconegut generant la playlist.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🎲 Generar Playlist";
   }
-
-  const data = await res.json();
-  renderResults(data.tracks);
 }
 
 /****************************************************
- * 7) MOSTRAR RESULTATS
+ * 8) GUARDAR PLAYLIST AL COMPTE DE SPOTIFY
+ ****************************************************/
+async function handleSavePlaylist() {
+  const token = getValidToken();
+  if (!token) {
+    alert("Token caducat. Torna a fer login amb Spotify.");
+    return;
+  }
+
+  if (!lastTracks || !lastTracks.length) {
+    alert("Primer genera una playlist! 😉");
+    return;
+  }
+
+  const defaultName = lastPlaylistName || "HITS with EMOJIS – Random Mix";
+  const name =
+    prompt("Nom per la playlist a Spotify:", defaultName) ||
+    defaultName;
+
+  const description =
+    "Playlist generada automàticament amb HITS with EMOJIS – Spotify Lab 🎧";
+
+  try {
+    // 1) Agafem l'usuari
+    const meRes = await fetch("https://api.spotify.com/v1/me", {
+      headers: { Authorization: "Bearer " + token }
+    });
+    if (!meRes.ok) {
+      console.error("Error /me:", await meRes.text());
+      alert("No s'ha pogut llegir l'usuari de Spotify.");
+      return;
+    }
+    const me = await meRes.json();
+
+    // 2) Creem la playlist
+    const playlistRes = await fetch(
+      `https://api.spotify.com/v1/users/${encodeURIComponent(
+        me.id
+      )}/playlists`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          public: false
+        })
+      }
+    );
+
+    if (!playlistRes.ok) {
+      console.error("Error creant playlist:", await playlistRes.text());
+      alert("No s'ha pogut crear la playlist a Spotify.");
+      return;
+    }
+
+    const playlist = await playlistRes.json();
+
+    // 3) Afegim les cançons
+    const uris = lastTracks.map((t) => t.uri).filter(Boolean);
+    if (uris.length) {
+      const addRes = await fetch(
+        `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ uris })
+        }
+      );
+
+      if (!addRes.ok) {
+        console.error("Error afegint tracks:", await addRes.text());
+        alert(
+          "La playlist s'ha creat, però hi ha hagut un problema afegint les cançons."
+        );
+        return;
+      }
+    }
+
+    alert("✅ Playlist creada al teu Spotify!");
+    console.log("Playlist URL:", playlist.external_urls?.spotify);
+  } catch (e) {
+    console.error("Error guardant playlist:", e);
+    alert("Error desconegut creant la playlist.");
+  }
+}
+
+/****************************************************
+ * 9) MOSTRAR RESULTATS
  ****************************************************/
 function renderResults(tracks) {
   const container = $("results");
@@ -206,7 +375,7 @@ function renderResults(tracks) {
     return;
   }
 
-  container.innerHTML = tracks
+  const htmlTracks = tracks
     .map((t, i) => {
       const name = t.name;
       const artist = t.artists.map((a) => a.name).join(", ");
@@ -235,17 +404,33 @@ function renderResults(tracks) {
       `;
     })
     .join("");
+
+  const saveBtn = `
+    <button id="savePlaylistBtn" class="btn secondary wide save-btn">
+      💾 Guardar com a playlist a Spotify
+    </button>
+  `;
+
+  container.innerHTML = saveBtn + htmlTracks;
+
+  const saveBtnEl = $("savePlaylistBtn");
+  if (saveBtnEl) {
+    saveBtnEl.addEventListener("click", handleSavePlaylist);
+  }
 }
 
 /****************************************************
- * 8) INIT
+ * 10) INIT
  ****************************************************/
 document.addEventListener("DOMContentLoaded", async () => {
   // Botó LOGIN
   $("loginBtn").addEventListener("click", redirectToSpotify);
 
   // Botó GENERAR PLAYLIST
-  $("generateBtn").addEventListener("click", generatePlaylist);
+  $("generateBtn").addEventListener("click", (e) => {
+    e.preventDefault();
+    generatePlaylist();
+  });
 
   // Detectar ?code= a la URL
   const params = new URLSearchParams(window.location.search);
@@ -257,7 +442,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       $("tokenInput").value = token;
       await loadSpotifyGenres(token);
     }
-
     // Netejar el ?code de la URL
     window.history.replaceState({}, document.title, SPOTIFY_REDIRECT_URI);
   } else {
