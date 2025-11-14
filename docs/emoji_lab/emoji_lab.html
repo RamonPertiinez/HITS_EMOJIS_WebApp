@@ -419,6 +419,19 @@
             <option value="de">Alemany</option>
           </select>
         </div>
+        <!-- NOU FILTRE D'ESTIL -->
+        <div class="pill">
+          <strong>Estil:</strong>
+          <select id="styleFilter">
+            <option value="all">Tots</option>
+            <option value="reggaeton">Reggaeton</option>
+            <option value="pop">Pop</option>
+            <option value="rock">Rock</option>
+            <option value="trap">Trap</option>
+            <option value="rap">Rap</option>
+            <option value="latin">Latin</option>
+          </select>
+        </div>
         <div class="pill">
           <strong>Popularitat mín.:</strong>
           <input id="minPop" type="number" min="0" max="100" value="0" style="width:64px;text-align:center;">
@@ -553,6 +566,7 @@
       deleted: {},   // id -> true
       lang: "all",
       minPop: 0,
+      style: "all",  // 👈 nou filtre d'estil
       viewMode: "pending" // "pending" | "validated" | "deleted"
     };
 
@@ -598,8 +612,16 @@
       return map[code] || code || "—";
     }
 
+    // 🔤 Normalitzar text (minúscules + treure accents) per comparar estils/genres
+    function normalizeText(str){
+      return (str || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
     // 🔡 Diccionari paraula → emojis
-const EMOJI_WORD_MAP = {
+   const EMOJI_WORD_MAP = {
   // AMOR / RELACIONS
   "amor": ["❤️","💘","💖","💓","💞","💝","💗"],
   "estima": ["❤️","🤍","💞","💝"],
@@ -939,7 +961,6 @@ const EMOJI_WORD_MAP = {
   "freedom": ["🕊️","🗽","✨"]
 };
 
-
     // Frases o patrons especials
     const EMOJI_PATTERNS = [
       { re: /camisa negra/, emojis: ["👔","⚫"] },
@@ -1066,6 +1087,7 @@ const EMOJI_WORD_MAP = {
       const lang = state.lang || "all";
       const minPop = Number(state.minPop) || 0;
       const mode = state.viewMode || "pending";
+      const style = state.style || "all";
 
       filteredSongs = allSongs.filter(s => {
         if (mode === "deleted") {
@@ -1074,8 +1096,18 @@ const EMOJI_WORD_MAP = {
         if (state.deleted[s.id]) return false;
 
         if (lang !== "all" && s.language !== lang) return false;
+
         if (typeof s.popularity === "number" && !isNaN(s.popularity)) {
           if (s.popularity < minPop) return false;
+        }
+
+        // 🔎 Filtre per estil (mirant el camp `genres`)
+        if (style !== "all") {
+          const styleNorm = normalizeText(style);
+          const genresText = normalizeText(
+            Array.isArray(s.genres) ? s.genres.join(" ") : (s.genres || "")
+          );
+          if (!genresText.includes(styleNorm)) return false;
         }
 
         if (mode === "pending" && state.validated[s.id]) return false;
@@ -1120,7 +1152,7 @@ const EMOJI_WORD_MAP = {
         if (mode === "validated") msg = "No hi ha cap cançó validada amb aquests filtres.";
         if (mode === "deleted") msg = "No hi ha cap cançó eliminada amb aquests filtres.";
 
-        $("summaryText").textContent = msg + " Canvia de vista, idioma o popularitat mínima.";
+        $("summaryText").textContent = msg + " Canvia de vista, idioma, estil o popularitat mínima.";
         $("progressBarFill").style.width = "0%";
         $("progressPercent").textContent = "0%";
         $("emojiStatusText").textContent = "—";
@@ -1314,6 +1346,7 @@ const EMOJI_WORD_MAP = {
 
       $("langFilter").value = state.lang || "all";
       $("minPop").value = state.minPop || 0;
+      $("styleFilter").value = state.style || "all";
 
       $("langFilter").addEventListener("change", () => {
         state.lang = $("langFilter").value;
@@ -1322,6 +1355,11 @@ const EMOJI_WORD_MAP = {
       });
       $("minPop").addEventListener("change", () => {
         state.minPop = Number($("minPop").value) || 0;
+        saveState();
+        applyFilters({ resetIndex: true });
+      });
+      $("styleFilter").addEventListener("change", () => {
+        state.style = $("styleFilter").value;
         saveState();
         applyFilters({ resetIndex: true });
       });
