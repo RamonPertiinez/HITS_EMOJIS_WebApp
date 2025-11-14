@@ -126,6 +126,29 @@
       background:rgba(7,10,24,.9);
     }
     .pill strong{font-weight:600}
+
+    /* Vista: pendents / validades / eliminades */
+    .pill-views{
+      padding:3px;
+      display:flex;
+      gap:4px;
+      background:rgba(7,10,24,.9);
+    }
+    .pill-views .btn-view{
+      border:none;
+      background:transparent;
+      color:var(--muted);
+      font-size:11px;
+      padding:4px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      transition:.15s background,.15s color;
+    }
+    .pill-views .btn-view.active{
+      background:var(--accent-soft);
+      color:var(--accent-strong);
+    }
+
     main{
       display:grid;
       grid-template-columns:minmax(0,1.2fr) minmax(0,1.1fr);
@@ -378,6 +401,11 @@
         </div>
       </div>
       <div class="controls">
+        <div class="pill pill-views">
+          <button id="btnViewPending" class="btn-view active">Pendents</button>
+          <button id="btnViewValidated" class="btn-view">Validades</button>
+          <button id="btnViewDeleted" class="btn-view">Eliminades</button>
+        </div>
         <div class="pill">
           <strong>Idioma:</strong>
           <select id="langFilter">
@@ -510,7 +538,7 @@
   </div>
 
   <script>
-    // 🔗 URL del teu Worker d’IA
+    // 🔗 URL del Worker d’IA
     const EMOJI_API_URL = "https://emoji-worker.ramonpertinez.workers.dev";
 
     const SONGS_URL = "songs_local.json";
@@ -524,7 +552,8 @@
       validated: {}, // id -> emojis
       deleted: {},   // id -> true
       lang: "all",
-      minPop: 0
+      minPop: 0,
+      viewMode: "pending" // "pending" | "validated" | "deleted"
     };
 
     function $(id){return document.getElementById(id);}
@@ -831,39 +860,58 @@
       }
     }
 
-function applyFilters(options = {}) {
-  // per defecte, quan canvies idioma / popularitat = tornem a l'inici
-  const resetIndex = options.resetIndex !== undefined ? options.resetIndex : true;
-
-  const lang = state.lang || "all";
-  const minPop = Number(state.minPop) || 0;
-
-  filteredSongs = allSongs.filter(s => {
-    if (state.deleted[s.id]) return false;
-    if (lang !== "all" && s.language !== lang) return false;
-    if (typeof s.popularity === "number" && !isNaN(s.popularity)) {
-      if (s.popularity < minPop) return false;
+    // Actualitza l'estat visual dels botons de vista
+    function updateViewButtons(){
+      const mode = state.viewMode || "pending";
+      $("btnViewPending").classList.toggle("active", mode === "pending");
+      $("btnViewValidated").classList.toggle("active", mode === "validated");
+      $("btnViewDeleted").classList.toggle("active", mode === "deleted");
     }
-    return true;
-  });
 
-  filteredSongs.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+    // Filtra cançons segons idioma, popularitat, vista (pendents/validades/eliminades)
+    function applyFilters(options = {}) {
+      const resetIndex = options.resetIndex !== undefined ? options.resetIndex : true;
+      const lang = state.lang || "all";
+      const minPop = Number(state.minPop) || 0;
+      const mode = state.viewMode || "pending";
 
-  if (resetIndex) {
-    // canvi de filtres → tornem al principi
-    currentIndex = 0;
-  } else {
-    // eliminant cançó → mantenim la posició, o anem cap enrere si érem a l'última
-    if (currentIndex >= filteredSongs.length) {
-      currentIndex = Math.max(0, filteredSongs.length - 1);
+      filteredSongs = allSongs.filter(s => {
+        if (mode === "deleted") {
+          // Només cançons eliminades
+          return !!state.deleted[s.id];
+        }
+
+        // Per la resta de modes, amaguem les eliminades
+        if (state.deleted[s.id]) return false;
+
+        if (lang !== "all" && s.language !== lang) return false;
+        if (typeof s.popularity === "number" && !isNaN(s.popularity)) {
+          if (s.popularity < minPop) return false;
+        }
+
+        if (mode === "pending" && state.validated[s.id]) return false;
+        if (mode === "validated" && !state.validated[s.id]) return false;
+
+        return true;
+      });
+
+      filteredSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
+
+      if (resetIndex) {
+        currentIndex = 0;
+      } else {
+        if (currentIndex >= filteredSongs.length) {
+          currentIndex = Math.max(0, filteredSongs.length - 1);
+        }
+      }
+
+      render();
     }
-  }
-
-  render();
-}
 
     function render(){
       const total = filteredSongs.length;
+      const mode = state.viewMode || "pending";
+
       if(total === 0){
         $("songTitle").textContent = "Cap cançó amb aquest filtre 🥲";
         $("songArtist").textContent = "";
@@ -878,11 +926,17 @@ function applyFilters(options = {}) {
         $("emojiSuggest").textContent = "";
         $("emojiInput").value = "";
         $("songIndexLabel").textContent = "0 / 0";
-        $("summaryText").textContent =
-          "Cap cançó pendent amb aquests filtres. Canvia d'idioma o de popularitat mínima.";
+
+        let msg = "Cap cançó pendent amb aquests filtres.";
+        if (mode === "validated") msg = "No hi ha cap cançó validada amb aquests filtres.";
+        if (mode === "deleted") msg = "No hi ha cap cançó eliminada amb aquests filtres.";
+
+        $("summaryText").textContent = msg + " Canvia de vista, idioma o popularitat mínima.";
         $("progressBarFill").style.width = "0%";
         $("progressPercent").textContent = "0%";
         $("emojiStatusText").textContent = "—";
+
+        updateViewButtons();
         return;
       }
 
@@ -946,14 +1000,27 @@ function applyFilters(options = {}) {
         });
       }
 
+      // Text i comportament del botó eliminar / recuperar
+      if (mode === "deleted") {
+        $("btnDeleteSong").textContent = "♻️ Recuperar aquesta cançó";
+      } else {
+        $("btnDeleteSong").textContent = "🗑️ Eliminar aquesta cançó";
+      }
+
+      // Barra de progrés global (sobre totes les actives)
       const totalSongs = allSongs.filter(s => !state.deleted[s.id]).length;
       const validatedCount = Object.keys(state.validated).filter(id => !state.deleted[id]).length;
-      const percent = totalSongs ? Math.round(validatedCount * 100 / totalSongs) : 0;
+      const percentRaw = totalSongs ? (validatedCount * 100 / totalSongs) : 0;
+      const percentText = percentRaw < 10
+        ? percentRaw.toFixed(1)
+        : Math.round(percentRaw).toString();
 
       $("summaryText").textContent =
         `Validades: ${validatedCount} · Eliminades: ${Object.keys(state.deleted).length} · Total actives: ${totalSongs}`;
-      $("progressBarFill").style.width = percent + "%";
-      $("progressPercent").textContent = percent + "%";
+      $("progressBarFill").style.width = Math.min(100, percentRaw) + "%";
+      $("progressPercent").textContent = percentText + "%";
+
+      updateViewButtons();
     }
 
     function nextSong(){
@@ -983,8 +1050,14 @@ function applyFilters(options = {}) {
       state.deleted[song.id] = true;
       delete state.validated[song.id];
       saveState();
+      applyFilters({ resetIndex: false });
+    }
 
-      // 👇 mantenim la posició (no tornem a la primera cançó)
+    function restoreCurrentSong(){
+      if (!filteredSongs.length) return;
+      const song = filteredSongs[currentIndex];
+      delete state.deleted[song.id];
+      saveState();
       applyFilters({ resetIndex: false });
     }
 
@@ -1058,12 +1131,28 @@ function applyFilters(options = {}) {
       $("langFilter").addEventListener("change", () => {
         state.lang = $("langFilter").value;
         saveState();
-        applyFilters();
+        applyFilters({ resetIndex: true });
       });
       $("minPop").addEventListener("change", () => {
         state.minPop = Number($("minPop").value) || 0;
         saveState();
-        applyFilters();
+        applyFilters({ resetIndex: true });
+      });
+
+      $("btnViewPending").addEventListener("click", () => {
+        state.viewMode = "pending";
+        saveState();
+        applyFilters({ resetIndex: true });
+      });
+      $("btnViewValidated").addEventListener("click", () => {
+        state.viewMode = "validated";
+        saveState();
+        applyFilters({ resetIndex: true });
+      });
+      $("btnViewDeleted").addEventListener("click", () => {
+        state.viewMode = "deleted";
+        saveState();
+        applyFilters({ resetIndex: true });
       });
 
       $("btnAccept").addEventListener("click", () => {
@@ -1077,8 +1166,14 @@ function applyFilters(options = {}) {
         nextSong();
       });
       $("btnDeleteSong").addEventListener("click", () => {
-        if(confirm("Segur que vols eliminar aquesta cançó del joc?")){
-          deleteCurrentSong();
+        if (state.viewMode === "deleted") {
+          if(confirm("Vols recuperar aquesta cançó al joc?")){
+            restoreCurrentSong();
+          }
+        } else {
+          if(confirm("Segur que vols eliminar aquesta cançó del joc?")){
+            deleteCurrentSong();
+          }
         }
       });
       $("downloadJsonBtn").addEventListener("click", downloadJson);
@@ -1098,7 +1193,7 @@ function applyFilters(options = {}) {
         }
         allSongs = await res.json();
         allSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
-        applyFilters();
+        applyFilters({ resetIndex: true });
       }catch(e){
         console.error(e);
         $("songTitle").textContent = "Error carregant songs_local.json";
