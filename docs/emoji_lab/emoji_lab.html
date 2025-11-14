@@ -598,7 +598,7 @@
       return map[code] || code || "—";
     }
 
-    // 🔡 Diccionari gran paraula → llista d'emojis possibles
+    // 🔡 Diccionari paraula → emojis
 const EMOJI_WORD_MAP = {
   // AMOR / RELACIONS
   "amor": ["❤️","💘","💖","💓","💞","💝","💗"],
@@ -940,7 +940,7 @@ const EMOJI_WORD_MAP = {
 };
 
 
-    // Frases o patrons especials (multi-paraula)
+    // Frases o patrons especials
     const EMOJI_PATTERNS = [
       { re: /camisa negra/, emojis: ["👔","⚫"] },
       { re: /la gent que estimo/, emojis: ["👥","❤️"] },
@@ -954,7 +954,7 @@ const EMOJI_WORD_MAP = {
       { re: /bad romance/, emojis: ["💔","😵‍💫","💃"] }
     ];
 
-    // 🔥 GENERADOR D'EMOJIS LOCAL (títol + mood)
+    // 🔥 GENERADOR LOCAL
     function suggestEmojis(song){
       const rawTitle = (song.title || "").trim();
       if(!rawTitle) return "🎵";
@@ -1009,15 +1009,27 @@ const EMOJI_WORD_MAP = {
       return dedup.join(" ");
     }
 
-    // 🔗 Crida al Worker d'IA (ara amb hint + currentEmojis)
+    // 🔗 Crida al Worker d'IA (ara també amb camp `prompt`)
     async function fetchAIEmojisForSong(song, opts = {}) {
+      const hint = opts.hint || "";
+      const current = opts.currentEmojis || "";
+
       const payload = {
         title: song.title,
         artist: song.artist,
         language: song.language,
         mood: song.mood || [],
-        hint: opts.hint || "",
-        currentEmojis: opts.currentEmojis || ""
+        hint,
+        currentEmojis: current,
+        // 👉 camp extra per si el worker només mira `prompt`
+        prompt:
+          `Genera una combinació d'emojis per aquesta cançó.\n` +
+          `Títol: ${song.title || ""}\n` +
+          `Artista: ${song.artist || ""}\n` +
+          `Idioma: ${song.language || ""}\n` +
+          `Mood: ${(song.mood || []).join(", ")}\n` +
+          `Emojis actuals: ${current || "(cap)"}\n` +
+          `Pista de l'usuari: ${hint || "(sense pista específicada)"}`
       };
 
       try {
@@ -1040,7 +1052,7 @@ const EMOJI_WORD_MAP = {
       }
     }
 
-    // Actualitza l'estat visual dels botons de vista
+    // Botons de vista
     function updateViewButtons(){
       const mode = state.viewMode || "pending";
       $("btnViewPending").classList.toggle("active", mode === "pending");
@@ -1048,7 +1060,7 @@ const EMOJI_WORD_MAP = {
       $("btnViewDeleted").classList.toggle("active", mode === "deleted");
     }
 
-    // Filtra cançons segons idioma, popularitat, vista (pendents/validades/eliminades)
+    // Filtrat
     function applyFilters(options = {}) {
       const resetIndex = options.resetIndex !== undefined ? options.resetIndex : true;
       const lang = state.lang || "all";
@@ -1057,11 +1069,8 @@ const EMOJI_WORD_MAP = {
 
       filteredSongs = allSongs.filter(s => {
         if (mode === "deleted") {
-          // Només cançons eliminades
           return !!state.deleted[s.id];
         }
-
-        // Per la resta de modes, amaguem les eliminades
         if (state.deleted[s.id]) return false;
 
         if (lang !== "all" && s.language !== lang) return false;
@@ -1180,14 +1189,12 @@ const EMOJI_WORD_MAP = {
         });
       }
 
-      // Text i comportament del botó eliminar / recuperar
       if (mode === "deleted") {
         $("btnDeleteSong").textContent = "♻️ Recuperar aquesta cançó";
       } else {
         $("btnDeleteSong").textContent = "🗑️ Eliminar aquesta cançó";
       }
 
-      // Barra de progrés global (sobre totes les actives)
       const totalSongs = allSongs.filter(s => !state.deleted[s.id]).length;
       const validatedCount = Object.keys(state.validated).filter(id => !state.deleted[id]).length;
       const percentRaw = totalSongs ? (validatedCount * 100 / totalSongs) : 0;
