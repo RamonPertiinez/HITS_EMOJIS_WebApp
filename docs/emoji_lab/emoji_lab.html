@@ -831,23 +831,36 @@
       }
     }
 
-    function applyFilters(){
-      const lang = state.lang || "all";
-      const minPop = Number(state.minPop) || 0;
+function applyFilters(options = {}) {
+  // per defecte, quan canvies idioma / popularitat = tornem a l'inici
+  const resetIndex = options.resetIndex !== undefined ? options.resetIndex : true;
 
-      filteredSongs = allSongs.filter(s => {
-        if(state.deleted[s.id]) return false;
-        if(lang !== "all" && s.language !== lang) return false;
-        if(typeof s.popularity === "number" && !isNaN(s.popularity)){
-          if(s.popularity < minPop) return false;
-        }
-        return true;
-      });
+  const lang = state.lang || "all";
+  const minPop = Number(state.minPop) || 0;
 
-      filteredSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
-      currentIndex = 0;
-      render();
+  filteredSongs = allSongs.filter(s => {
+    if (state.deleted[s.id]) return false;
+    if (lang !== "all" && s.language !== lang) return false;
+    if (typeof s.popularity === "number" && !isNaN(s.popularity)) {
+      if (s.popularity < minPop) return false;
     }
+    return true;
+  });
+
+  filteredSongs.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+
+  if (resetIndex) {
+    // canvi de filtres → tornem al principi
+    currentIndex = 0;
+  } else {
+    // eliminant cançó → mantenim la posició, o anem cap enrere si érem a l'última
+    if (currentIndex >= filteredSongs.length) {
+      currentIndex = Math.max(0, filteredSongs.length - 1);
+    }
+  }
+
+  render();
+}
 
     function render(){
       const total = filteredSongs.length;
@@ -970,7 +983,9 @@
       state.deleted[song.id] = true;
       delete state.validated[song.id];
       saveState();
-      applyFilters();
+
+      // 👇 mantenim la posició (no tornem a la primera cançó)
+      applyFilters({ resetIndex: false });
     }
 
     function downloadJson(){
