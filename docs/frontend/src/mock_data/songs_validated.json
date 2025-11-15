@@ -110,5 +110,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-15T05:02:45.902Z"
+  },
+  {
+    "id": "98cacc54-0d7d-42c1-ba5e-2a9799ce93a5",
+    "emojis": "🌞🌜",
+    "hint1": "EL YIN I EL YAN",
+    "hint2": "OQUES I JULIETA",
+    "hint3Options": [
+      "SOL",
+      "COM EL DIA I LA NIT",
+      "SOL SOLET",
+      "NOCTURN"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-15T05:07:19.246Z"
   }
 ]
