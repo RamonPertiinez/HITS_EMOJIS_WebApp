@@ -195,5 +195,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-15T05:24:17.795Z"
+  },
+  {
+    "id": "2e254483-02f7-47c9-9ccb-263606f22975",
+    "emojis": "🪂⬇️",
+    "hint1": "SINÒNIM DE TIRAR",
+    "hint2": "GRUP MÍTIC CATALÀ",
+    "hint3Options": [
+      "VOLAR",
+      "LLENÇA’T",
+      "TOT EM CAU",
+      "A LA DERIVA"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-15T05:27:32.048Z"
   }
 ]
