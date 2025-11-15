@@ -265,5 +265,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-15T07:56:02.755Z"
+  },
+  {
+    "id": "930ab424-89e6-49b7-ad58-d56634060267",
+    "emojis": "1️⃣0️⃣0️⃣0️⃣🐦🐦",
+    "hint1": "TXARANGO",
+    "hint2": "TXARANGO I JARABE DE PALO",
+    "hint3Options": [
+      "ELS OCELLS",
+      "VOLAR",
+      "ELS DIES QUE VINDRAN",
+      "MIL OCELLS"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-15T08:05:07.406Z"
   }
 ]
