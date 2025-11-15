@@ -70,5 +70,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-15T04:54:23.016Z"
+  },
+  {
+    "id": "3cc78e4c-901a-4f95-bd11-e1a3f378766a",
+    "emojis": "🐦🐦",
+    "hint1": "SER",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "SEREM OCELLS",
+      "JOHN BROWN",
+      "STA GUAI",
+      "FINALS BLAUS"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-15T04:57:33.760Z"
   }
 ]
