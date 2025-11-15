@@ -180,5 +180,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-15T05:18:09.389Z"
+  },
+  {
+    "id": "a7bf9de1-dbb3-4ddc-a2b7-147c912f1f7f",
+    "emojis": "🌊🌬️ - 🥣🐐",
+    "hint1": "COSTA BRAVA",
+    "hint2": "Molt tocat per la tramuntana",
+    "hint3Options": [
+      "CADAQUÉS",
+      "MAR",
+      "ÀNIMA",
+      "L’EMPORDÀ"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-15T05:24:17.795Z"
   }
 ]
