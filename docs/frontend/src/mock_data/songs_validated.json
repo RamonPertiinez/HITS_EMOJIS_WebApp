@@ -250,5 +250,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-15T07:49:46.434Z"
+  },
+  {
+    "id": "05d2ea6e-bbbb-4d68-8bfc-a83929fb6a5b",
+    "emojis": "🔨🔩🍻",
+    "hint1": "EL PRIMER EMOJI FA REFERÈNCIA A L'ACCIÓ DE CLAVAR",
+    "hint2": "MANÁ",
+    "hint3Options": [
+      "LA TABERNA DEL BUDDHA",
+      "EN EL MUELLE DE SAN BLAS",
+      "CLAVADO EN UN BAR",
+      "LA RAJA DE TU FALDA"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-15T07:56:02.755Z"
   }
 ]
