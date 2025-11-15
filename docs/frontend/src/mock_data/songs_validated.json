@@ -295,5 +295,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-15T08:13:15.493Z"
+  },
+  {
+    "id": "df88a0d1-4f72-474d-b2c1-e710bcaaa5b3",
+    "emojis": "😄🍑",
+    "hint1": "🎶 \"NO HE PERDUT LES GANES DE VIURE\"",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "SEXE I RELIGIÓ",
+      "CARA DE CUL",
+      "BULLDOG",
+      "LA GALLINA"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-15T08:18:06.666Z"
   }
 ]
