@@ -360,5 +360,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-15T08:26:23.467Z"
+  },
+  {
+    "id": "3278c596-b706-47e2-a8d6-b8ea74c8c297",
+    "emojis": "👖💧",
+    "hint1": "PANTALONS I AIGUA",
+    "hint2": "LA GOSSA SORDA",
+    "hint3Options": [
+      "PLORA I RIU",
+      "AIGUA FINS ELS GENOLLS",
+      "CAMALS MULLATS",
+      "LA PLATJA"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-15T08:46:09.157Z"
   }
 ]
