@@ -44,8 +44,17 @@
   {
     "id": "1067a750-c7eb-4723-9be6-82e9769423a0",
     "emojis": "🔄😊✨",
+    "hint1": "OQUES GRASSES",
+    "hint2": "TORNAR...",
+    "hint3Options": [
+      "SORT DE TU",
+      "LA GENT QUE ESTIMO",
+      "TORNO A SER JO",
+      "STA GUAI"
+    ],
+    "hint3CorrectIndex": 2,
     "deleted": false,
-    "updatedAt": "2025-11-15T04:13:16.661Z"
+    "updatedAt": "2025-11-15T04:53:31.736Z"
   },
   {
     "id": "99550ba3-2c07-489c-aa7c-9376a40f5d8a",
