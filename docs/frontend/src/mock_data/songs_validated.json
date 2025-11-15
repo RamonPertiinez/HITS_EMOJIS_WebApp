@@ -125,5 +125,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-15T05:07:19.246Z"
+  },
+  {
+    "id": "882a5957-ce80-49d7-bfba-9fcf31c24794",
+    "emojis": "👴👷‍♂️❌",
+    "hint1": "QUI NO TREBALLA?",
+    "hint2": "QUI SON LES PERSONES QUE JA NO TREBALLEN?",
+    "hint3Options": [
+      "JUBILAR-ME",
+      "TREBALLAR",
+      "FOTRE’M AL LLIT",
+      "NO TINC TEMPS"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-15T05:14:29.073Z"
   }
 ]
