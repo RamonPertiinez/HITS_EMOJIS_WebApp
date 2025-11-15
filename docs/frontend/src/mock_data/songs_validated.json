@@ -95,5 +95,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-15T04:58:20.408Z"
+  },
+  {
+    "id": "c1041020-9dd6-405c-9a53-d0f92f3037cf",
+    "emojis": "🌙💧",
+    "hint1": "UNA GOTA QUÈ ÉS?",
+    "hint2": "TXARANGO",
+    "hint3Options": [
+      "LA LLUNA",
+      "PLORAR PER TU",
+      "UNA LLUNA A L'AIGUA",
+      "NO PLORIS MÉS"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-15T05:02:45.902Z"
   }
 ]
