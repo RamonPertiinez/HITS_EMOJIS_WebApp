@@ -310,6 +310,67 @@
       font-size:12px;
       background:#050814;
     }
+
+    /* --- BLOCS DE PISTES --- */
+    .hints-block{
+      margin-top:10px;
+      padding:10px 10px 8px;
+      border-radius:14px;
+      background:rgba(5,8,20,.9);
+      border:1px solid rgba(255,255,255,.06);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:11px;
+      color:var(--muted);
+    }
+    .hints-title{
+      font-size:11px;
+      font-weight:500;
+      color:var(--accent);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .hint-row{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .hint-row label{
+      font-size:11px;
+      color:var(--muted);
+    }
+    .hint-row input[type="text"]{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      padding:6px 10px;
+      background:#050814;
+      color:var(--text);
+      font-size:12px;
+      outline:none;
+    }
+    .hint-row input[type="text"]:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(255,191,60,.3);
+    }
+    .hint3-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:4px;
+    }
+    .hint3-item{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .hint3-item input[type="radio"]{
+      accent-color:var(--accent-strong);
+    }
+    .hint3-item input[type="text"]{
+      flex:1;
+    }
+
     .buttons-row{
       display:flex;
       flex-wrap:wrap;
@@ -510,12 +571,49 @@
           <input id="aiHint" placeholder="Escriu aquí què vols que tingui la proposta d’emojis…" />
         </div>
 
+        <!-- BLOC DE PISTES DEL JOC -->
+        <div class="hints-block">
+          <div class="hints-title">🧩 Pistes per a aquesta cançó (per al joc)</div>
+
+          <div class="hint-row">
+            <label for="hint1">Pista 1 – text lliure (una primera ajuda suau)</label>
+            <input id="hint1" type="text" placeholder="Ex: És una cançó que fa referència a un número..." />
+          </div>
+
+          <div class="hint-row">
+            <label for="hint2">Pista 2 – text lliure (més clara que la primera)</label>
+            <input id="hint2" type="text" placeholder="Ex: Té relació amb els Estats Units..." />
+          </div>
+
+          <div class="hint-row">
+            <label>Pista 3 – 4 opcions (marca quina és la cançó correcta)</label>
+            <div class="hint3-grid">
+              <div class="hint3-item">
+                <input type="radio" name="hint3correct" id="hint3correct1" value="0" />
+                <input type="text" id="hint3opt1" placeholder="Opció 1" />
+              </div>
+              <div class="hint3-item">
+                <input type="radio" name="hint3correct" id="hint3correct2" value="1" />
+                <input type="text" id="hint3opt2" placeholder="Opció 2" />
+              </div>
+              <div class="hint3-item">
+                <input type="radio" name="hint3correct" id="hint3correct3" value="2" />
+                <input type="text" id="hint3opt3" placeholder="Opció 3" />
+              </div>
+              <div class="hint3-item">
+                <input type="radio" name="hint3correct" id="hint3correct4" value="3" />
+                <input type="text" id="hint3opt4" placeholder="Opció 4" />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="buttons-row">
           <button id="btnAccept" class="btn-primary">
             ✅ Acceptar i següent
           </button>
           <button id="btnSaveOnly" class="btn-primary outline">
-            ✏️ Només guardar emojis
+            ✏️ Només guardar emojis i pistes
           </button>
           <button id="btnSkip" class="btn-ghost">
             ⏭️ Saltar (no fer res)
@@ -556,24 +654,25 @@
     const VALIDATIONS_API_URL = EMOJI_API_URL + "/validations";
     const UPDATE_VALIDATION_URL = EMOJI_API_URL + "/update-validation";
 
-    // 🔗 Dades de cançons (fixe)
+    // 🔗 Dades de cançons (fitxer local)
     const SONGS_URL = "songs_local.json";
 
-    // 🔐 Clau de localStorage (cache local)
-    const stateKey = "hitsEmojiState_v1";
+    // 🔐 Clau de localStorage
+    const stateKey = "hitsEmojiState_v2"; // nova versió (accepta pistes)
 
     let allSongs = [];
     let filteredSongs = [];
     let currentIndex = 0;
     let currentSongId = null;
 
+    // state.validated[id] = { emojis, hint1, hint2, hint3Options[], hint3CorrectIndex }
     let state = {
-      validated: {}, // id -> emojis
-      deleted: {},   // id -> true
+      validated: {},
+      deleted: {},
       lang: "all",
       minPop: 0,
       style: "all",
-      viewMode: "pending" // "pending" | "validated" | "deleted"
+      viewMode: "pending"
     };
 
     function $(id){return document.getElementById(id);}
@@ -618,7 +717,6 @@
       return map[code] || code || "—";
     }
 
-    // Normalitzar text per filtres
     function normalizeText(str){
       return (str || "")
         .toLowerCase()
@@ -627,351 +725,317 @@
     }
 
     /* ------------------------------------------------------------
-       Diccionari de paraules → emojis (abreujat per espai)
-       (Has de mantenir aquí el teu EMOJI_WORD_MAP i EMOJI_PATTERNS
-       tal com ja el tenies; no el retallo per no perdre res.)
+       Diccionari de paraules → emojis
     ------------------------------------------------------------ */
 
-        // 🔡 Diccionari paraula → emojis
-   const EMOJI_WORD_MAP = {
-  // AMOR / RELACIONS
-  "amor": ["❤️","💘","💖","💓","💞","💝","💗"],
-  "estima": ["❤️","🤍","💞","💝"],
-  "enamorat": ["😍","🥰","❤️"],
-  "enamorada": ["😍","🥰","❤️"],
-  "enamorado": ["😍","🥰","❤️"],
-  "love": ["❤️","💕","💘","💗","💞"],
-  "heart": ["❤️","💓","💗","🫀"],
-  "cor": ["❤️","💓","🫀"],
-  "corazon": ["❤️","💓","💘"],
-  "beso": ["💋","😘","😙","💌"],
-  "kiss": ["💋","😘","😙"],
-  "abrazo": ["🤗","🫂"],
-  "abraç": ["🤗","🫂"],
-  "friends": ["👯‍♂️","👯‍♀️","🧑‍🤝‍🧑","👬","👭"],
-  "friend": ["🧑‍🤝‍🧑","👤","👥"],
-  "amics": ["🧑‍🤝‍🧑","👬","👭"],
-  "amigos": ["🧑‍🤝‍🧑","👬","👭"],
-  "pareja": ["👫","👩‍❤️‍👨","👩‍❤️‍👩","👨‍❤️‍👨"],
-  "parella": ["👫","👩‍❤️‍👨","👩‍❤️‍👩","👨‍❤️‍👨"],
-  "novio": ["👦","💘"],
-  "novia": ["👧","💘"],
-  "trencat": ["💔","😢"],
-  "roto": ["💔","😢"],
-  "celos": ["😒","😤","💚"],
-  "gelosia": ["😒","😤","💚"],
+    const EMOJI_WORD_MAP = {
+      // (TOT el teu diccionari tal com el tenies; no el toco)
+      // --- COMENÇA ---
+      "amor": ["❤️","💘","💖","💓","💞","💝","💗"],
+      "estima": ["❤️","🤍","💞","💝"],
+      "enamorat": ["😍","🥰","❤️"],
+      "enamorada": ["😍","🥰","❤️"],
+      "enamorado": ["😍","🥰","❤️"],
+      "love": ["❤️","💕","💘","💗","💞"],
+      "heart": ["❤️","💓","💗","🫀"],
+      "cor": ["❤️","💓","🫀"],
+      "corazon": ["❤️","💓","💘"],
+      "beso": ["💋","😘","😙","💌"],
+      "kiss": ["💋","😘","😙"],
+      "abrazo": ["🤗","🫂"],
+      "abraç": ["🤗","🫂"],
+      "friends": ["👯‍♂️","👯‍♀️","🧑‍🤝‍🧑","👬","👭"],
+      "friend": ["🧑‍🤝‍🧑","👤","👥"],
+      "amics": ["🧑‍🤝‍🧑","👬","👭"],
+      "amigos": ["🧑‍🤝‍🧑","👬","👭"],
+      "pareja": ["👫","👩‍❤️‍👨","👩‍❤️‍👩","👨‍❤️‍👨"],
+      "parella": ["👫","👩‍❤️‍👨","👩‍❤️‍👩","👨‍❤️‍👨"],
+      "novio": ["👦","💘"],
+      "novia": ["👧","💘"],
+      "trencat": ["💔","😢"],
+      "roto": ["💔","😢"],
+      "celos": ["😒","😤","💚"],
+      "gelosia": ["😒","😤","💚"],
+      "feliz": ["😊","😄","😁","😆"],
+      "feliç": ["😊","😄","😁","😆"],
+      "happy": ["😊","😄","😃","🌞"],
+      "alegria": ["😄","🎉","🥳","🤩"],
+      "triste": ["😢","😭","💔"],
+      "trist": ["😢","😭","💔"],
+      "sad": ["😢","😭","💧"],
+      "llorar": ["😭","💧","😢"],
+      "plorar": ["😭","💧","😢"],
+      "depresion": ["😞","😔","🌧️"],
+      "depressio": ["😞","😔","🌧️"],
+      "miedo": ["😱","😨","👻"],
+      "por": ["😱","😨","👻"],
+      "fear": ["😱","😨","👻"],
+      "enfadat": ["😡","😠","💢"],
+      "enojado": ["😡","😠","💢"],
+      "angry": ["😡","😠","💢"],
+      "locura": ["🤪","😜","🌀"],
+      "crazy": ["🤪","😜","🌀"],
+      "calma": ["😌","🌿","🧘‍♂️"],
+      "calm": ["😌","🌿","🧘‍♂️"],
+      "paz": ["🕊️","☮️","🤍"],
+      "pau": ["🕊️","☮️","🤍"],
+      "hope": ["🌈","✨","🤞"],
+      "esperanza": ["🌈","✨","🤞"],
+      "esperanca": ["🌈","✨","🤞"],
+      "fiesta": ["🎉","🥳","🍾","🎊"],
+      "festa": ["🎉","🥳","🍾","🎊"],
+      "party": ["🎉","🥳","🍾","🎊"],
+      "rave": ["🕺","💃","🎛️","⚡"],
+      "discoteca": ["🕺","💃","🎛️"],
+      "club": ["🕺","💃","🎧","🎛️"],
+      "concert": ["🎤","🎸","🎹","🎶"],
+      "concierto": ["🎤","🎸","🎹","🎶"],
+      "musica": ["🎵","🎶","🎧"],
+      "música": ["🎵","🎶","🎧"],
+      "song": ["🎵","🎶"],
+      "cancion": ["🎵","🎶"],
+      "cançó": ["🎵","🎶"],
+      "dance": ["💃","🕺","🎶"],
+      "ballar": ["💃","🕺","🎶"],
+      "karaoke": ["🎤","🎶"],
+      "dj": ["🎧","🎛️","💿"],
+      "festival": ["🎪","🎉","🎵"],
+      "sol": ["☀️","🌞","😎"],
+      "sun": ["☀️","🌞"],
+      "luna": ["🌙","🌜","✨"],
+      "lluna": ["🌙","🌜","✨"],
+      "moon": ["🌙","🌝","✨"],
+      "estrella": ["⭐","🌟","✨"],
+      "estrella fugaz": ["🌠","✨"],
+      "stars": ["⭐","🌟","✨"],
+      "cielo": ["🌤️","☁️","🌈"],
+      "sky": ["🌤️","☁️","🌈"],
+      "cel": ["🌤️","☁️","🌈"],
+      "nube": ["☁️","🌥️"],
+      "nuvol": ["☁️","🌥️"],
+      "rain": ["🌧️","☔","💧"],
+      "lluvia": ["🌧️","☔","💧"],
+      "pluja": ["🌧️","☔","💧"],
+      "tormenta": ["🌩️","⛈️","⚡"],
+      "storm": ["🌩️","⛈️","⚡"],
+      "arcoiris": ["🌈","✨"],
+      "arc de sant marti": ["🌈","✨"],
+      "rainbow": ["🌈","✨"],
+      "nieve": ["❄️","⛄","🌨️"],
+      "neu": ["❄️","⛄","🌨️"],
+      "snow": ["❄️","⛄","🌨️"],
+      "mar": ["🌊","🐚","⛵"],
+      "sea": ["🌊","🐚","⛵"],
+      "ocean": ["🌊","🐬","🐚"],
+      "oceano": ["🌊","🐬","🐚"],
+      "playa": ["🏖️","🌊","🌴"],
+      "platja": ["🏖️","🌊","🌅"],
+      "beach": ["🏖️","🌊","🌴"],
+      "isla": ["🏝️","🌴","🌊"],
+      "illa": ["🏝️","🌴","🌊"],
+      "island": ["🏝️","🌴","🌊"],
+      "barco": ["⛵","🚤","🛳️"],
+      "vaixell": ["⛵","🚤","🛳️"],
+      "boat": ["⛵","🚤","🛶"],
+      "viaje": ["🧳","✈️","🚆","🌍"],
+      "viatge": ["🧳","✈️","🚗","🌍"],
+      "trip": ["🧳","✈️","🌍"],
+      "travel": ["🧳","✈️","🌍"],
+      "aventura": ["🧭","🏕️","🗺️"],
+      "adventure": ["🧭","🏕️","🗺️"],
+      "ciudad": ["🌆","🏙️","🚇"],
+      "ciutat": ["🌆","🏙️","🚇"],
+      "city": ["🌆","🏙️","🚇"],
+      "pueblo": ["🏘️","🏡"],
+      "poble": ["🏘️","🏡"],
+      "casa": ["🏠","🏡"],
+      "home": ["🏠","🏡"],
+      "llar": ["🏠","🏡"],
+      "bar": ["🍻","🍺","🍷"],
+      "coche": ["🚗","🚙","🏎️"],
+      "cotxe": ["🚗","🚙","🏎️"],
+      "car": ["🚗","🚙","🏎️"],
+      "moto": ["🏍️","🛵"],
+      "bike": ["🚲","🚴‍♂️"],
+      "bici": ["🚲","🚴‍♂️"],
+      "tren": ["🚆","🚞","🚄"],
+      "train": ["🚆","🚞","🚄"],
+      "avion": ["✈️","🛫","🛬"],
+      "avio": ["✈️","🛫","🛬"],
+      "plane": ["✈️","🛫","🛬"],
+      "bus": ["🚌","🚍"],
+      "autobus": ["🚌","🚍"],
+      "ship": ["🛳️","⛴️"],
+      "tiempo": ["⏳","⌛","⏰"],
+      "temps": ["⏳","⌛","⏰"],
+      "time": ["⏳","⌛","⏰"],
+      "ayer": ["📼","🕰️"],
+      "ahir": ["📼","🕰️"],
+      "yesterday": ["📼","🕰️"],
+      "hoy": ["📅","🕒"],
+      "avui": ["📅","🕒"],
+      "today": ["📅","🕒"],
+      "mañana": ["🌅","📅"],
+      "dema": ["🌅","📅"],
+      "tomorrow": ["🌅","📅"],
+      "siempre": ["♾️","✨"],
+      "sempre": ["♾️","✨"],
+      "forever": ["♾️","✨"],
+      "recuerdos": ["💭","🧠","📸"],
+      "records": ["💭","🧠","📸"],
+      "memories": ["💭","🧠","📸"],
+      "amarillo": ["🟡","🌕","✨"],
+      "groc": ["🟡","🌕","✨"],
+      "yellow": ["🟡","🌕","✨"],
+      "blue": ["🔵","💙","🌊"],
+      "blau": ["🔵","💙","🌊"],
+      "azul": ["🔵","💙","🌊"],
+      "rojo": ["🔴","❤️","🔥"],
+      "vermell": ["🔴","❤️","🔥"],
+      "red": ["🔴","❤️","🔥"],
+      "verde": ["🟢","💚","🌿"],
+      "verd": ["🟢","💚","🌿"],
+      "green": ["🟢","💚","🌿"],
+      "negro": ["⚫","🖤"],
+      "negra": ["⚫","🖤"],
+      "black": ["⚫","🖤"],
+      "blanco": ["⚪","🤍"],
+      "blanc": ["⚪","🤍"],
+      "white": ["⚪","🤍"],
+      "rosa": ["🌸","💖","🩷"],
+      "pink": ["🌸","💖","🩷"],
+      "uno": ["1️⃣"],
+      "un": ["1️⃣"],
+      "one": ["1️⃣"],
+      "dos": ["2️⃣","✌️"],
+      "two": ["2️⃣","✌️"],
+      "tres": ["3️⃣"],
+      "three": ["3️⃣"],
+      "cuatro": ["4️⃣"],
+      "quatre": ["4️⃣"],
+      "cinco": ["5️⃣"],
+      "cinc": ["5️⃣"],
+      "six": ["6️⃣"],
+      "siete": ["7️⃣"],
+      "set": ["7️⃣"],
+      "ocho": ["8️⃣"],
+      "vuit": ["8️⃣"],
+      "nueve": ["9️⃣"],
+      "nou": ["9️⃣"],
+      "diez": ["🔟"],
+      "deu": ["🔟"],
+      "mil": ["💯","🔟"],
+      "cien": ["💯"],
+      "hundred": ["💯"],
+      "perro": ["🐶","🐕"],
+      "gos": ["🐶","🐕"],
+      "dog": ["🐶","🐕"],
+      "gato": ["🐱","🐈"],
+      "gat": ["🐱","🐈"],
+      "cat": ["🐱","🐈"],
+      "lobo": ["🐺"],
+      "llop": ["🐺"],
+      "wolf": ["🐺"],
+      "leon": ["🦁"],
+      "lleo": ["🦁"],
+      "lion": ["🦁"],
+      "tigre": ["🐯"],
+      "tiger": ["🐯"],
+      "elefante": ["🐘"],
+      "elefant": ["🐘"],
+      "elephant": ["🐘"],
+      "pajaro": ["🐦","🕊️"],
+      "ocell": ["🐦","🕊️"],
+      "bird": ["🐦","🕊️"],
+      "mariposa": ["🦋"],
+      "papallona": ["🦋"],
+      "butterfly": ["🦋"],
+      "pez": ["🐟","🐠"],
+      "peix": ["🐟","🐠"],
+      "fish": ["🐟","🐠"],
+      "mono": ["🐵","🙈","🙉","🙊"],
+      "mico": ["🐵","🙈","🙉","🙊"],
+      "comida": ["🍽️","🍕","🍔","🍟"],
+      "menjar": ["🍽️","🍕","🍝","🍣"],
+      "food": ["🍽️","🍕","🍔"],
+      "pizza": ["🍕"],
+      "hamburguesa": ["🍔"],
+      "burger": ["🍔"],
+      "patatas": ["🍟"],
+      "patates": ["🍟"],
+      "sushi": ["🍣"],
+      "pasta": ["🍝"],
+      "tarta": ["🎂","🍰"],
+      "pastis": ["🎂","🍰"],
+      "cake": ["🎂","🍰"],
+      "cafe": ["☕","🧋"],
+      "cafè": ["☕","🧋"],
+      "coffee": ["☕","🧋"],
+      "cerveza": ["🍺","🍻"],
+      "birra": ["🍺","🍻"],
+      "beer": ["🍺","🍻"],
+      "vino": ["🍷"],
+      "vi": ["🍷"],
+      "wine": ["🍷"],
+      "cocktail": ["🍹","🍸"],
+      "trabajo": ["💼","🧑‍💻","🏢"],
+      "feina": ["💼","🧑‍💻","🏢"],
+      "work": ["💼","🧑‍💻","🏢"],
+      "dinero": ["💰","💵","💸"],
+      "diners": ["💰","💵","💸"],
+      "money": ["💰","💵","💸"],
+      "rico": ["💰","💎"],
+      "ric": ["💰","💎"],
+      "pobre": ["🥺","🪙"],
+      "pobreza": ["🥺","🪙"],
+      "telefono": ["📱","📞"],
+      "telefon": ["📱","📞"],
+      "phone": ["📱","📞"],
+      "smartphone": ["📱"],
+      "ordenador": ["💻","🖥️"],
+      "ordinador": ["💻","🖥️"],
+      "computer": ["💻","🖥️"],
+      "internet": ["🌐","📶","💻"],
+      "wifi": ["📶","📡"],
+      "video": ["🎥","📹"],
+      "foto": ["📷","📸"],
+      "camera": ["📷","📸"],
+      "futbol": ["⚽","🥅"],
+      "fútbol": ["⚽","🥅"],
+      "football": ["⚽","🥅"],
+      "basket": ["🏀"],
+      "basquet": ["🏀"],
+      "basketball": ["🏀"],
+      "tenis": ["🎾"],
+      "tennis": ["🎾"],
+      "correr": ["🏃‍♂️","🏃‍♀️"],
+      "running": ["🏃‍♂️","🏃‍♀️"],
+      "escalar": ["🧗‍♂️","🧗‍♀️"],
+      "climb": ["🧗‍♂️","🧗‍♀️"],
+      "gimnasio": ["🏋️‍♂️","🏋️‍♀️"],
+      "gimnas": ["🏋️‍♂️","🏋️‍♀️"],
+      "gym": ["🏋️‍♂️","🏋️‍♀️"],
+      "sueño": ["💤","💭","🌙"],
+      "somni": ["💤","💭","🌙"],
+      "dream": ["💤","💭","🌙"],
+      "magia": ["✨","🪄","🔮"],
+      "màgia": ["✨","🪄","🔮"],
+      "magic": ["✨","🪄","🔮"],
+      "dragon": ["🐉","🐲"],
+      "drac": ["🐉","🐲"],
+      "fantasma": ["👻"],
+      "ghost": ["👻"],
+      "vida": ["🌱","🌿","🌈"],
+      "life": ["🌱","🌿","🌈"],
+      "muerte": ["💀","⚰️"],
+      "mort": ["💀","⚰️"],
+      "war": ["⚔️","💣","🔥"],
+      "guerra": ["⚔️","💣","🔥"],
+      "libertad": ["🕊️","🗽","✨"],
+      "llibertat": ["🕊️","🗽","✨"],
+      "freedom": ["🕊️","🗽","✨"]
+    };
 
-  // EMOCIONS / ESTAT D'ÀNIM
-  "feliz": ["😊","😄","😁","😆"],
-  "feliç": ["😊","😄","😁","😆"],
-  "happy": ["😊","😄","😃","🌞"],
-  "alegria": ["😄","🎉","🥳","🤩"],
-  "triste": ["😢","😭","💔"],
-  "trist": ["😢","😭","💔"],
-  "sad": ["😢","😭","💧"],
-  "llorar": ["😭","💧","😢"],
-  "plorar": ["😭","💧","😢"],
-  "depresion": ["😞","😔","🌧️"],
-  "depressio": ["😞","😔","🌧️"],
-  "miedo": ["😱","😨","👻"],
-  "por": ["😱","😨","👻"],
-  "fear": ["😱","😨","👻"],
-  "enfadat": ["😡","😠","💢"],
-  "enojado": ["😡","😠","💢"],
-  "angry": ["😡","😠","💢"],
-  "locura": ["🤪","😜","🌀"],
-  "crazy": ["🤪","😜","🌀"],
-  "calma": ["😌","🌿","🧘‍♂️"],
-  "calm": ["😌","🌿","🧘‍♂️"],
-  "paz": ["🕊️","☮️","🤍"],
-  "pau": ["🕊️","☮️","🤍"],
-  "hope": ["🌈","✨","🤞"],
-  "esperanza": ["🌈","✨","🤞"],
-  "esperanca": ["🌈","✨","🤞"],
-
-  // FESTA / NIT / MÚSICA
-  "fiesta": ["🎉","🥳","🍾","🎊"],
-  "festa": ["🎉","🥳","🍾","🎊"],
-  "party": ["🎉","🥳","🍾","🎊"],
-  "rave": ["🕺","💃","🎛️","⚡"],
-  "discoteca": ["🕺","💃","🎛️"],
-  "club": ["🕺","💃","🎧","🎛️"],
-  "concert": ["🎤","🎸","🎹","🎶"],
-  "concierto": ["🎤","🎸","🎹","🎶"],
-  "musica": ["🎵","🎶","🎧"],
-  "música": ["🎵","🎶","🎧"],
-  "song": ["🎵","🎶"],
-  "cancion": ["🎵","🎶"],
-  "cançó": ["🎵","🎶"],
-  "dance": ["💃","🕺","🎶"],
-  "ballar": ["💃","🕺","🎶"],
-  "karaoke": ["🎤","🎶"],
-  "dj": ["🎧","🎛️","💿"],
-  "festival": ["🎪","🎉","🎵"],
-
-  // NATURA / TEMPS / CEL
-  "sol": ["☀️","🌞","😎"],
-  "sun": ["☀️","🌞"],
-  "luna": ["🌙","🌜","✨"],
-  "lluna": ["🌙","🌜","✨"],
-  "moon": ["🌙","🌝","✨"],
-  "estrella": ["⭐","🌟","✨"],
-  "estrella fugaz": ["🌠","✨"],
-  "stars": ["⭐","🌟","✨"],
-  "cielo": ["🌤️","☁️","🌈"],
-  "sky": ["🌤️","☁️","🌈"],
-  "cel": ["🌤️","☁️","🌈"],
-  "nube": ["☁️","🌥️"],
-  "nuvol": ["☁️","🌥️"],
-  "rain": ["🌧️","☔","💧"],
-  "lluvia": ["🌧️","☔","💧"],
-  "pluja": ["🌧️","☔","💧"],
-  "tormenta": ["🌩️","⛈️","⚡"],
-  "storm": ["🌩️","⛈️","⚡"],
-  "arcoiris": ["🌈","✨"],
-  "arc de sant marti": ["🌈","✨"],
-  "rainbow": ["🌈","✨"],
-  "nieve": ["❄️","⛄","🌨️"],
-  "neu": ["❄️","⛄","🌨️"],
-  "snow": ["❄️","⛄","🌨️"],
-
-  // MAR / PLATJA / VIATGE
-  "mar": ["🌊","🐚","⛵"],
-  "sea": ["🌊","🐚","⛵"],
-  "ocean": ["🌊","🐬","🐚"],
-  "oceano": ["🌊","🐬","🐚"],
-  "playa": ["🏖️","🌊","🌴"],
-  "platja": ["🏖️","🌊","🌅"],
-  "beach": ["🏖️","🌊","🌴"],
-  "isla": ["🏝️","🌴","🌊"],
-  "illa": ["🏝️","🌴","🌊"],
-  "island": ["🏝️","🌴","🌊"],
-  "barco": ["⛵","🚤","🛳️"],
-  "vaixell": ["⛵","🚤","🛳️"],
-  "boat": ["⛵","🚤","🛶"],
-  "viaje": ["🧳","✈️","🚆","🌍"],
-  "viatge": ["🧳","✈️","🚗","🌍"],
-  "trip": ["🧳","✈️","🌍"],
-  "travel": ["🧳","✈️","🌍"],
-  "aventura": ["🧭","🏕️","🗺️"],
-  "adventure": ["🧭","🏕️","🗺️"],
-
-  // CIUTAT / LLOCS
-  "ciudad": ["🌆","🏙️","🚇"],
-  "ciutat": ["🌆","🏙️","🚇"],
-  "city": ["🌆","🏙️","🚇"],
-  "pueblo": ["🏘️","🏡"],
-  "poble": ["🏘️","🏡"],
-  "casa": ["🏠","🏡"],
-  "home": ["🏠","🏡"],
-  "llar": ["🏠","🏡"],
-  "bar": ["🍻","🍺","🍷"],
-  "discoteca": ["🕺","💃","🎧"],
-
-  // VEHICLES
-  "coche": ["🚗","🚙","🏎️"],
-  "cotxe": ["🚗","🚙","🏎️"],
-  "car": ["🚗","🚙","🏎️"],
-  "moto": ["🏍️","🛵"],
-  "bike": ["🚲","🚴‍♂️"],
-  "bici": ["🚲","🚴‍♂️"],
-  "tren": ["🚆","🚞","🚄"],
-  "train": ["🚆","🚞","🚄"],
-  "avion": ["✈️","🛫","🛬"],
-  "avio": ["✈️","🛫","🛬"],
-  "plane": ["✈️","🛫","🛬"],
-  "bus": ["🚌","🚍"],
-  "autobus": ["🚌","🚍"],
-  "ship": ["🛳️","⛴️"],
-
-  // TEMPS / RECORDS
-  "tiempo": ["⏳","⌛","⏰"],
-  "temps": ["⏳","⌛","⏰"],
-  "time": ["⏳","⌛","⏰"],
-  "ayer": ["📼","🕰️"],
-  "ahir": ["📼","🕰️"],
-  "yesterday": ["📼","🕰️"],
-  "hoy": ["📅","🕒"],
-  "avui": ["📅","🕒"],
-  "today": ["📅","🕒"],
-  "mañana": ["🌅","📅"],
-  "dema": ["🌅","📅"],
-  "tomorrow": ["🌅","📅"],
-  "siempre": ["♾️","✨"],
-  "sempre": ["♾️","✨"],
-  "forever": ["♾️","✨"],
-  "recuerdos": ["💭","🧠","📸"],
-  "records": ["💭","🧠","📸"],
-  "memories": ["💭","🧠","📸"],
-
-  // COLORS
-  "amarillo": ["🟡","🌕","✨"],
-  "groc": ["🟡","🌕","✨"],
-  "yellow": ["🟡","🌕","✨"],
-  "blue": ["🔵","💙","🌊"],
-  "blau": ["🔵","💙","🌊"],
-  "azul": ["🔵","💙","🌊"],
-  "rojo": ["🔴","❤️","🔥"],
-  "vermell": ["🔴","❤️","🔥"],
-  "red": ["🔴","❤️","🔥"],
-  "verde": ["🟢","💚","🌿"],
-  "verd": ["🟢","💚","🌿"],
-  "green": ["🟢","💚","🌿"],
-  "negro": ["⚫","🖤"],
-  "negra": ["⚫","🖤"],
-  "black": ["⚫","🖤"],
-  "blanco": ["⚪","🤍"],
-  "blanc": ["⚪","🤍"],
-  "white": ["⚪","🤍"],
-  "rosa": ["🌸","💖","🩷"],
-  "pink": ["🌸","💖","🩷"],
-
-  // NÚMEROS / QUANTITATS
-  "uno": ["1️⃣"],
-  "un": ["1️⃣"],
-  "one": ["1️⃣"],
-  "dos": ["2️⃣","✌️"],
-  "two": ["2️⃣","✌️"],
-  "tres": ["3️⃣"],
-  "three": ["3️⃣"],
-  "cuatro": ["4️⃣"],
-  "quatre": ["4️⃣"],
-  "cinco": ["5️⃣"],
-  "cinc": ["5️⃣"],
-  "six": ["6️⃣"],
-  "siete": ["7️⃣"],
-  "set": ["7️⃣"],
-  "ocho": ["8️⃣"],
-  "vuit": ["8️⃣"],
-  "nueve": ["9️⃣"],
-  "nou": ["9️⃣"],
-  "diez": ["🔟"],
-  "deu": ["🔟"],
-  "mil": ["💯","🔟"],
-  "cien": ["💯"],
-  "hundred": ["💯"],
-
-  // ANIMALS
-  "perro": ["🐶","🐕"],
-  "gos": ["🐶","🐕"],
-  "dog": ["🐶","🐕"],
-  "gato": ["🐱","🐈"],
-  "gat": ["🐱","🐈"],
-  "cat": ["🐱","🐈"],
-  "lobo": ["🐺"],
-  "llop": ["🐺"],
-  "wolf": ["🐺"],
-  "leon": ["🦁"],
-  "lleo": ["🦁"],
-  "lion": ["🦁"],
-  "tigre": ["🐯"],
-  "tiger": ["🐯"],
-  "elefante": ["🐘"],
-  "elefant": ["🐘"],
-  "elephant": ["🐘"],
-  "pajaro": ["🐦","🕊️"],
-  "ocell": ["🐦","🕊️"],
-  "bird": ["🐦","🕊️"],
-  "mariposa": ["🦋"],
-  "papallona": ["🦋"],
-  "butterfly": ["🦋"],
-  "pez": ["🐟","🐠"],
-  "peix": ["🐟","🐠"],
-  "fish": ["🐟","🐠"],
-  "mono": ["🐵","🙈","🙉","🙊"],
-  "mico": ["🐵","🙈","🙉","🙊"],
-
-  // MENJAR / BEGUDES
-  "comida": ["🍽️","🍕","🍔","🍟"],
-  "menjar": ["🍽️","🍕","🍝","🍣"],
-  "food": ["🍽️","🍕","🍔"],
-  "pizza": ["🍕"],
-  "hamburguesa": ["🍔"],
-  "burger": ["🍔"],
-  "patatas": ["🍟"],
-  "patates": ["🍟"],
-  "sushi": ["🍣"],
-  "pasta": ["🍝"],
-  "tarta": ["🎂","🍰"],
-  "pastis": ["🎂","🍰"],
-  "cake": ["🎂","🍰"],
-  "cafe": ["☕","🧋"],
-  "cafè": ["☕","🧋"],
-  "coffee": ["☕","🧋"],
-  "cerveza": ["🍺","🍻"],
-  "birra": ["🍺","🍻"],
-  "beer": ["🍺","🍻"],
-  "vino": ["🍷"],
-  "vi": ["🍷"],
-  "wine": ["🍷"],
-  "cocktail": ["🍹","🍸"],
-
-  // TREBALL / DINERS
-  "trabajo": ["💼","🧑‍💻","🏢"],
-  "feina": ["💼","🧑‍💻","🏢"],
-  "work": ["💼","🧑‍💻","🏢"],
-  "dinero": ["💰","💵","💸"],
-  "diners": ["💰","💵","💸"],
-  "money": ["💰","💵","💸"],
-  "rico": ["💰","💎"],
-  "ric": ["💰","💎"],
-  "pobre": ["🥺","🪙"],
-  "pobreza": ["🥺","🪙"],
-
-  // TECNOLOGIA
-  "telefono": ["📱","📞"],
-  "telefon": ["📱","📞"],
-  "phone": ["📱","📞"],
-  "smartphone": ["📱"],
-  "ordenador": ["💻","🖥️"],
-  "ordinador": ["💻","🖥️"],
-  "computer": ["💻","🖥️"],
-  "internet": ["🌐","📶","💻"],
-  "wifi": ["📶","📡"],
-  "video": ["🎥","📹"],
-  "foto": ["📷","📸"],
-  "camera": ["📷","📸"],
-
-  // ESPORT / ACTIVITATS
-  "futbol": ["⚽","🥅"],
-  "fútbol": ["⚽","🥅"],
-  "football": ["⚽","🥅"],
-  "basket": ["🏀"],
-  "basquet": ["🏀"],
-  "basketball": ["🏀"],
-  "tenis": ["🎾"],
-  "tennis": ["🎾"],
-  "correr": ["🏃‍♂️","🏃‍♀️"],
-  "running": ["🏃‍♂️","🏃‍♀️"],
-  "escalar": ["🧗‍♂️","🧗‍♀️"],
-  "climb": ["🧗‍♂️","🧗‍♀️"],
-  "gimnasio": ["🏋️‍♂️","🏋️‍♀️"],
-  "gimnas": ["🏋️‍♂️","🏋️‍♀️"],
-  "gym": ["🏋️‍♂️","🏋️‍♀️"],
-
-  // FANTASIA / MÀGIA
-  "sueño": ["💤","💭","🌙"],
-  "somni": ["💤","💭","🌙"],
-  "dream": ["💤","💭","🌙"],
-  "magia": ["✨","🪄","🔮"],
-  "màgia": ["✨","🪄","🔮"],
-  "magic": ["✨","🪄","🔮"],
-  "dragon": ["🐉","🐲"],
-  "drac": ["🐉","🐲"],
-  "fantasma": ["👻"],
-  "ghost": ["👻"],
-
-  // GENERIC / EXTRA
-  "vida": ["🌱","🌿","🌈"],
-  "life": ["🌱","🌿","🌈"],
-  "muerte": ["💀","⚰️"],
-  "mort": ["💀","⚰️"],
-  "war": ["⚔️","💣","🔥"],
-  "guerra": ["⚔️","💣","🔥"],
-  "libertad": ["🕊️","🗽","✨"],
-  "llibertat": ["🕊️","🗽","✨"],
-  "freedom": ["🕊️","🗽","✨"]
-};
     const EMOJI_PATTERNS = [
       { re: /camisa negra/, emojis: ["👔","⚫"] },
       { re: /la gent que estimo/, emojis: ["👥","❤️"] },
@@ -1039,6 +1103,128 @@
       return dedup.join(" ");
     }
 
+    // 👉 helper per tenir l'entrada normalitzada
+    function getValidationEntryFromState(songId){
+      const raw = state.validated && state.validated[songId];
+      if(!raw) return null;
+
+      if(typeof raw === "string"){
+        return {
+          emojis: raw.trim(),
+          hint1: "",
+          hint2: "",
+          hint3Options: [],
+          hint3CorrectIndex: null
+        };
+      }
+
+      return {
+        emojis: (raw.emojis || "").trim(),
+        hint1: (raw.hint1 || "").trim(),
+        hint2: (raw.hint2 || "").trim(),
+        hint3Options: Array.isArray(raw.hint3Options)
+          ? raw.hint3Options.map(x => String(x || "").trim())
+          : [],
+        hint3CorrectIndex: (typeof raw.hint3CorrectIndex === "number"
+          ? raw.hint3CorrectIndex
+          : null)
+      };
+    }
+
+    function setValidationEntryInState(songId, entry){
+      if(
+        entry &&
+        (
+          (entry.emojis && entry.emojis.length) ||
+          (entry.hint1 && entry.hint1.length) ||
+          (entry.hint2 && entry.hint2.length) ||
+          (entry.hint3Options && entry.hint3Options.some(x => x && x.length))
+        )
+      ){
+        if(!state.validated) state.validated = {};
+        state.validated[songId] = {
+          emojis: entry.emojis || "",
+          hint1: entry.hint1 || "",
+          hint2: entry.hint2 || "",
+          hint3Options: Array.isArray(entry.hint3Options)
+            ? entry.hint3Options.map(x => String(x || "").trim())
+            : [],
+          hint3CorrectIndex: (typeof entry.hint3CorrectIndex === "number"
+            ? entry.hint3CorrectIndex
+            : null)
+        };
+      } else {
+        if(state.validated){
+          delete state.validated[songId];
+        }
+      }
+    }
+
+    // Llegeix pistes actuals del formulari
+    function getCurrentHintsFromUI(){
+      const hint1 = $("hint1").value.trim();
+      const hint2 = $("hint2").value.trim();
+      const hint3Options = [
+        $("hint3opt1").value.trim(),
+        $("hint3opt2").value.trim(),
+        $("hint3opt3").value.trim(),
+        $("hint3opt4").value.trim()
+      ];
+      let hint3CorrectIndex = null;
+      const radios = [
+        $("hint3correct1"),
+        $("hint3correct2"),
+        $("hint3correct3"),
+        $("hint3correct4")
+      ];
+      radios.forEach((r,idx) => {
+        if(r && r.checked){
+          hint3CorrectIndex = idx;
+        }
+      });
+      // si no hi ha cap opció amb text, ignorem l'índex
+      if(!hint3Options.some(x => x)){
+        hint3CorrectIndex = null;
+      }
+      return { hint1, hint2, hint3Options, hint3CorrectIndex };
+    }
+
+    // Omple el formulari de pistes a partir d'una entrada
+    function fillHintsUIFromEntry(entry){
+      entry = entry || {
+        emojis:"",
+        hint1:"",
+        hint2:"",
+        hint3Options:[],
+        hint3CorrectIndex:null
+      };
+      $("hint1").value = entry.hint1 || "";
+      $("hint2").value = entry.hint2 || "";
+      const opts = entry.hint3Options || [];
+
+      $("hint3opt1").value = opts[0] || "";
+      $("hint3opt2").value = opts[1] || "";
+      $("hint3opt3").value = opts[2] || "";
+      $("hint3opt4").value = opts[3] || "";
+
+      const radios = [
+        $("hint3correct1"),
+        $("hint3correct2"),
+        $("hint3correct3"),
+        $("hint3correct4")
+      ];
+      radios.forEach(r => { if(r) r.checked = false; });
+
+      if(typeof entry.hint3CorrectIndex === "number" &&
+         entry.hint3CorrectIndex >= 0 &&
+         entry.hint3CorrectIndex < 4 &&
+         opts[entry.hint3CorrectIndex]
+      ){
+        const r = radios[entry.hint3CorrectIndex];
+        if(r) r.checked = true;
+      }
+    }
+
     // Crida al Worker IA
     async function fetchAIEmojisForSong(song, opts = {}) {
       const hint = opts.hint || "";
@@ -1081,25 +1267,33 @@
       }
     }
 
-    // Enviar una validació/eliminació al servidor (Worker → GitHub)
-    async function sendValidationToServer(songId, emojis, deleted) {
-      try {
+    // Sincronitzar una cançó amb el Worker/GitHub
+    async function syncValidationWithServer(songId){
+      try{
+        const entry = getValidationEntryFromState(songId);
+        const deleted = !!(state.deleted && state.deleted[songId]);
         const payload = {
           songId: String(songId),
-          emojis: emojis || "",
-          deleted: !!deleted
+          emojis: entry ? (entry.emojis || "") : "",
+          deleted,
+          hint1: entry ? (entry.hint1 || "") : "",
+          hint2: entry ? (entry.hint2 || "") : "",
+          hint3Options: entry ? (entry.hint3Options || []) : [],
+          hint3CorrectIndex: entry && typeof entry.hint3CorrectIndex === "number"
+            ? entry.hint3CorrectIndex
+            : null
         };
         await fetch(UPDATE_VALIDATION_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-      } catch (e) {
+      }catch(e){
         console.warn("No s'ha pogut sincronitzar amb el servidor", e);
       }
     }
 
-    // Carregar validacions globals des de Worker (que llegeix GitHub)
+    // Carregar validacions globals (GitHub via Worker)
     async function loadRemoteValidationsIntoState() {
       try {
         const res = await fetch(VALIDATIONS_API_URL);
@@ -1112,7 +1306,7 @@
           ? json
           : (Array.isArray(json.entries) ? json.entries : []);
 
-        if (!entries || !entries.length) return;
+        if (!entries.length) return;
 
         state.validated = state.validated || {};
         state.deleted = state.deleted || {};
@@ -1120,15 +1314,26 @@
         for (const e of entries) {
           const id = String(e.id || "").trim();
           if (!id) continue;
-          const emo = (e.emojis || "").trim();
-          const del = !!e.deleted;
 
-          if (del) {
+          const entry = {
+            emojis: (e.emojis || "").trim(),
+            hint1: (e.hint1 || "").trim(),
+            hint2: (e.hint2 || "").trim(),
+            hint3Options: Array.isArray(e.hint3Options)
+              ? e.hint3Options.map(x => String(x || "").trim())
+              : [],
+            hint3CorrectIndex: (typeof e.hint3CorrectIndex === "number"
+              ? e.hint3CorrectIndex
+              : null)
+          };
+          const deleted = !!e.deleted;
+
+          if (deleted) {
             state.deleted[id] = true;
             delete state.validated[id];
-          } else if (emo) {
-            state.validated[id] = emo;
-            delete state.deleted[id];
+          } else {
+            state.deleted[id] = false;
+            setValidationEntryInState(id, entry);
           }
         }
 
@@ -1156,9 +1361,9 @@
 
       filteredSongs = allSongs.filter(s => {
         if (mode === "deleted") {
-          return !!state.deleted[s.id];
+          return !!(state.deleted && state.deleted[s.id]);
         }
-        if (state.deleted[s.id]) return false;
+        if (state.deleted && state.deleted[s.id]) return false;
 
         if (lang !== "all" && s.language !== lang) return false;
 
@@ -1174,8 +1379,11 @@
           if (!genresText.includes(styleNorm)) return false;
         }
 
-        if (mode === "pending" && state.validated[s.id]) return false;
-        if (mode === "validated" && !state.validated[s.id]) return false;
+        const entry = getValidationEntryFromState(s.id);
+        const hasEmojis = !!(entry && entry.emojis);
+
+        if (mode === "pending" && hasEmojis) return false;
+        if (mode === "validated" && !hasEmojis) return false;
 
         return true;
       });
@@ -1211,6 +1419,8 @@
         $("emojiSuggest").textContent = "";
         $("emojiInput").value = "";
         $("songIndexLabel").textContent = "0 / 0";
+
+        fillHintsUIFromEntry(null);
 
         let msg = "Cap cançó pendent amb aquests filtres.";
         if (mode === "validated") msg = "No hi ha cap cançó validada amb aquests filtres.";
@@ -1253,13 +1463,15 @@
       $("songSource").textContent =
         "Playlist original: " + (song.source_playlist || "—");
 
-      const existing = state.validated[song.id];
+      const entry = getValidationEntryFromState(song.id);
+      const existingEmojis = entry && entry.emojis;
 
       $("aiHint").value = "";
+      fillHintsUIFromEntry(entry || null);
 
-      if(existing){
-        $("emojiSuggest").textContent = existing || "—";
-        $("emojiInput").value = existing;
+      if(existingEmojis){
+        $("emojiSuggest").textContent = existingEmojis || "—";
+        $("emojiInput").value = existingEmojis;
         $("emojiStatusText").textContent = "✅ Ja validada (pots editar-la)";
       } else {
         const localSuggestion = suggestEmojis(song);
@@ -1269,13 +1481,13 @@
 
         fetchAIEmojisForSong(song).then(ai => {
           if (!ai) {
-            if (currentSongId === song.id && !state.validated[song.id]) {
+            if (currentSongId === song.id && !getValidationEntryFromState(song.id)?.emojis) {
               $("emojiStatusText").textContent = "✨ Proposta local (IA no disponible)";
             }
             return;
           }
 
-          if (currentSongId === song.id && !state.validated[song.id]) {
+          if (currentSongId === song.id && !getValidationEntryFromState(song.id)?.emojis) {
             if ($("emojiInput").value === localSuggestion) {
               $("emojiInput").value = ai;
               $("emojiSuggest").textContent = ai;
@@ -1291,15 +1503,20 @@
         $("btnDeleteSong").textContent = "🗑️ Eliminar aquesta cançó";
       }
 
-      const totalSongs = allSongs.filter(s => !state.deleted[s.id]).length;
-      const validatedCount = Object.keys(state.validated).filter(id => !state.deleted[id]).length;
+      const totalSongs = allSongs.filter(s => !(state.deleted && state.deleted[s.id])).length;
+      const validatedCount = Object.entries(state.validated || {}).filter(([id, val]) => {
+        const entry = getValidationEntryFromState(id);
+        return entry && entry.emojis && !(state.deleted && state.deleted[id]);
+      }).length;
+      const deletedCount = Object.keys(state.deleted || {}).filter(id => state.deleted[id]).length;
+
       const percentRaw = totalSongs ? (validatedCount * 100 / totalSongs) : 0;
       const percentText = percentRaw < 10
         ? percentRaw.toFixed(1)
         : Math.round(percentRaw).toString();
 
       $("summaryText").textContent =
-        `Validades: ${validatedCount} · Eliminades: ${Object.keys(state.deleted).length} · Total actives: ${totalSongs}`;
+        `Validades: ${validatedCount} · Eliminades: ${deletedCount} · Total actives: ${totalSongs}`;
       $("progressBarFill").style.width = Math.min(100, percentRaw) + "%";
       $("progressPercent").textContent = percentText + "%";
 
@@ -1314,57 +1531,74 @@
       render();
     }
 
-    function saveEmojisForCurrent(){
+    function saveCurrentSong(goNext){
       if(!filteredSongs.length) return;
       const song = filteredSongs[currentIndex];
-      const val = $("emojiInput").value.trim();
+      const emojis = $("emojiInput").value.trim();
+      const hints = getCurrentHintsFromUI();
 
-      if(val){
-        state.validated[song.id] = val;
-        state.deleted[song.id] = false;
-      }else{
-        delete state.validated[song.id];
-      }
+      const newEntry = {
+        emojis,
+        hint1: hints.hint1,
+        hint2: hints.hint2,
+        hint3Options: hints.hint3Options,
+        hint3CorrectIndex: hints.hint3CorrectIndex
+      };
+
+      setValidationEntryInState(song.id, newEntry);
+      if(!state.deleted) state.deleted = {};
+      state.deleted[song.id] = false;
+
       saveState();
-      render();
+      syncValidationWithServer(song.id);
 
-      // Sync servidor (si no hi ha emojis i no està eliminada → entrada esborra)
-      sendValidationToServer(song.id, val, !!state.deleted[song.id]);
+      if(goNext){
+        nextSong();
+      }else{
+        render();
+      }
     }
 
     function deleteCurrentSong(){
       if(!filteredSongs.length) return;
       const song = filteredSongs[currentIndex];
+      if(!state.deleted) state.deleted = {};
       state.deleted[song.id] = true;
-      delete state.validated[song.id];
+      setValidationEntryInState(song.id, null);
       saveState();
       applyFilters({ resetIndex: false });
-
-      sendValidationToServer(song.id, "", true);
+      syncValidationWithServer(song.id);
     }
 
     function restoreCurrentSong(){
       if (!filteredSongs.length) return;
       const song = filteredSongs[currentIndex];
-      delete state.deleted[song.id];
+      if(state.deleted){
+        delete state.deleted[song.id];
+      }
       saveState();
       applyFilters({ resetIndex: false });
-
-      const val = state.validated[song.id] || "";
-      sendValidationToServer(song.id, val, false);
+      syncValidationWithServer(song.id);
     }
 
     function downloadJson(){
-      const entries = allSongs.map(s => ({
-        id: s.id,
-        title: s.title,
-        artist: s.artist,
-        emojis: state.validated[s.id] || "",
-        deleted: !!state.deleted[s.id],
-        language: s.language,
-        decade: s.decade,
-        popularity: s.popularity
-      }));
+      const entries = allSongs.map(s => {
+        const entry = getValidationEntryFromState(s.id) || {};
+        return {
+          id: s.id,
+          title: s.title,
+          artist: s.artist,
+          emojis: entry.emojis || "",
+          hint1: entry.hint1 || "",
+          hint2: entry.hint2 || "",
+          hint3Options: entry.hint3Options || [],
+          hint3CorrectIndex: entry.hint3CorrectIndex,
+          deleted: !!(state.deleted && state.deleted[s.id]),
+          language: s.language,
+          decade: s.decade,
+          popularity: s.popularity
+        };
+      });
       const blob = new Blob(
         [JSON.stringify(entries,null,2)],
         {type:"application/json"}
@@ -1454,11 +1688,10 @@
       });
 
       $("btnAccept").addEventListener("click", () => {
-        saveEmojisForCurrent();
-        nextSong();
+        saveCurrentSong(true);
       });
       $("btnSaveOnly").addEventListener("click", () => {
-        saveEmojisForCurrent();
+        saveCurrentSong(false);
       });
       $("btnSkip").addEventListener("click", () => {
         nextSong();
@@ -1484,7 +1717,6 @@
       });
 
       try{
-        // 1) Carreguem cançons
         const res = await fetch(SONGS_URL);
         if(!res.ok){
           $("songTitle").textContent = "No s'ha pogut carregar songs_local.json";
@@ -1493,10 +1725,8 @@
         allSongs = await res.json();
         allSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
 
-        // 2) Carreguem validacions globals (GitHub via Worker)
         await loadRemoteValidationsIntoState();
 
-        // 3) Apliquem filtres
         applyFilters({ resetIndex: true });
       }catch(e){
         console.error(e);
