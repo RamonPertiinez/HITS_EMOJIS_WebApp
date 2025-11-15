@@ -330,5 +330,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-15T08:18:16.360Z"
+  },
+  {
+    "id": "5c2e5815-093b-40ae-a2d4-f3e7e821472e",
+    "emojis": "❓❤️ 🇮🇹",
+    "hint1": "PROVÉ D'UNA CNAÇÓ ITALIANA",
+    "hint2": "BUHOS",
+    "hint3Options": [
+      "TI AMO",
+      "ESTIMAR ÉS UN LLOC",
+      "SERÀ PERQUÈ T’ESTIMO",
+      "L’AMOR ÉS DÈBIL"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-15T08:22:35.147Z"
   }
 ]
