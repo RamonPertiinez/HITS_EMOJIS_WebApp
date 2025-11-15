@@ -59,7 +59,16 @@
   {
     "id": "99550ba3-2c07-489c-aa7c-9376a40f5d8a",
     "emojis": "🏃‍♂️🌾🎶",
+    "hint1": "ACCIÓ CÒRRER",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "CODA",
+      "RELLOTGE DE FANG",
+      "CANTIMPLORES",
+      "CÒRRER PELS CAMPS"
+    ],
+    "hint3CorrectIndex": 3,
     "deleted": false,
-    "updatedAt": "2025-11-15T04:13:19.800Z"
+    "updatedAt": "2025-11-15T04:54:23.016Z"
   }
 ]
