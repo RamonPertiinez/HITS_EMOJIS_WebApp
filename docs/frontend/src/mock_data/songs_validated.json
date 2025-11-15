@@ -155,5 +155,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-15T05:17:23.630Z"
+  },
+  {
+    "id": "05b9993c-360c-45bc-aaa6-1847db50ee18",
+    "emojis": "🏓",
+    "hint1": "TENIS TAULA",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "PING PONG",
+      "TENIS TAULA",
+      "TENIS",
+      "RAQUETA DE TENIS"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-15T05:18:02.087Z"
   }
 ]
