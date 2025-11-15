@@ -13,9 +13,18 @@
   },
   {
     "id": "3fab4ba2-dfa9-418a-bb6c-3799a115f52a",
-    "emojis": "👥 ❤️",
+    "emojis": "👨‍👩‍👧‍👦❤️",
+    "hint1": "ESTIMAR",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "SORT DE TU",
+      "LA GENT QUE ESTIMO",
+      "DE BONESH",
+      "STA GUAI"
+    ],
+    "hint3CorrectIndex": 1,
     "deleted": false,
-    "updatedAt": "2025-11-15T04:13:03.989Z"
+    "updatedAt": "2025-11-15T04:51:20.383Z"
   },
   {
     "id": "86512829-63b6-4116-9cfc-60ffae0ae75d",
