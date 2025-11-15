@@ -29,8 +29,17 @@
   {
     "id": "86512829-63b6-4116-9cfc-60ffae0ae75d",
     "emojis": "🐘🐘",
+    "hint1": "QUIN ANIMAL ÉS?",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "ELEFANTS",
+      "CÒRRER PELS CAMPS",
+      "STA GUAI",
+      "A TOPE AMB LA VIDA"
+    ],
+    "hint3CorrectIndex": 0,
     "deleted": false,
-    "updatedAt": "2025-11-15T04:13:12.659Z"
+    "updatedAt": "2025-11-15T04:52:18.045Z"
   },
   {
     "id": "1067a750-c7eb-4723-9be6-82e9769423a0",
