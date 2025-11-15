@@ -396,7 +396,7 @@
         <div>
           <h1>HITS with EMOJIS <span class="small">· Emoji Lab</span></h1>
           <div style="font-size:11px;color:var(--muted);">
-            Valida els emojis per cada cançó · es guarda al teu navegador
+            Valida els emojis per cada cançó · es guarda al teu navegador i al servidor
           </div>
         </div>
       </div>
@@ -419,7 +419,7 @@
             <option value="de">Alemany</option>
           </select>
         </div>
-        <!-- NOU FILTRE D'ESTIL -->
+        <!-- FILTRE D'ESTIL -->
         <div class="pill">
           <strong>Estil:</strong>
           <select id="styleFilter">
@@ -551,8 +551,11 @@
   </div>
 
   <script>
-    // 🔗 URL del Worker d’IA
-    const EMOJI_API_URL = "https://emoji-worker.ramonpertinez.workers.dev";
+    // 🔗 BASE del Worker
+    const WORKER_BASE_URL = "https://emoji-worker.ramonpertinez.workers.dev";
+    const EMOJI_API_URL = `${WORKER_BASE_URL}/emoji`;
+    const VALIDATIONS_URL = `${WORKER_BASE_URL}/validations`;
+    const UPDATE_VALIDATION_URL = `${WORKER_BASE_URL}/update-validation`;
 
     const SONGS_URL = "songs_local.json";
     const stateKey = "hitsEmojiState_v1";
@@ -566,7 +569,7 @@
       deleted: {},   // id -> true
       lang: "all",
       minPop: 0,
-      style: "all",  // 👈 nou filtre d'estil
+      style: "all",  // filtre d'estil
       viewMode: "pending" // "pending" | "validated" | "deleted"
     };
 
@@ -620,6 +623,7 @@
         .replace(/[\u0300-\u036f]/g, "");
     }
 
+    // 🔡 Diccionari paraula → emojis
     // 🔡 Diccionari paraula → emojis
    const EMOJI_WORD_MAP = {
   // AMOR / RELACIONS
@@ -1030,7 +1034,7 @@
       return dedup.join(" ");
     }
 
-    // 🔗 Crida al Worker d'IA (ara també amb camp `prompt`)
+    // 🔗 Crida al Worker d'IA
     async function fetchAIEmojisForSong(song, opts = {}) {
       const hint = opts.hint || "";
       const current = opts.currentEmojis || "";
@@ -1042,7 +1046,6 @@
         mood: song.mood || [],
         hint,
         currentEmojis: current,
-        // 👉 camp extra per si el worker només mira `prompt`
         prompt:
           `Genera una combinació d'emojis per aquesta cançó.\n` +
           `Títol: ${song.title || ""}\n` +
@@ -1070,6 +1073,58 @@
       } catch (e) {
         console.error("Error cridant Worker IA:", e);
         return null;
+      }
+    }
+
+    // 📡 Carregar validacions globals des del servidor
+    async function loadServerValidations(){
+      try{
+        const res = await fetch(VALIDATIONS_URL);
+        if(!res.ok){
+          console.warn("No s'han pogut carregar validacions del servidor:", await res.text());
+          return;
+        }
+        const list = await res.json();
+        if(!Array.isArray(list)) return;
+
+        list.forEach(entry => {
+          if(entry.songId && typeof entry.emojis === "string" && entry.emojis.trim()){
+            state.validated[entry.songId] = entry.emojis.trim();
+          }
+        });
+
+        saveState();
+      }catch(e){
+        console.error("Error carregant validacions del servidor:", e);
+      }
+    }
+
+    // 📤 Sincronitzar una validació concreta al servidor
+    async function syncValidationToServer(song, emojis){
+      if(!song || !song.id) return;
+
+      const payload = {
+        songId: song.id,
+        title: song.title,
+        artist: song.artist,
+        language: song.language,
+        mood: song.mood || [],
+        emojis: emojis || "",
+        validatedBy: "ramon",
+        status: emojis ? "validated" : "empty"
+      };
+
+      try{
+        const res = await fetch(UPDATE_VALIDATION_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if(!res.ok){
+          console.warn("No s'ha pogut sincronitzar validació amb servidor:", await res.text());
+        }
+      }catch(e){
+        console.error("Error sincronitzant validació al servidor:", e);
       }
     }
 
@@ -1254,12 +1309,16 @@
       if(!filteredSongs.length) return;
       const song = filteredSongs[currentIndex];
       const val = $("emojiInput").value.trim();
+
       if(val){
         state.validated[song.id] = val;
       }else{
         delete state.validated[song.id];
       }
+
       saveState();
+      // 🔁 sincronitza també amb el servidor
+      syncValidationToServer(song, val);
       render();
     }
 
@@ -1410,6 +1469,10 @@
         regenerateEmojisWithAI({ useHint: false, forceNew: true });
       });
 
+      // 1) Carreguem validades globals del servidor
+      await loadServerValidations();
+
+      // 2) Carreguem songs_local i apliquem filtres
       try{
         const res = await fetch(SONGS_URL);
         if(!res.ok){
