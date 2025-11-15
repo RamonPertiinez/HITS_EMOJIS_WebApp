@@ -551,25 +551,28 @@
   </div>
 
   <script>
-    // 🔗 BASE del Worker
-    const WORKER_BASE_URL = "https://emoji-worker.ramonpertinez.workers.dev";
-    const EMOJI_API_URL = `${WORKER_BASE_URL}/emoji`;
-    const VALIDATIONS_URL = `${WORKER_BASE_URL}/validations`;
-    const UPDATE_VALIDATION_URL = `${WORKER_BASE_URL}/update-validation`;
+    // 🔗 Worker
+    const EMOJI_API_URL = "https://emoji-worker.ramonpertinez.workers.dev";
+    const VALIDATIONS_API_URL = EMOJI_API_URL + "/validations";
+    const UPDATE_VALIDATION_URL = EMOJI_API_URL + "/update-validation";
 
+    // 🔗 Dades de cançons (fixe)
     const SONGS_URL = "songs_local.json";
+
+    // 🔐 Clau de localStorage (cache local)
     const stateKey = "hitsEmojiState_v1";
 
     let allSongs = [];
     let filteredSongs = [];
     let currentIndex = 0;
-    let currentSongId = null; // per evitar sobrescriure si canvies ràpid de cançó
+    let currentSongId = null;
+
     let state = {
       validated: {}, // id -> emojis
       deleted: {},   // id -> true
       lang: "all",
       minPop: 0,
-      style: "all",  // filtre d'estil
+      style: "all",
       viewMode: "pending" // "pending" | "validated" | "deleted"
     };
 
@@ -615,7 +618,7 @@
       return map[code] || code || "—";
     }
 
-    // 🔤 Normalitzar text (minúscules + treure accents) per comparar estils/genres
+    // Normalitzar text per filtres
     function normalizeText(str){
       return (str || "")
         .toLowerCase()
@@ -623,8 +626,13 @@
         .replace(/[\u0300-\u036f]/g, "");
     }
 
-    // 🔡 Diccionari paraula → emojis
-    // 🔡 Diccionari paraula → emojis
+    /* ------------------------------------------------------------
+       Diccionari de paraules → emojis (abreujat per espai)
+       (Has de mantenir aquí el teu EMOJI_WORD_MAP i EMOJI_PATTERNS
+       tal com ja el tenies; no el retallo per no perdre res.)
+    ------------------------------------------------------------ */
+
+        // 🔡 Diccionari paraula → emojis
    const EMOJI_WORD_MAP = {
   // AMOR / RELACIONS
   "amor": ["❤️","💘","💖","💓","💞","💝","💗"],
@@ -964,8 +972,6 @@
   "llibertat": ["🕊️","🗽","✨"],
   "freedom": ["🕊️","🗽","✨"]
 };
-
-    // Frases o patrons especials
     const EMOJI_PATTERNS = [
       { re: /camisa negra/, emojis: ["👔","⚫"] },
       { re: /la gent que estimo/, emojis: ["👥","❤️"] },
@@ -979,7 +985,6 @@
       { re: /bad romance/, emojis: ["💔","😵‍💫","💃"] }
     ];
 
-    // 🔥 GENERADOR LOCAL
     function suggestEmojis(song){
       const rawTitle = (song.title || "").trim();
       if(!rawTitle) return "🎵";
@@ -1034,7 +1039,7 @@
       return dedup.join(" ");
     }
 
-    // 🔗 Crida al Worker d'IA
+    // Crida al Worker IA
     async function fetchAIEmojisForSong(song, opts = {}) {
       const hint = opts.hint || "";
       const current = opts.currentEmojis || "";
@@ -1076,55 +1081,60 @@
       }
     }
 
-    // 📡 Carregar validacions globals des del servidor
-    async function loadServerValidations(){
-      try{
-        const res = await fetch(VALIDATIONS_URL);
-        if(!res.ok){
-          console.warn("No s'han pogut carregar validacions del servidor:", await res.text());
-          return;
-        }
-        const list = await res.json();
-        if(!Array.isArray(list)) return;
-
-        list.forEach(entry => {
-          if(entry.songId && typeof entry.emojis === "string" && entry.emojis.trim()){
-            state.validated[entry.songId] = entry.emojis.trim();
-          }
-        });
-
-        saveState();
-      }catch(e){
-        console.error("Error carregant validacions del servidor:", e);
-      }
-    }
-
-    // 📤 Sincronitzar una validació concreta al servidor
-    async function syncValidationToServer(song, emojis){
-      if(!song || !song.id) return;
-
-      const payload = {
-        songId: song.id,
-        title: song.title,
-        artist: song.artist,
-        language: song.language,
-        mood: song.mood || [],
-        emojis: emojis || "",
-        validatedBy: "ramon",
-        status: emojis ? "validated" : "empty"
-      };
-
-      try{
-        const res = await fetch(UPDATE_VALIDATION_URL, {
+    // Enviar una validació/eliminació al servidor (Worker → GitHub)
+    async function sendValidationToServer(songId, emojis, deleted) {
+      try {
+        const payload = {
+          songId: String(songId),
+          emojis: emojis || "",
+          deleted: !!deleted
+        };
+        await fetch(UPDATE_VALIDATION_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-        if(!res.ok){
-          console.warn("No s'ha pogut sincronitzar validació amb servidor:", await res.text());
+      } catch (e) {
+        console.warn("No s'ha pogut sincronitzar amb el servidor", e);
+      }
+    }
+
+    // Carregar validacions globals des de Worker (que llegeix GitHub)
+    async function loadRemoteValidationsIntoState() {
+      try {
+        const res = await fetch(VALIDATIONS_API_URL);
+        if (!res.ok) {
+          console.warn("No s'han pogut carregar validacions globals:", res.status);
+          return;
         }
-      }catch(e){
-        console.error("Error sincronitzant validació al servidor:", e);
+        const json = await res.json();
+        const entries = Array.isArray(json)
+          ? json
+          : (Array.isArray(json.entries) ? json.entries : []);
+
+        if (!entries || !entries.length) return;
+
+        state.validated = state.validated || {};
+        state.deleted = state.deleted || {};
+
+        for (const e of entries) {
+          const id = String(e.id || "").trim();
+          if (!id) continue;
+          const emo = (e.emojis || "").trim();
+          const del = !!e.deleted;
+
+          if (del) {
+            state.deleted[id] = true;
+            delete state.validated[id];
+          } else if (emo) {
+            state.validated[id] = emo;
+            delete state.deleted[id];
+          }
+        }
+
+        saveState();
+      } catch (e) {
+        console.warn("Error carregant validacions globals", e);
       }
     }
 
@@ -1156,7 +1166,6 @@
           if (s.popularity < minPop) return false;
         }
 
-        // 🔎 Filtre per estil (mirant el camp `genres`)
         if (style !== "all") {
           const styleNorm = normalizeText(style);
           const genresText = normalizeText(
@@ -1312,14 +1321,15 @@
 
       if(val){
         state.validated[song.id] = val;
+        state.deleted[song.id] = false;
       }else{
         delete state.validated[song.id];
       }
-
       saveState();
-      // 🔁 sincronitza també amb el servidor
-      syncValidationToServer(song, val);
       render();
+
+      // Sync servidor (si no hi ha emojis i no està eliminada → entrada esborra)
+      sendValidationToServer(song.id, val, !!state.deleted[song.id]);
     }
 
     function deleteCurrentSong(){
@@ -1329,6 +1339,8 @@
       delete state.validated[song.id];
       saveState();
       applyFilters({ resetIndex: false });
+
+      sendValidationToServer(song.id, "", true);
     }
 
     function restoreCurrentSong(){
@@ -1337,6 +1349,9 @@
       delete state.deleted[song.id];
       saveState();
       applyFilters({ resetIndex: false });
+
+      const val = state.validated[song.id] || "";
+      sendValidationToServer(song.id, val, false);
     }
 
     function downloadJson(){
@@ -1364,7 +1379,6 @@
       URL.revokeObjectURL(url);
     }
 
-    // 🔁 Re-generar emojis amb pista o sense
     async function regenerateEmojisWithAI({ useHint = false, forceNew = false } = {}) {
       if (!filteredSongs.length) return;
       const song = filteredSongs[currentIndex];
@@ -1469,11 +1483,8 @@
         regenerateEmojisWithAI({ useHint: false, forceNew: true });
       });
 
-      // 1) Carreguem validades globals del servidor
-      await loadServerValidations();
-
-      // 2) Carreguem songs_local i apliquem filtres
       try{
+        // 1) Carreguem cançons
         const res = await fetch(SONGS_URL);
         if(!res.ok){
           $("songTitle").textContent = "No s'ha pogut carregar songs_local.json";
@@ -1481,6 +1492,11 @@
         }
         allSongs = await res.json();
         allSongs.sort((a,b) => (b.popularity||0) - (a.popularity||0));
+
+        // 2) Carreguem validacions globals (GitHub via Worker)
+        await loadRemoteValidationsIntoState();
+
+        // 3) Apliquem filtres
         applyFilters({ resetIndex: true });
       }catch(e){
         console.error(e);
