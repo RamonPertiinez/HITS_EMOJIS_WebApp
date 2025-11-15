@@ -140,5 +140,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-15T05:14:29.073Z"
+  },
+  {
+    "id": "c7f5d86f-f8ad-48f5-bedd-6253556e0991",
+    "emojis": "🎈⬆️",
+    "hint1": "QUÈ FAN ELS GLOBOS?",
+    "hint2": "TXARANGO",
+    "hint3Options": [
+      "VOLAR",
+      "LLUNY DE TOT",
+      "QUAN TOT S’ENLAIRA",
+      "A L’AIRE"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-15T05:17:23.630Z"
   }
 ]
