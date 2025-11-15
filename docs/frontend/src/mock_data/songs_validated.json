@@ -280,5 +280,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-15T08:05:07.406Z"
+  },
+  {
+    "id": "59550fee-960e-418a-b25e-642077c199d9",
+    "emojis": "🚶🛣️🛤️",
+    "hint1": "AMARAL LA VA CANTAR",
+    "hint2": "SOPA DE CABRA",
+    "hint3Options": [
+      "VIATGE A ÍTACA",
+      "CAMINS",
+      "EL VIATGE",
+      "A PEU"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-15T08:13:15.493Z"
   }
 ]
