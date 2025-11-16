@@ -1220,5 +1220,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-16T12:20:48.929Z"
+  },
+  {
+    "id": "e370563a-0973-4b31-a07a-23ed580df2cc",
+    "emojis": "➖❌ 🤝🏼",
+    "hint1": "Li he escrit 20 cançons i qui sap si en faré més",
+    "hint2": "Ginestà",
+    "hint3Options": [
+      "Això s'acaba aquí",
+      "Mudats de pell",
+      "Folk Tendre",
+      "Deixar-se anar la mà"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-16T12:31:01.960Z"
   }
 ]
