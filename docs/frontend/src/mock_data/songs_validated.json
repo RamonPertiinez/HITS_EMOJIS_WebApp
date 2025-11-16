@@ -480,5 +480,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T00:53:43.070Z"
+  },
+  {
+    "id": "b9e44a76-32d8-41f9-b8a7-978c281a3fa3",
+    "emojis": "✨🐚🪸🌊",
+    "hint1": "UN FT. AMB OQUES GRASSES",
+    "hint2": "ÀNIMA DE...",
+    "hint3Options": [
+      "UNA LLUNA A L’AIGUA",
+      "ÀNIMA DE CORALL",
+      "LA PLATJA",
+      "AL MAR!"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:57:51.588Z"
   }
 ]
