@@ -765,5 +765,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-16T08:29:49.281Z"
+  },
+  {
+    "id": "3c3c9203-fd48-45df-93b4-e2d2136c47a4",
+    "emojis": "👨‍🦰🟤",
+    "hint1": "MARRÓ EN ANGLÈS?",
+    "hint2": "TE CARA DE...?",
+    "hint3Options": [
+      "JOHN BROWN",
+      "LUKE BROWN",
+      "JOAN BROWN",
+      "JOAN MARRÓ"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:31:33.883Z"
   }
 ]
