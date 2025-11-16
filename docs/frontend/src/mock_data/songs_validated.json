@@ -800,5 +800,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T08:31:43.457Z"
+  },
+  {
+    "id": "4801e10e-ea37-47bf-a9ea-187b8a12882f",
+    "emojis": "🍭🍬👱‍♀️🇬🇧",
+    "hint1": "ÉS UNA CANÇO ANGLESA MOLT FAMOSA...",
+    "hint2": "🦉",
+    "hint3Options": [
+      "CANDY CAROLINE",
+      "CANDY JANE",
+      "SWEET CAROLINE",
+      "SWEET JANE"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:45:27.360Z"
   }
 ]
