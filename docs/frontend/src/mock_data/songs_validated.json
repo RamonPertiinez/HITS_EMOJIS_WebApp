@@ -1130,5 +1130,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T10:23:08.592Z"
+  },
+  {
+    "id": "6a13161d-426b-4a7d-94bb-b38bbe19b074",
+    "emojis": "🌙🎶✨",
+    "hint1": "the naino-naino",
+    "hint2": "Oques Grasses",
+    "hint3Options": [
+      "The nights",
+      "Night changes",
+      "Nightcrawler",
+      "In the night"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-16T10:40:05.413Z"
   }
 ]
