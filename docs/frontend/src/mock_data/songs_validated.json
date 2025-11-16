@@ -1350,5 +1350,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-16T18:52:35.039Z"
+  },
+  {
+    "id": "9a162914-3d80-4d5a-b7e1-4ef538cf60ab",
+    "emojis": "☮️🧍",
+    "hint1": "i a l'habitació somia amb una gironina",
+    "hint2": "Els Pets",
+    "hint3Options": [
+      "Jordi Puig",
+      "Pau",
+      "Dissimulat",
+      "L'home estàtic"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T19:01:43.770Z"
   }
 ]
