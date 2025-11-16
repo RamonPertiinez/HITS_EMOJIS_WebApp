@@ -1145,5 +1145,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-16T10:40:05.413Z"
+  },
+  {
+    "id": "e1aff592-3be9-462f-8fb6-8ae8a128f839",
+    "emojis": "🧨🧨💥",
+    "hint1": "All your shadows and la-la-la, lights",
+    "hint2": "Oques Grasses",
+    "hint3Options": [
+      "Suenan los petardos",
+      "Soy un petardo",
+      "Firecracker",
+      "Petar-ho"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-16T10:55:49.909Z"
   }
 ]
