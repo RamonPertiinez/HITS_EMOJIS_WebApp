@@ -1320,5 +1320,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-16T18:36:14.195Z"
+  },
+  {
+    "id": "67123272-0b3a-45ee-958b-1552e422de31",
+    "emojis": "🗣️🤔",
+    "hint1": "Mai he sigut el més valent",
+    "hint2": "DePol",
+    "hint3Options": [
+      "Digue'm",
+      "Digue'm que m'estimes",
+      "Digue-n'hi com vulguis",
+      "Digue'm tan sols si has pensat"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-16T18:45:30.198Z"
   }
 ]
