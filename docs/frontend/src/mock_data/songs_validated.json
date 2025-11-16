@@ -510,5 +510,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T00:59:13.355Z"
+  },
+  {
+    "id": "32db12e8-427e-4de5-ad91-0a79f87e89ad",
+    "emojis": "🚫😊🎶",
+    "hint1": "",
+    "hint2": "",
+    "hint3Options": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "hint3CorrectIndex": null,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:59:44.915Z"
   }
 ]
