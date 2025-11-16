@@ -1190,5 +1190,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-16T11:32:55.667Z"
+  },
+  {
+    "id": "e9addc3e-257e-4606-8df9-d3fb22fe6a62",
+    "emojis": "🌬️🌫️🎵",
+    "hint1": "hem omplert les veles de vent i ferides",
+    "hint2": "Oques Grasses",
+    "hint3Options": [
+      "Faves enlaire",
+      "Cap amunt",
+      "Cançó de L'Aire",
+      "Velocitat del lluç"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T12:13:39.726Z"
   }
 ]
