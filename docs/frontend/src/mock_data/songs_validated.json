@@ -615,5 +615,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-16T07:57:48.592Z"
+  },
+  {
+    "id": "ce29c5a6-2936-47ac-8fa3-21b6feefb7d1",
+    "emojis": "🦌",
+    "hint1": "PEL·LÍCULA MOLT FAMOSA",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "LALA",
+      "CÈRVOL",
+      "BAMBI",
+      "COM SI FOSSIS UN CÈRVOL"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T07:58:56.020Z"
   }
 ]
