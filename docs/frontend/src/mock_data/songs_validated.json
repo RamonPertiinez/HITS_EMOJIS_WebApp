@@ -1305,5 +1305,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T18:27:17.980Z"
+  },
+  {
+    "id": "6d2f746f-fd53-4a2f-9081-50849bf1e58c",
+    "emojis": "🌃🕛🔥",
+    "hint1": "Que la lluna sha enfadat per què ja no brilla al teu costat",
+    "hint2": "Buhos",
+    "hint3Options": [
+      "Crema la nit",
+      "La nit de Sant Joan",
+      "La nit està que crema",
+      "La nit sembla que serà nostra"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T18:36:14.195Z"
   }
 ]
