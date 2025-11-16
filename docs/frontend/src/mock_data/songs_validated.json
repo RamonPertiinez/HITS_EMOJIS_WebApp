@@ -495,5 +495,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T00:57:51.588Z"
+  },
+  {
+    "id": "0fb9ddea-55b6-44c2-8512-e77d6432ff2d",
+    "emojis": "🍑",
+    "hint1": "MÍTICA CATALANA",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "CARA DE CUL",
+      "CUL",
+      "PRÈSSEC",
+      "QUIN PRÈSSEC"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:59:13.355Z"
   }
 ]
