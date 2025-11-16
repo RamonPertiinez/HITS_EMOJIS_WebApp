@@ -835,5 +835,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T08:45:37.856Z"
+  },
+  {
+    "id": "3b1598c5-593f-4dff-b710-9adb2d60d5e0",
+    "emojis": "⏰🟫💧",
+    "hint1": "GOTA MARRÓ...?",
+    "hint2": "SI PLOU A LA TERRA ES GENERA...",
+    "hint3Options": [
+      "RELLOTGE DE FANG",
+      "FANG",
+      "QUAN CALLA LA PLUJA",
+      "TERRA"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:48:30.719Z"
   }
 ]
