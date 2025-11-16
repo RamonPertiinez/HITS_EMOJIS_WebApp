@@ -415,5 +415,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T00:42:08.285Z"
+  },
+  {
+    "id": "5f745b15-6f4b-4264-be97-c62019e60c47",
+    "emojis": "💃✨🥱➖👤",
+    "hint1": "UN GRUP AMB FLATULÈNCIES",
+    "hint2": "LA VIDA ÉS MOLT...",
+    "hint3Options": [
+      "SENSE TU",
+      "LA VIDA ÉS MOLT AVORRIDA SENSE EL TEU COS",
+      "VULL ESTAR AMB TU",
+      "QUE BONICA QUE ÉS LA VIDA SENSE TU"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:47:35.238Z"
   }
 ]
