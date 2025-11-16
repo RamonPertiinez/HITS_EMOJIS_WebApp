@@ -1245,5 +1245,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T12:32:33.007Z"
+  },
+  {
+    "id": "f2157ba3-8cd9-4599-ba5c-fee5b2e5ad6e",
+    "emojis": "🚜🌾",
+    "hint1": "Que sabem que tot va guai si ho fem amb temps",
+    "hint2": "Oques Grasses",
+    "hint3Options": [
+      "Bancals",
+      "Faves enlaire",
+      "Com està el pati",
+      "La Granja"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-16T12:41:32.585Z"
   }
 ]
