@@ -970,5 +970,15 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T09:21:02.120Z"
+  },
+  {
+    "id": "aeec4c7d-99d4-418a-978f-96a91e92bfb9",
+    "emojis": "",
+    "hint1": "",
+    "hint2": "",
+    "hint3Options": [],
+    "hint3CorrectIndex": null,
+    "deleted": true,
+    "updatedAt": "2025-11-16T09:21:05.291Z"
   }
 ]
