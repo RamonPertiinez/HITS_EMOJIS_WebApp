@@ -640,5 +640,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T08:07:38.626Z"
+  },
+  {
+    "id": "3b5f8da9-280d-466e-b862-9242f2186761",
+    "emojis": "💡🟡🖌️",
+    "hint1": "ELS ÚLTIMS DOS EMOJIS VAN JUNTS",
+    "hint2": "O0QUES GRASSES",
+    "hint3Options": [
+      "COLOR ESPERANÇA",
+      "LLUM",
+      "FOTOGRAFIES",
+      "LLUM FLUORESCENT"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:11:20.909Z"
   }
 ]
