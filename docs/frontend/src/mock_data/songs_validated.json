@@ -850,5 +850,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-16T08:48:30.719Z"
+  },
+  {
+    "id": "8bad87f5-40ca-4eb8-99e6-9e45c53749ec",
+    "emojis": "🏝️🇬🇷",
+    "hint1": "➡️ cap a una illa especial",
+    "hint2": "🛶 el viatge cap a...",
+    "hint3Options": [
+      "SANTORINI",
+      "ÍTACA",
+      "ÍOS",
+      "MILOS"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T09:13:58.559Z"
   }
 ]
