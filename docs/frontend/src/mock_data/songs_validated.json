@@ -455,5 +455,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T00:49:54.311Z"
+  },
+  {
+    "id": "e476441e-1094-4a39-8be7-0f6e6dc96fb4",
+    "emojis": "🐶😎",
+    "hint1": "UN MOOD... UN ESTIL",
+    "hint2": "QUAN FAS EL GOS QUIN MOOD TENS?",
+    "hint3Options": [
+      "BULLDOG",
+      "EL MEU GOS I JO",
+      "GOSSEJAR",
+      "GOS"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:53:36.728Z"
   }
 ]
