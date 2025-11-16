@@ -750,5 +750,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T08:28:10.411Z"
+  },
+  {
+    "id": "2c51d11e-40f8-4fa2-964d-d41beb374b4f",
+    "emojis": "➕👍❤️",
+    "hint1": "POST A INSTAGRAM",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "MÉS FOLLOWERS",
+      "MÉS POPUS",
+      "MÉS LIKES",
+      "MÉS CORS"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:29:49.281Z"
   }
 ]
