@@ -680,5 +680,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T08:14:34.128Z"
+  },
+  {
+    "id": "fd468bb8-8d69-4e1f-998c-e8c46c324286",
+    "emojis": "👣❕❕❕❕",
+    "hint1": "🎶... ES SOLEN FER SENSE ROBA",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "PASSES IMPORTANTS",
+      "4 PASSOS!",
+      "PASSOS IMPORTANTS",
+      "PASSES INTERESSANTS"
+    ],
+    "hint3CorrectIndex": null,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:26:40.459Z"
   }
 ]
