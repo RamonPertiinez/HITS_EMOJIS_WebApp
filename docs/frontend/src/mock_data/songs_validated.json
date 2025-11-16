@@ -600,5 +600,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T07:55:19.385Z"
+  },
+  {
+    "id": "46ce7b13-7962-4478-9865-5daa26336142",
+    "emojis": "🤞",
+    "hint1": "QUAN DESITGES ALGO...",
+    "hint2": "🎶 ... SIGUI LLARG EL VIATGE",
+    "hint3Options": [
+      "ET DESITJO",
+      "ESPEREM QUE SIGUI BO",
+      "TANT DE BO",
+      "TORNAREM A SER"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T07:57:48.592Z"
   }
 ]
