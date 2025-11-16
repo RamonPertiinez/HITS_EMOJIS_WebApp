@@ -1160,5 +1160,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-16T10:55:49.909Z"
+  },
+  {
+    "id": "512f32d6-7cd2-4f7c-8176-7bbf2da935bf",
+    "emojis": "🎼🏙️",
+    "hint1": "Sempre a punt per robar la lluna!",
+    "hint2": "Txarango",
+    "hint3Options": [
+      "Cançons de llibertat",
+      "Music de carrer",
+      "Es hora de tornar a casa",
+      "Quan tot s'enlaira"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T11:24:33.046Z"
   }
 ]
