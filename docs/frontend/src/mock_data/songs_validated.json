@@ -430,5 +430,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T00:47:35.238Z"
+  },
+  {
+    "id": "51938e79-3595-4eeb-8c74-57ea70ae1ebf",
+    "emojis": "👫😊",
+    "hint1": "L'EMOJI ÉS MOLT IMPORTANT",
+    "hint2": "TXARANGO",
+    "hint3Options": [
+      "VULL ESTAR AMB TU",
+      "PER TU",
+      "T’ESTIMO MOLT",
+      "SOMRIUREM"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:49:50.731Z"
   }
 ]
