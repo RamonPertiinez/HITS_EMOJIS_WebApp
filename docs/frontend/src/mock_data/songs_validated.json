@@ -695,5 +695,20 @@
     "hint3CorrectIndex": null,
     "deleted": false,
     "updatedAt": "2025-11-16T08:26:40.459Z"
+  },
+  {
+    "id": "11b2cb76-44b3-4501-80f3-f09f9a31e731",
+    "emojis": "🚀",
+    "hint1": "OQUES GRASSES",
+    "hint2": "DE VERITAT NECESSITES 2 PISTES?",
+    "hint3Options": [
+      "NAU",
+      "COET",
+      "ENLAIRAR-SE",
+      "ESPAI"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:27:51.879Z"
   }
 ]
