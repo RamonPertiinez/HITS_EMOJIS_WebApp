@@ -375,5 +375,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-15T08:46:09.157Z"
+  },
+  {
+    "id": "0d1c4704-1b7d-45b8-8adf-163363b246af",
+    "emojis": "🍃🔄♾️",
+    "hint1": "ALWAYS EN CATALÀ",
+    "hint2": "OQUES GRASSES",
+    "hint3Options": [
+      "INFINIT",
+      "TOT ÉS MOLT ESTRANY",
+      "FULLA SEMPRE",
+      "LA VIDA ÉS MOLT BREU"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:35:22.204Z"
   }
 ]
