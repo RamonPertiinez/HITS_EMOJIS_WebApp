@@ -1115,5 +1115,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T09:25:05.356Z"
+  },
+  {
+    "id": "dc377739-4034-4274-adc1-4875a6732005",
+    "emojis": "🍀🤟🏻🫶",
+    "hint1": "La teva pell brillant com una estrella errant",
+    "hint2": "Oques Grasses",
+    "hint3Options": [
+      "Que tinguem sort",
+      "Sort de tu",
+      "La nostra sort",
+      "Sort que sou aqui"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T10:23:08.592Z"
   }
 ]
