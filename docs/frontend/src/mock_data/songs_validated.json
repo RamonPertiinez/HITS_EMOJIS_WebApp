@@ -390,5 +390,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-16T00:35:22.204Z"
+  },
+  {
+    "id": "d8692a2e-f13e-431f-8e3b-82de66bb2548",
+    "emojis": "🌅🗼🧭⬇️",
+    "hint1": "🥣🐐",
+    "hint2": "SOPA DE CABRA",
+    "hint3Options": [
+      "EL FAR DEL SUD",
+      "A LA DERIVA",
+      "AL MAR!",
+      "QUALSEVOL NIT POT SORTIR EL SOL"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-16T00:42:03.689Z"
   }
 ]
