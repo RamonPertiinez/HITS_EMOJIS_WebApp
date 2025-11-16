@@ -1175,5 +1175,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T11:24:33.046Z"
+  },
+  {
+    "id": "34e66d1c-7376-49a5-b845-a2f276b7e734",
+    "emojis": "🌇⏰",
+    "hint1": "Érem l'horitzó i les ganes que anés tot bé",
+    "hint2": "Oques Grasses",
+    "hint3Options": [
+      "Wake Up",
+      "Si un dia no hi som",
+      "Com el dia i la nit",
+      "Rellotge de fang"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-16T11:32:55.667Z"
   }
 ]
