@@ -935,5 +935,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T09:16:17.177Z"
+  },
+  {
+    "id": "af96ab09-afb3-4adb-b5eb-dba75079ec16",
+    "emojis": "🚂 ⏳",
+    "hint1": "🚂🛤️⏳✨",
+    "hint2": "TXARANGO",
+    "hint3Options": [
+      "EL TEMPS QUE SERÀ",
+      "EL TREN DEL TEMPS",
+      "BENVINGUTS AL LLARG VIATGE",
+      "CAMINS"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T09:20:52.457Z"
   }
 ]
