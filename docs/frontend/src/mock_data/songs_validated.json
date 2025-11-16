@@ -1275,5 +1275,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-16T12:44:33.925Z"
+  },
+  {
+    "id": "df6c9969-6e4c-42a9-9dc7-779835dc66b8",
+    "emojis": "🔙🔄😊",
+    "hint1": "Tornarem a ser grans, hi tornarem",
+    "hint2": "Lax'n'Busto",
+    "hint3Options": [
+      "Mai diguis mai a un mai",
+      "Tornarem",
+      "Llença't",
+      "No Dubtis"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T18:14:28.301Z"
   }
 ]
