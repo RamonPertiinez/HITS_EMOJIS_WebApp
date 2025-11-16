@@ -1205,5 +1205,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-16T12:13:39.726Z"
+  },
+  {
+    "id": "9fbc6099-87ee-4aca-ab5c-9f112c0fbf2d",
+    "emojis": "👩‍🦰🎶🥰",
+    "hint1": "Diu que fa temps que mor , Per veure'ns un moment",
+    "hint2": "Joan Dausà",
+    "hint3Options": [
+      "Iolanda",
+      "Pina",
+      "Judit",
+      "Jo mai mai"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-16T12:20:48.929Z"
   }
 ]
