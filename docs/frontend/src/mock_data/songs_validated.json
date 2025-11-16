@@ -665,5 +665,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-16T08:12:14.903Z"
+  },
+  {
+    "id": "e47475d9-97b6-42e0-893f-6a2a9ae47c91",
+    "emojis": "🔥🌙",
+    "hint1": "QUÈ ES FA LA NIT DE ST JOAN?",
+    "hint2": "EL CANTANT VA SORTIR D'OPERACIÓN TRIUNFO",
+    "hint3Options": [
+      "CREMA LA LLUNA",
+      "CREMA LA NIT",
+      "PETARDS DE ST JOAN",
+      "PETANT FINS L'ALBA"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-16T08:14:34.128Z"
   }
 ]
