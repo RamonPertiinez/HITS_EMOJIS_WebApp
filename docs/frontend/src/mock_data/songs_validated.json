@@ -1260,5 +1260,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-16T12:41:32.585Z"
+  },
+  {
+    "id": "c569c57e-a91c-4813-8c7f-226d068cf227",
+    "emojis": "😢😂",
+    "hint1": "i busco un crit perdut que faci callar al gall",
+    "hint2": "Oques Grasses",
+    "hint3Options": [
+      "Sta guai",
+      "Fer-te feliç",
+      "De bonesh",
+      "Plora i riu"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-16T12:44:33.925Z"
   }
 ]
