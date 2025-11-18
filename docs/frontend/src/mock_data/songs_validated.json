@@ -1470,5 +1470,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-18T10:39:05.141Z"
+  },
+  {
+    "id": "06c0c1af-0784-420c-b4ea-70d2fdfe46df",
+    "emojis": "🤫🔒",
+    "hint1": "lluny de mirades.",
+    "hint2": "Xavi i Manuel Turizo",
+    "hint3Options": [
+      "En Privado",
+      "Secreto",
+      "Culpables",
+      "Mala costumbre"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-18T10:46:57.114Z"
   }
 ]
