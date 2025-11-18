@@ -1385,5 +1385,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-17T05:47:09.388Z"
+  },
+  {
+    "id": "89f08695-8c28-4f77-9f0c-6de5eea00299",
+    "emojis": "💃🧍🏼‍♀️💭",
+    "hint1": "moment inesborrable viscut ballant.",
+    "hint2": "Bad Bunny",
+    "hint3Options": [
+      "Enséñame a bailar",
+      "Baile de ilusiones",
+      "Baile inolvidable",
+      "Nadie sabe lo que va a pasar mañana"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-18T10:03:30.591Z"
   }
 ]
