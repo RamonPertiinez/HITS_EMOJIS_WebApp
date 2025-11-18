@@ -1400,5 +1400,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-18T10:03:30.591Z"
+  },
+  {
+    "id": "3995b643-7da5-4ef4-af3b-38c8af03c8e7",
+    "emojis": "🙅🏼‍♂️🤨🤷‍♂️",
+    "hint1": "res encaixa… que res sembla tenir lògica.",
+    "hint2": "Beéle",
+    "hint3Options": [
+      "Inolvidable",
+      "Nada tiene que ver",
+      "Nada tiene que cambiar",
+      "Nada tiene sentido"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-18T10:12:59.597Z"
   }
 ]
