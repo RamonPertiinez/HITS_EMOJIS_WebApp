@@ -1500,5 +1500,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-18T10:54:36.006Z"
+  },
+  {
+    "id": "b45542f5-07d5-4abf-81d1-67dcfc9e9392",
+    "emojis": "💪🤜💥",
+    "hint1": "seguretat i actitud positiva",
+    "hint2": "Alleh i Yorghaki",
+    "hint3Options": [
+      "Me late",
+      "capaz",
+      "Deja vu",
+      "De mentira"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-18T11:02:45.509Z"
   }
 ]
