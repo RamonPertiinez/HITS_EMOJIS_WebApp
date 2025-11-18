@@ -1455,5 +1455,20 @@
     "hint3CorrectIndex": null,
     "deleted": true,
     "updatedAt": "2025-11-18T10:30:43.132Z"
+  },
+  {
+    "id": "9f2c99af-f14b-452c-9250-b57355b2447f",
+    "emojis": "🦵💃🤥❌",
+    "hint1": "una part del cos molt sincera",
+    "hint2": "Shakira; Wyclef Jean",
+    "hint3Options": [
+      "La tortura",
+      "Hips don't lie",
+      "Waka Waka",
+      "Whenever, Whenever"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-18T10:39:05.141Z"
   }
 ]
