@@ -1515,5 +1515,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-18T11:02:45.509Z"
+  },
+  {
+    "id": "6dcf7986-b9bd-42bc-94f0-1a55c72066ca",
+    "emojis": "🏢🕺🌃🎧",
+    "hint1": "lloc icònic de Berlín, conegut per la seva música",
+    "hint2": "ROSALÍA, Björk i Yves Tumor",
+    "hint3Options": [
+      "La rumba del perdón",
+      "Mundo nuevo",
+      "Berghain",
+      "Vampiros"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-18T11:13:40.901Z"
   }
 ]
