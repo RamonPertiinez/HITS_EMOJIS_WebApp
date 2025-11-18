@@ -1485,5 +1485,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-18T10:46:57.114Z"
+  },
+  {
+    "id": "75adf2dc-0e4c-4bbf-af21-91bbab472fd5",
+    "emojis": "🔝🚗💨",
+    "hint1": "a la màxima potència… com un motor",
+    "hint2": "Beéle",
+    "hint3Options": [
+      "On top of the world",
+      "On top",
+      "TOP floor",
+      "Top diesel"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-18T10:54:36.006Z"
   }
 ]
