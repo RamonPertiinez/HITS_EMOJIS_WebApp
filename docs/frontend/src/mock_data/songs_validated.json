@@ -1545,5 +1545,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-19T10:37:05.420Z"
+  },
+  {
+    "id": "656e1247-29b6-4a81-ac05-2ba811cda2c7",
+    "emojis": "👑🌍🎻🎊",
+    "hint1": "vol transmetre sentiment d’unitat, celebració o inspiració",
+    "hint2": "la gent l’associa amb moments de gran emoció i comunitat",
+    "hint3Options": [
+      "My universe",
+      "Viva la fiesta",
+      "Politik",
+      "Viva la vida"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-19T10:47:51.998Z"
   }
 ]
