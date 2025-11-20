@@ -1,19 +1,19 @@
 [
   {
     "id": "a7cd98da-b467-43d5-9d5d-bfbed2e1d884",
-    "emojis": "9\ufe0f\u20e3 \ud83c\uddfa\ud83c\uddf8 \ud83d\uddfd",
+    "emojis": "9️⃣ 🇺🇸 🗽",
     "deleted": false,
     "updatedAt": "2025-11-15T04:13:00.444Z"
   },
   {
     "id": "70964efc-8e95-4f92-ba6e-8b91ca591fbc",
-    "emojis": "\ud83c\udf15\ud83c\udfb6\u2728",
+    "emojis": "🌕🎶✨",
     "deleted": false,
     "updatedAt": "2025-11-15T04:12:59.756Z"
   },
   {
     "id": "3fab4ba2-dfa9-418a-bb6c-3799a115f52a",
-    "emojis": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66\u2764\ufe0f",
+    "emojis": "👨‍👩‍👧‍👦❤️",
     "hint1": "ESTIMAR",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
@@ -28,12 +28,12 @@
   },
   {
     "id": "86512829-63b6-4116-9cfc-60ffae0ae75d",
-    "emojis": "\ud83d\udc18\ud83d\udc18",
-    "hint1": "QUIN ANIMAL \u00c9S?",
+    "emojis": "🐘🐘",
+    "hint1": "QUIN ANIMAL ÉS?",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
       "ELEFANTS",
-      "C\u00d2RRER PELS CAMPS",
+      "CÒRRER PELS CAMPS",
       "STA GUAI",
       "A TOPE AMB LA VIDA"
     ],
@@ -43,7 +43,7 @@
   },
   {
     "id": "1067a750-c7eb-4723-9be6-82e9769423a0",
-    "emojis": "\ud83d\udd04\ud83d\ude0a\u2728",
+    "emojis": "🔄😊✨",
     "hint1": "OQUES GRASSES",
     "hint2": "TORNAR...",
     "hint3Options": [
@@ -58,14 +58,14 @@
   },
   {
     "id": "99550ba3-2c07-489c-aa7c-9376a40f5d8a",
-    "emojis": "\ud83c\udfc3\u200d\u2642\ufe0f\ud83c\udf3e\ud83c\udfb6",
-    "hint1": "ACCI\u00d3 C\u00d2RRER",
+    "emojis": "🏃‍♂️🌾🎶",
+    "hint1": "ACCIÓ CÒRRER",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
       "CODA",
       "RELLOTGE DE FANG",
       "CANTIMPLORES",
-      "C\u00d2RRER PELS CAMPS"
+      "CÒRRER PELS CAMPS"
     ],
     "hint3CorrectIndex": 3,
     "deleted": false,
@@ -73,7 +73,7 @@
   },
   {
     "id": "3cc78e4c-901a-4f95-bd11-e1a3f378766a",
-    "emojis": "\ud83d\udc26\ud83d\udc26",
+    "emojis": "🐦🐦",
     "hint1": "SER",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
@@ -88,14 +88,14 @@
   },
   {
     "id": "c1041020-9dd6-405c-9a53-d0f92f3037cf",
-    "emojis": "\ud83c\udf19\ud83d\udca7",
-    "hint1": "UNA GOTA QU\u00c8 \u00c9S?",
+    "emojis": "🌙💧",
+    "hint1": "UNA GOTA QUÈ ÉS?",
     "hint2": "TXARANGO",
     "hint3Options": [
       "LA LLUNA",
       "PLORAR PER TU",
       "UNA LLUNA A L'AIGUA",
-      "NO PLORIS M\u00c9S"
+      "NO PLORIS MÉS"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -103,7 +103,7 @@
   },
   {
     "id": "98cacc54-0d7d-42c1-ba5e-2a9799ce93a5",
-    "emojis": "\ud83c\udf1e\ud83c\udf1c",
+    "emojis": "🌞🌜",
     "hint1": "EL YIN I EL YAN",
     "hint2": "OQUES I JULIETA",
     "hint3Options": [
@@ -118,13 +118,13 @@
   },
   {
     "id": "882a5957-ce80-49d7-bfba-9fcf31c24794",
-    "emojis": "\ud83d\udc74\ud83d\udc77\u200d\u2642\ufe0f\u274c",
+    "emojis": "👴👷‍♂️❌",
     "hint1": "QUI NO TREBALLA?",
     "hint2": "QUI SON LES PERSONES QUE JA NO TREBALLEN?",
     "hint3Options": [
       "JUBILAR-ME",
       "TREBALLAR",
-      "FOTRE\u2019M AL LLIT",
+      "FOTRE’M AL LLIT",
       "NO TINC TEMPS"
     ],
     "hint3CorrectIndex": 0,
@@ -133,14 +133,14 @@
   },
   {
     "id": "c7f5d86f-f8ad-48f5-bedd-6253556e0991",
-    "emojis": "\ud83c\udf88\u2b06\ufe0f",
-    "hint1": "QU\u00c8 FAN ELS GLOBOS?",
+    "emojis": "🎈⬆️",
+    "hint1": "QUÈ FAN ELS GLOBOS?",
     "hint2": "TXARANGO",
     "hint3Options": [
       "VOLAR",
       "LLUNY DE TOT",
-      "QUAN TOT S\u2019ENLAIRA",
-      "A L\u2019AIRE"
+      "QUAN TOT S’ENLAIRA",
+      "A L’AIRE"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -148,7 +148,7 @@
   },
   {
     "id": "05b9993c-360c-45bc-aaa6-1847db50ee18",
-    "emojis": "\ud83c\udfd3",
+    "emojis": "🏓",
     "hint1": "TENIS TAULA",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
@@ -163,14 +163,14 @@
   },
   {
     "id": "a7bf9de1-dbb3-4ddc-a2b7-147c912f1f7f",
-    "emojis": "\ud83c\udf0a\ud83c\udf2c\ufe0f - \ud83e\udd63\ud83d\udc10",
+    "emojis": "🌊🌬️ - 🥣🐐",
     "hint1": "COSTA BRAVA",
     "hint2": "Molt tocat per la tramuntana",
     "hint3Options": [
-      "CADAQU\u00c9S",
+      "CADAQUÉS",
       "MAR",
-      "\u00c0NIMA",
-      "L\u2019EMPORD\u00c0"
+      "ÀNIMA",
+      "L’EMPORDÀ"
     ],
     "hint3CorrectIndex": 3,
     "deleted": false,
@@ -178,12 +178,12 @@
   },
   {
     "id": "2e254483-02f7-47c9-9ccb-263606f22975",
-    "emojis": "\ud83e\ude82\u2b07\ufe0f",
-    "hint1": "SIN\u00d2NIM DE TIRAR",
-    "hint2": "GRUP M\u00cdTIC CATAL\u00c0",
+    "emojis": "🪂⬇️",
+    "hint1": "SINÒNIM DE TIRAR",
+    "hint2": "GRUP MÍTIC CATALÀ",
     "hint3Options": [
       "VOLAR",
-      "LLEN\u00c7A\u2019T",
+      "LLENÇA’T",
       "TOT EM CAU",
       "A LA DERIVA"
     ],
@@ -193,9 +193,9 @@
   },
   {
     "id": "05d2ea6e-bbbb-4d68-8bfc-a83929fb6a5b",
-    "emojis": "\ud83d\udd28\ud83d\udd29\ud83c\udf7b",
-    "hint1": "EL PRIMER EMOJI FA REFER\u00c8NCIA A L'ACCI\u00d3 DE CLAVAR",
-    "hint2": "MAN\u00c1",
+    "emojis": "🔨🔩🍻",
+    "hint1": "EL PRIMER EMOJI FA REFERÈNCIA A L'ACCIÓ DE CLAVAR",
+    "hint2": "MANÁ",
     "hint3Options": [
       "LA TABERNA DEL BUDDHA",
       "EN EL MUELLE DE SAN BLAS",
@@ -208,7 +208,7 @@
   },
   {
     "id": "930ab424-89e6-49b7-ad58-d56634060267",
-    "emojis": "1\ufe0f\u20e30\ufe0f\u20e30\ufe0f\u20e30\ufe0f\u20e3\ud83d\udc26\ud83d\udc26",
+    "emojis": "1️⃣0️⃣0️⃣0️⃣🐦🐦",
     "hint1": "TXARANGO",
     "hint2": "TXARANGO I JARABE DE PALO",
     "hint3Options": [
@@ -223,11 +223,11 @@
   },
   {
     "id": "59550fee-960e-418a-b25e-642077c199d9",
-    "emojis": "\ud83d\udeb6\ud83d\udee3\ufe0f\ud83d\udee4\ufe0f",
+    "emojis": "🚶🛣️🛤️",
     "hint1": "AMARAL LA VA CANTAR",
     "hint2": "SOPA DE CABRA",
     "hint3Options": [
-      "VIATGE A \u00cdTACA",
+      "VIATGE A ÍTACA",
       "CAMINS",
       "EL VIATGE",
       "A PEU"
@@ -238,11 +238,11 @@
   },
   {
     "id": "df88a0d1-4f72-474d-b2c1-e710bcaaa5b3",
-    "emojis": "\ud83d\ude04\ud83c\udf51",
-    "hint1": "\ud83c\udfb6 \"NO HE PERDUT LES GANES DE VIURE\"",
+    "emojis": "😄🍑",
+    "hint1": "🎶 \"NO HE PERDUT LES GANES DE VIURE\"",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
-      "SEXE I RELIGI\u00d3",
+      "SEXE I RELIGIÓ",
       "CARA DE CUL",
       "BULLDOG",
       "LA GALLINA"
@@ -253,14 +253,14 @@
   },
   {
     "id": "5c2e5815-093b-40ae-a2d4-f3e7e821472e",
-    "emojis": "\u2753\u2764\ufe0f \ud83c\uddee\ud83c\uddf9",
-    "hint1": "PROV\u00c9 D'UNA CNA\u00c7\u00d3 ITALIANA",
+    "emojis": "❓❤️ 🇮🇹",
+    "hint1": "PROVÉ D'UNA CNAÇÓ ITALIANA",
     "hint2": "BUHOS",
     "hint3Options": [
       "TI AMO",
-      "ESTIMAR \u00c9S UN LLOC",
-      "SER\u00c0 PERQU\u00c8 T\u2019ESTIMO",
-      "L\u2019AMOR \u00c9S D\u00c8BIL"
+      "ESTIMAR ÉS UN LLOC",
+      "SERÀ PERQUÈ T’ESTIMO",
+      "L’AMOR ÉS DÈBIL"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -268,13 +268,13 @@
   },
   {
     "id": "080e5c1c-d38c-46c7-9c9c-4e0bd4a2e742",
-    "emojis": "\ud83d\udc83\ud83d\udc57",
-    "hint1": "LA CAN\u00c7\u00d3 PREFERIDA DEL RAMON",
-    "hint2": "\ud83c\udfb6\"UN PET\u00d3 DE LICOR\"",
+    "emojis": "💃👗",
+    "hint1": "LA CANÇÓ PREFERIDA DEL RAMON",
+    "hint2": "🎶\"UN PETÓ DE LICOR\"",
     "hint3Options": [
       "LA DANSA DEL VESTIT",
       "BALLAR",
-      "LA NIT \u00c9S NOSTRA",
+      "LA NIT ÉS NOSTRA",
       "EL TEU VESTIT BLAU"
     ],
     "hint3CorrectIndex": 0,
@@ -283,7 +283,7 @@
   },
   {
     "id": "3278c596-b706-47e2-a8d6-b8ea74c8c297",
-    "emojis": "\ud83d\udc56\ud83d\udca7",
+    "emojis": "👖💧",
     "hint1": "PANTALONS I AIGUA",
     "hint2": "LA GOSSA SORDA",
     "hint3Options": [
@@ -298,14 +298,14 @@
   },
   {
     "id": "0d1c4704-1b7d-45b8-8adf-163363b246af",
-    "emojis": "\ud83c\udf43\ud83d\udd04\u267e\ufe0f",
-    "hint1": "ALWAYS EN CATAL\u00c0",
+    "emojis": "🍃🔄♾️",
+    "hint1": "ALWAYS EN CATALÀ",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
       "INFINIT",
-      "TOT \u00c9S MOLT ESTRANY",
+      "TOT ÉS MOLT ESTRANY",
       "FULLA SEMPRE",
-      "LA VIDA \u00c9S MOLT BREU"
+      "LA VIDA ÉS MOLT BREU"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -313,8 +313,8 @@
   },
   {
     "id": "d8692a2e-f13e-431f-8e3b-82de66bb2548",
-    "emojis": "\ud83c\udf05\ud83d\uddfc\ud83e\udded\u2b07\ufe0f",
-    "hint1": "\ud83e\udd63\ud83d\udc10",
+    "emojis": "🌅🗼🧭⬇️",
+    "hint1": "🥣🐐",
     "hint2": "SOPA DE CABRA",
     "hint3Options": [
       "EL FAR DEL SUD",
@@ -328,14 +328,14 @@
   },
   {
     "id": "5f745b15-6f4b-4264-be97-c62019e60c47",
-    "emojis": "\ud83d\udc83\u2728\ud83e\udd71\u2796\ud83d\udc64",
-    "hint1": "UN GRUP AMB FLATUL\u00c8NCIES",
-    "hint2": "LA VIDA \u00c9S MOLT...",
+    "emojis": "💃✨🥱➖👤",
+    "hint1": "UN GRUP AMB FLATULÈNCIES",
+    "hint2": "LA VIDA ÉS MOLT...",
     "hint3Options": [
       "SENSE TU",
-      "LA VIDA \u00c9S MOLT AVORRIDA SENSE EL TEU COS",
+      "LA VIDA ÉS MOLT AVORRIDA SENSE EL TEU COS",
       "VULL ESTAR AMB TU",
-      "QUE BONICA QUE \u00c9S LA VIDA SENSE TU"
+      "QUE BONICA QUE ÉS LA VIDA SENSE TU"
     ],
     "hint3CorrectIndex": 1,
     "deleted": false,
@@ -343,13 +343,13 @@
   },
   {
     "id": "51938e79-3595-4eeb-8c74-57ea70ae1ebf",
-    "emojis": "\ud83d\udc6b\ud83d\ude0a",
-    "hint1": "L'EMOJI \u00c9S MOLT IMPORTANT",
+    "emojis": "👫😊",
+    "hint1": "L'EMOJI ÉS MOLT IMPORTANT",
     "hint2": "TXARANGO",
     "hint3Options": [
       "VULL ESTAR AMB TU",
       "PER TU",
-      "T\u2019ESTIMO MOLT",
+      "T’ESTIMO MOLT",
       "SOMRIUREM"
     ],
     "hint3CorrectIndex": 3,
@@ -358,7 +358,7 @@
   },
   {
     "id": "e476441e-1094-4a39-8be7-0f6e6dc96fb4",
-    "emojis": "\ud83d\udc36\ud83d\ude0e",
+    "emojis": "🐶😎",
     "hint1": "UN MOOD... UN ESTIL",
     "hint2": "QUAN FAS EL GOS QUIN MOOD TENS?",
     "hint3Options": [
@@ -373,12 +373,12 @@
   },
   {
     "id": "b9e44a76-32d8-41f9-b8a7-978c281a3fa3",
-    "emojis": "\u2728\ud83d\udc1a\ud83e\udeb8\ud83c\udf0a",
+    "emojis": "✨🐚🪸🌊",
     "hint1": "UN FT. AMB OQUES GRASSES",
-    "hint2": "\u00c0NIMA DE...",
+    "hint2": "ÀNIMA DE...",
     "hint3Options": [
-      "UNA LLUNA A L\u2019AIGUA",
-      "\u00c0NIMA DE CORALL",
+      "UNA LLUNA A L’AIGUA",
+      "ÀNIMA DE CORALL",
       "LA PLATJA",
       "AL MAR!"
     ],
@@ -388,14 +388,14 @@
   },
   {
     "id": "0fb9ddea-55b6-44c2-8512-e77d6432ff2d",
-    "emojis": "\ud83c\udf51",
-    "hint1": "M\u00cdTICA CATALANA",
+    "emojis": "🍑",
+    "hint1": "MÍTICA CATALANA",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
       "CARA DE CUL",
       "CUL",
-      "PR\u00c8SSEC",
-      "QUIN PR\u00c8SSEC"
+      "PRÈSSEC",
+      "QUIN PRÈSSEC"
     ],
     "hint3CorrectIndex": 1,
     "deleted": false,
@@ -403,7 +403,7 @@
   },
   {
     "id": "32db12e8-427e-4de5-ad91-0a79f87e89ad",
-    "emojis": "\ud83d\udeab\ud83d\ude0a\ud83c\udfb6",
+    "emojis": "🚫😊🎶",
     "hint1": "",
     "hint2": "",
     "hint3Options": [
@@ -418,8 +418,8 @@
   },
   {
     "id": "035ad44f-fcd4-43e0-8612-5c9b26b88f2f",
-    "emojis": "\ud83c\udf19\ud83d\ude34",
-    "hint1": "UN GRUP AMB FLATUL\u00c8NCIES",
+    "emojis": "🌙😴",
+    "hint1": "UN GRUP AMB FLATULÈNCIES",
     "hint2": "EL MISSATGE QUE LI ENVIES A LA TEVA PARELLA QUAN VAS A DORMIR...",
     "hint3Options": [
       "BONA NIT",
@@ -433,9 +433,9 @@
   },
   {
     "id": "46ce7b13-7962-4478-9865-5daa26336142",
-    "emojis": "\ud83e\udd1e",
+    "emojis": "🤞",
     "hint1": "QUAN DESITGES ALGO...",
-    "hint2": "\ud83c\udfb6 ... SIGUI LLARG EL VIATGE",
+    "hint2": "🎶 ... SIGUI LLARG EL VIATGE",
     "hint3Options": [
       "ET DESITJO",
       "ESPEREM QUE SIGUI BO",
@@ -448,14 +448,14 @@
   },
   {
     "id": "ce29c5a6-2936-47ac-8fa3-21b6feefb7d1",
-    "emojis": "\ud83e\udd8c",
-    "hint1": "PEL\u00b7L\u00cdCULA MOLT FAMOSA",
+    "emojis": "🦌",
+    "hint1": "PEL·LÍCULA MOLT FAMOSA",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
       "LALA",
-      "C\u00c8RVOL",
+      "CÈRVOL",
       "BAMBI",
-      "COM SI FOSSIS UN C\u00c8RVOL"
+      "COM SI FOSSIS UN CÈRVOL"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -463,11 +463,11 @@
   },
   {
     "id": "3b5f8da9-280d-466e-b862-9242f2186761",
-    "emojis": "\ud83d\udca1\ud83d\udfe1\ud83d\udd8c\ufe0f",
-    "hint1": "ELS \u00daLTIMS DOS EMOJIS VAN JUNTS",
+    "emojis": "💡🟡🖌️",
+    "hint1": "ELS ÚLTIMS DOS EMOJIS VAN JUNTS",
     "hint2": "O0QUES GRASSES",
     "hint3Options": [
-      "COLOR ESPERAN\u00c7A",
+      "COLOR ESPERANÇA",
       "LLUM",
       "FOTOGRAFIES",
       "LLUM FLUORESCENT"
@@ -478,9 +478,9 @@
   },
   {
     "id": "e47475d9-97b6-42e0-893f-6a2a9ae47c91",
-    "emojis": "\ud83d\udd25\ud83c\udf19",
-    "hint1": "QU\u00c8 ES FA LA NIT DE ST JOAN?",
-    "hint2": "EL CANTANT VA SORTIR D'OPERACI\u00d3N TRIUNFO",
+    "emojis": "🔥🌙",
+    "hint1": "QUÈ ES FA LA NIT DE ST JOAN?",
+    "hint2": "EL CANTANT VA SORTIR D'OPERACIÓN TRIUNFO",
     "hint3Options": [
       "CREMA LA LLUNA",
       "CREMA LA NIT",
@@ -493,8 +493,8 @@
   },
   {
     "id": "fd468bb8-8d69-4e1f-998c-e8c46c324286",
-    "emojis": "\ud83d\udc63\u2755\u2755\u2755\u2755",
-    "hint1": "\ud83c\udfb6... ES SOLEN FER SENSE ROBA",
+    "emojis": "👣❕❕❕❕",
+    "hint1": "🎶... ES SOLEN FER SENSE ROBA",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
       "PASSES IMPORTANTS",
@@ -508,7 +508,7 @@
   },
   {
     "id": "11b2cb76-44b3-4501-80f3-f09f9a31e731",
-    "emojis": "\ud83d\ude80",
+    "emojis": "🚀",
     "hint1": "OQUES GRASSES",
     "hint2": "DE VERITAT NECESSITES 2 PISTES?",
     "hint3Options": [
@@ -523,14 +523,14 @@
   },
   {
     "id": "2c51d11e-40f8-4fa2-964d-d41beb374b4f",
-    "emojis": "\u2795\ud83d\udc4d\u2764\ufe0f",
+    "emojis": "➕👍❤️",
     "hint1": "POST A INSTAGRAM",
     "hint2": "OQUES GRASSES",
     "hint3Options": [
-      "M\u00c9S FOLLOWERS",
-      "M\u00c9S POPUS",
-      "M\u00c9S LIKES",
-      "M\u00c9S CORS"
+      "MÉS FOLLOWERS",
+      "MÉS POPUS",
+      "MÉS LIKES",
+      "MÉS CORS"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -538,14 +538,14 @@
   },
   {
     "id": "3c3c9203-fd48-45df-93b4-e2d2136c47a4",
-    "emojis": "\ud83d\udc68\u200d\ud83e\uddb0\ud83d\udfe4",
-    "hint1": "MARR\u00d3 EN ANGL\u00c8S?",
+    "emojis": "👨‍🦰🟤",
+    "hint1": "MARRÓ EN ANGLÈS?",
     "hint2": "TE CARA DE...?",
     "hint3Options": [
       "JOHN BROWN",
       "LUKE BROWN",
       "JOAN BROWN",
-      "JOAN MARR\u00d3"
+      "JOAN MARRÓ"
     ],
     "hint3CorrectIndex": 0,
     "deleted": false,
@@ -553,9 +553,9 @@
   },
   {
     "id": "4801e10e-ea37-47bf-a9ea-187b8a12882f",
-    "emojis": "\ud83c\udf6d\ud83c\udf6c\ud83d\udc71\u200d\u2640\ufe0f\ud83c\uddec\ud83c\udde7",
-    "hint1": "\u00c9S UNA CAN\u00c7O ANGLESA MOLT FAMOSA...",
-    "hint2": "\ud83e\udd89",
+    "emojis": "🍭🍬👱‍♀️🇬🇧",
+    "hint1": "ÉS UNA CANÇO ANGLESA MOLT FAMOSA...",
+    "hint2": "🦉",
     "hint3Options": [
       "CANDY CAROLINE",
       "CANDY JANE",
@@ -568,8 +568,8 @@
   },
   {
     "id": "3b1598c5-593f-4dff-b710-9adb2d60d5e0",
-    "emojis": "\u23f0\ud83d\udfeb\ud83d\udca7",
-    "hint1": "GOTA MARR\u00d3...?",
+    "emojis": "⏰🟫💧",
+    "hint1": "GOTA MARRÓ...?",
     "hint2": "SI PLOU A LA TERRA ES GENERA...",
     "hint3Options": [
       "RELLOTGE DE FANG",
@@ -583,13 +583,13 @@
   },
   {
     "id": "8bad87f5-40ca-4eb8-99e6-9e45c53749ec",
-    "emojis": "\ud83c\udfdd\ufe0f\ud83c\uddec\ud83c\uddf7",
-    "hint1": "\u27a1\ufe0f cap a una illa especial",
-    "hint2": "\ud83d\udef6 el viatge cap a...",
+    "emojis": "🏝️🇬🇷",
+    "hint1": "➡️ cap a una illa especial",
+    "hint2": "🛶 el viatge cap a...",
     "hint3Options": [
       "SANTORINI",
-      "\u00cdTACA",
-      "\u00cdOS",
+      "ÍTACA",
+      "ÍOS",
       "MILOS"
     ],
     "hint3CorrectIndex": 1,
@@ -598,11 +598,11 @@
   },
   {
     "id": "af96ab09-afb3-4adb-b5eb-dba75079ec16",
-    "emojis": "\ud83d\ude82 \u23f3",
-    "hint1": "\ud83d\ude82\ud83d\udee4\ufe0f\u23f3\u2728",
+    "emojis": "🚂 ⏳",
+    "hint1": "🚂🛤️⏳✨",
     "hint2": "TXARANGO",
     "hint3Options": [
-      "EL TEMPS QUE SER\u00c0",
+      "EL TEMPS QUE SERÀ",
       "EL TREN DEL TEMPS",
       "BENVINGUTS AL LLARG VIATGE",
       "CAMINS"
@@ -613,11 +613,11 @@
   },
   {
     "id": "ce90a613-34ac-4446-945e-5c177a10b44e",
-    "emojis": "\ud83e\ude82\ud83e\ude82",
-    "hint1": "De saltar\u2026 a caure\u2026 a...",
+    "emojis": "🪂🪂",
+    "hint1": "De saltar… a caure… a...",
     "hint2": "ELS CATARRES",
     "hint3Options": [
-      "LLEN\u00c7A\u2019T",
+      "LLENÇA’T",
       "VOLAR",
       "VOLA",
       "PARACAIGUDISTES"
@@ -628,7 +628,7 @@
   },
   {
     "id": "dc377739-4034-4274-adc1-4875a6732005",
-    "emojis": "\ud83c\udf40\ud83e\udd1f\ud83c\udffb\ud83e\udef6",
+    "emojis": "🍀🤟🏻🫶",
     "hint1": "La teva pell brillant com una estrella errant",
     "hint2": "Oques Grasses",
     "hint3Options": [
@@ -643,7 +643,7 @@
   },
   {
     "id": "6a13161d-426b-4a7d-94bb-b38bbe19b074",
-    "emojis": "\ud83c\udf19\ud83c\udfb6\u2728",
+    "emojis": "🌙🎶✨",
     "hint1": "the naino-naino",
     "hint2": "Oques Grasses",
     "hint3Options": [
@@ -658,7 +658,7 @@
   },
   {
     "id": "e1aff592-3be9-462f-8fb6-8ae8a128f839",
-    "emojis": "\ud83e\udde8\ud83e\udde8\ud83d\udca5",
+    "emojis": "🧨🧨💥",
     "hint1": "All your shadows and la-la-la, lights",
     "hint2": "Oques Grasses",
     "hint3Options": [
@@ -673,11 +673,11 @@
   },
   {
     "id": "512f32d6-7cd2-4f7c-8176-7bbf2da935bf",
-    "emojis": "\ud83c\udfbc\ud83c\udfd9\ufe0f",
+    "emojis": "🎼🏙️",
     "hint1": "Sempre a punt per robar la lluna!",
     "hint2": "Txarango",
     "hint3Options": [
-      "Can\u00e7ons de llibertat",
+      "Cançons de llibertat",
       "Music de carrer",
       "Es hora de tornar a casa",
       "Quan tot s'enlaira"
@@ -688,8 +688,8 @@
   },
   {
     "id": "34e66d1c-7376-49a5-b845-a2f276b7e734",
-    "emojis": "\ud83c\udf07\u23f0",
-    "hint1": "\u00c9rem l'horitz\u00f3 i les ganes que an\u00e9s tot b\u00e9",
+    "emojis": "🌇⏰",
+    "hint1": "Érem l'horitzó i les ganes que anés tot bé",
     "hint2": "Oques Grasses",
     "hint3Options": [
       "Wake Up",
@@ -703,14 +703,14 @@
   },
   {
     "id": "e9addc3e-257e-4606-8df9-d3fb22fe6a62",
-    "emojis": "\ud83c\udf2c\ufe0f\ud83c\udf2b\ufe0f\ud83c\udfb5",
+    "emojis": "🌬️🌫️🎵",
     "hint1": "hem omplert les veles de vent i ferides",
     "hint2": "Oques Grasses",
     "hint3Options": [
       "Faves enlaire",
       "Cap amunt",
-      "Can\u00e7\u00f3 de L'Aire",
-      "Velocitat del llu\u00e7"
+      "Cançó de L'Aire",
+      "Velocitat del lluç"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -718,9 +718,9 @@
   },
   {
     "id": "9fbc6099-87ee-4aca-ab5c-9f112c0fbf2d",
-    "emojis": "\ud83d\udc69\u200d\ud83e\uddb0\ud83c\udfb6\ud83e\udd70",
+    "emojis": "👩‍🦰🎶🥰",
     "hint1": "Diu que fa temps que mor , Per veure'ns un moment",
-    "hint2": "Joan Daus\u00e0",
+    "hint2": "Joan Dausà",
     "hint3Options": [
       "Iolanda",
       "Pina",
@@ -733,14 +733,14 @@
   },
   {
     "id": "e370563a-0973-4b31-a07a-23ed580df2cc",
-    "emojis": "\u2796\u274c \ud83e\udd1d\ud83c\udffc",
-    "hint1": "Li he escrit 20 can\u00e7ons i qui sap si en far\u00e9 m\u00e9s",
-    "hint2": "Ginest\u00e0",
+    "emojis": "➖❌ 🤝🏼",
+    "hint1": "Li he escrit 20 cançons i qui sap si en faré més",
+    "hint2": "Ginestà",
     "hint3Options": [
-      "Aix\u00f2 s'acaba aqu\u00ed",
+      "Això s'acaba aquí",
       "Mudats de pell",
       "Folk Tendre",
-      "Deixar-se anar la m\u00e0"
+      "Deixar-se anar la mà"
     ],
     "hint3CorrectIndex": 3,
     "deleted": false,
@@ -748,13 +748,13 @@
   },
   {
     "id": "f2157ba3-8cd9-4599-ba5c-fee5b2e5ad6e",
-    "emojis": "\ud83d\ude9c\ud83c\udf3e",
+    "emojis": "🚜🌾",
     "hint1": "Que sabem que tot va guai si ho fem amb temps",
     "hint2": "Oques Grasses",
     "hint3Options": [
       "Bancals",
       "Faves enlaire",
-      "Com est\u00e0 el pati",
+      "Com està el pati",
       "La Granja"
     ],
     "hint3CorrectIndex": 0,
@@ -763,12 +763,12 @@
   },
   {
     "id": "c569c57e-a91c-4813-8c7f-226d068cf227",
-    "emojis": "\ud83d\ude22\ud83d\ude02",
+    "emojis": "😢😂",
     "hint1": "i busco un crit perdut que faci callar al gall",
     "hint2": "Oques Grasses",
     "hint3Options": [
       "Sta guai",
-      "Fer-te feli\u00e7",
+      "Fer-te feliç",
       "De bonesh",
       "Plora i riu"
     ],
@@ -778,13 +778,13 @@
   },
   {
     "id": "df6c9969-6e4c-42a9-9dc7-779835dc66b8",
-    "emojis": "\ud83d\udd19\ud83d\udd04\ud83d\ude0a",
+    "emojis": "🔙🔄😊",
     "hint1": "Tornarem a ser grans, hi tornarem",
     "hint2": "Lax'n'Busto",
     "hint3Options": [
       "Mai diguis mai a un mai",
       "Tornarem",
-      "Llen\u00e7a't",
+      "Llença't",
       "No Dubtis"
     ],
     "hint3CorrectIndex": 1,
@@ -793,12 +793,12 @@
   },
   {
     "id": "be4d7ca4-fb69-4da3-9484-edf53b6a2bed",
-    "emojis": "\u2764\ufe0f\u200d\ud83d\udd25\ud83d\udc91\ud83c\udffc\ud83e\udd70",
-    "hint1": "Si et canto, despullo all\u00f2 viscut, tot ben foll i ben il\u00b7l\u00fas.",
+    "emojis": "❤️‍🔥💑🏼🥰",
+    "hint1": "Si et canto, despullo allò viscut, tot ben foll i ben il·lús.",
     "hint2": "Oques Grasses",
     "hint3Options": [
-      "M'agrada tant fer-te feli\u00e7",
-      "Fer-te feli\u00e7",
+      "M'agrada tant fer-te feliç",
+      "Fer-te feliç",
       "Sexy",
       "Torno a ser jo"
     ],
@@ -808,14 +808,14 @@
   },
   {
     "id": "6d2f746f-fd53-4a2f-9081-50849bf1e58c",
-    "emojis": "\ud83c\udf03\ud83d\udd5b\ud83d\udd25",
-    "hint1": "Que la lluna sha enfadat per qu\u00e8 ja no brilla al teu costat",
+    "emojis": "🌃🕛🔥",
+    "hint1": "Que la lluna sha enfadat per què ja no brilla al teu costat",
     "hint2": "Buhos",
     "hint3Options": [
       "Crema la nit",
       "La nit de Sant Joan",
-      "La nit est\u00e0 que crema",
-      "La nit sembla que ser\u00e0 nostra"
+      "La nit està que crema",
+      "La nit sembla que serà nostra"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -823,14 +823,14 @@
   },
   {
     "id": "c18184e0-2f3c-4985-86c3-503687d69c8a",
-    "emojis": "\ud83c\udf0d\ud83d\udc48\ud83d\udc4d",
+    "emojis": "🌍👈👍",
     "hint1": "No vull que em tornis a obrir per parlar-nos per privat",
     "hint2": "Buhos",
     "hint3Options": [
-      "El m\u00f3n de veritat",
-      "El m\u00f3n",
-      "El m\u00f3n \u00e9s teu",
-      "El m\u00f3n s'acaba aqu\u00ed"
+      "El món de veritat",
+      "El món",
+      "El món és teu",
+      "El món s'acaba aquí"
     ],
     "hint3CorrectIndex": 0,
     "deleted": false,
@@ -838,44 +838,29 @@
   },
   {
     "id": "9a162914-3d80-4d5a-b7e1-4ef538cf60ab",
-    "emojis": "\u262e\ufe0f\ud83e\uddcd",
-    "hint1": "i a l'habitaci\u00f3 somia amb una gironina",
+    "emojis": "☮️🧍",
+    "hint1": "i a l'habitació somia amb una gironina",
     "hint2": "Els Pets",
     "hint3Options": [
       "Jordi Puig",
       "Pau",
       "Dissimulat",
-      "L'home est\u00e0tic"
+      "L'home estàtic"
     ],
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-16T19:01:43.770Z"
   },
   {
-    "id": "a23cca2f-d428-4a8c-b95d-b9b2db3bea58",
-    "emojis": "\u2600\ufe0f \ud83c\udf1e",
-    "hint1": "",
-    "hint2": "",
-    "hint3Options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "hint3CorrectIndex": null,
-    "deleted": false,
-    "updatedAt": "2025-11-17T05:45:46.935Z"
-  },
-  {
     "id": "89f08695-8c28-4f77-9f0c-6de5eea00299",
-    "emojis": "\ud83d\udc83\ud83e\uddcd\ud83c\udffc\u200d\u2640\ufe0f\ud83d\udcad",
+    "emojis": "💃🧍🏼‍♀️💭",
     "hint1": "moment inesborrable viscut ballant.",
     "hint2": "Bad Bunny",
     "hint3Options": [
-      "Ens\u00e9\u00f1ame a bailar",
+      "Enséñame a bailar",
       "Baile de ilusiones",
       "Baile inolvidable",
-      "Nadie sabe lo que va a pasar ma\u00f1ana"
+      "Nadie sabe lo que va a pasar mañana"
     ],
     "hint3CorrectIndex": 2,
     "deleted": false,
@@ -883,9 +868,9 @@
   },
   {
     "id": "3995b643-7da5-4ef4-af3b-38c8af03c8e7",
-    "emojis": "\ud83d\ude45\ud83c\udffc\u200d\u2642\ufe0f\ud83e\udd28\ud83e\udd37\u200d\u2642\ufe0f",
-    "hint1": "res encaixa\u2026 que res sembla tenir l\u00f2gica.",
-    "hint2": "Be\u00e9le",
+    "emojis": "🙅🏼‍♂️🤨🤷‍♂️",
+    "hint1": "res encaixa… que res sembla tenir lògica.",
+    "hint2": "Beéle",
     "hint3Options": [
       "Inolvidable",
       "Nada tiene que ver",
@@ -898,13 +883,13 @@
   },
   {
     "id": "2bc7be90-ac92-4745-a438-09f2f0ce836b",
-    "emojis": "\ud83d\udc6b\u2764\ufe0f\u200d\ud83d\udd25",
-    "hint1": "connexi\u00f3 especial entre dues persones",
-    "hint2": "Ovy On The Drums;Quevedo;Be\u00e9le",
+    "emojis": "👫❤️‍🔥",
+    "hint1": "connexió especial entre dues persones",
+    "hint2": "Ovy On The Drums;Quevedo;Beéle",
     "hint3Options": [
       "Yo x Ti, Tu x Mi",
       "Yonaguni",
-      "Yo y T\u00fa",
+      "Yo y Tú",
       "Tu y yo"
     ],
     "hint3CorrectIndex": 2,
@@ -913,9 +898,9 @@
   },
   {
     "id": "2b57421d-8f86-4407-a1b5-db3779a2d9ed",
-    "emojis": "\ud83c\udfe2\ud83d\udc98\ud83d\ude0a",
-    "hint1": "lloc molt concret on viu alg\u00fa i  on comen\u00e7a tota la hist\u00f2ria.",
-    "hint2": "ROS\u00c9;Bruno Mars",
+    "emojis": "🏢💘😊",
+    "hint1": "lloc molt concret on viu algú i  on comença tota la història.",
+    "hint2": "ROSÉ;Bruno Mars",
     "hint3Options": [
       "On the Ground",
       "El apartamento",
@@ -928,7 +913,7 @@
   },
   {
     "id": "9f2c99af-f14b-452c-9250-b57355b2447f",
-    "emojis": "\ud83e\uddb5\ud83d\udc83\ud83e\udd25\u274c",
+    "emojis": "🦵💃🤥❌",
     "hint1": "una part del cos molt sincera",
     "hint2": "Shakira; Wyclef Jean",
     "hint3Options": [
@@ -943,7 +928,7 @@
   },
   {
     "id": "06c0c1af-0784-420c-b4ea-70d2fdfe46df",
-    "emojis": "\ud83e\udd2b\ud83d\udd12",
+    "emojis": "🤫🔒",
     "hint1": "lluny de mirades.",
     "hint2": "Xavi i Manuel Turizo",
     "hint3Options": [
@@ -958,9 +943,9 @@
   },
   {
     "id": "75adf2dc-0e4c-4bbf-af21-91bbab472fd5",
-    "emojis": "\ud83d\udd1d\ud83d\ude97\ud83d\udca8",
-    "hint1": "a la m\u00e0xima pot\u00e8ncia\u2026 com un motor",
-    "hint2": "Be\u00e9le",
+    "emojis": "🔝🚗💨",
+    "hint1": "a la màxima potència… com un motor",
+    "hint2": "Beéle",
     "hint3Options": [
       "On top of the world",
       "On top",
@@ -973,7 +958,7 @@
   },
   {
     "id": "b45542f5-07d5-4abf-81d1-67dcfc9e9392",
-    "emojis": "\ud83d\udcaa\ud83e\udd1c\ud83d\udca5",
+    "emojis": "💪🤜💥",
     "hint1": "seguretat i actitud positiva",
     "hint2": "Alleh i Yorghaki",
     "hint3Options": [
@@ -988,11 +973,11 @@
   },
   {
     "id": "6dcf7986-b9bd-42bc-94f0-1a55c72066ca",
-    "emojis": "\ud83c\udfe2\ud83d\udd7a\ud83c\udf03\ud83c\udfa7",
-    "hint1": "lloc ic\u00f2nic de Berl\u00edn, conegut per la seva m\u00fasica",
-    "hint2": "ROSAL\u00cdA, Bj\u00f6rk i Yves Tumor",
+    "emojis": "🏢🕺🌃🎧",
+    "hint1": "lloc icònic de Berlín, conegut per la seva música",
+    "hint2": "ROSALÍA, Björk i Yves Tumor",
     "hint3Options": [
-      "La rumba del perd\u00f3n",
+      "La rumba del perdón",
       "Mundo nuevo",
       "Berghain",
       "Vampiros"
@@ -1003,9 +988,9 @@
   },
   {
     "id": "37f96b87-3f2a-455e-8dc8-8ca3bb9698f4",
-    "emojis": "\ud83c\udfa3\ud83c\udfc3\ud83c\udffc\u200d\u27a1\ufe0f\ud83e\udd1a",
+    "emojis": "🎣🏃🏼‍➡️🤚",
     "hint1": "el que podria passar si et trobo",
-    "hint2": "Be\u00e9le",
+    "hint2": "Beéle",
     "hint3Options": [
       "Atraparte",
       "Atrapado",
@@ -1018,9 +1003,9 @@
   },
   {
     "id": "656e1247-29b6-4a81-ac05-2ba811cda2c7",
-    "emojis": "\ud83d\udc51\ud83c\udf0d\ud83c\udfbb\ud83c\udf8a",
-    "hint1": "vol transmetre sentiment d\u2019unitat, celebraci\u00f3 o inspiraci\u00f3",
-    "hint2": "la gent l\u2019associa amb moments de gran emoci\u00f3 i comunitat",
+    "emojis": "👑🌍🎻🎊",
+    "hint1": "vol transmetre sentiment d’unitat, celebració o inspiració",
+    "hint2": "la gent l’associa amb moments de gran emoció i comunitat",
     "hint3Options": [
       "My universe",
       "Viva la fiesta",
@@ -1033,13 +1018,13 @@
   },
   {
     "id": "e3d7d8d2-fd9f-4427-9737-86e758717d86",
-    "emojis": "\ud83e\udd14\ud83d\udcad\ud83d\udc94",
-    "hint1": "abans d\u2019actuar, reflexiona",
+    "emojis": "🤔💭💔",
+    "hint1": "abans d’actuar, reflexiona",
     "hint2": "Junior H",
     "hint3Options": [
-      "Pi\u00e9nsalo",
-      "Pi\u00e9nsalo bien",
-      "Piensa en m\u00ed",
+      "Piénsalo",
+      "Piénsalo bien",
+      "Piensa en mí",
       "Piensas"
     ],
     "hint3CorrectIndex": 0,
