@@ -1144,5 +1144,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-21T16:36:44.642Z"
+  },
+  {
+    "id": "940dc19e-335f-4f45-b6fb-83e563db416b",
+    "emojis": "🫂🏡",
+    "hint1": "romandre al lloc",
+    "hint2": "Beéle",
+    "hint3Options": [
+      "Quédate",
+      "Quédate conmigo",
+      "Quédate a dormir",
+      "Quédate a mi lado"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-21T16:40:29.844Z"
   }
 ]
