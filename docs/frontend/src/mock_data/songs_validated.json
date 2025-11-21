@@ -1234,5 +1234,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-21T17:32:56.938Z"
+  },
+  {
+    "id": "f5359752-0f27-4ad9-a26e-a7b48fe72137",
+    "emojis": "🔙⚫",
+    "hint1": "Tornar a la foscor.",
+    "hint2": "Amy Winehouse",
+    "hint3Options": [
+      "Back in black",
+      "Back2Back",
+      "Blackwards",
+      "Back to Black"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-21T17:35:47.883Z"
   }
 ]
