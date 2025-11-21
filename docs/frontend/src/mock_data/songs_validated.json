@@ -1060,5 +1060,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-21T15:44:08.651Z"
+  },
+  {
+    "id": "147cefcf-999a-4de8-8098-e1d25dec0900",
+    "emojis": "❓🤔☀️🕵️‍♀️",
+    "hint1": "pregunta directa sobre els plans per al dia d’avui",
+    "hint2": "Omar Courtz i  De La Rose",
+    "hint3Options": [
+      "¿Que vas a saber?",
+      "Quevashacerhoy?",
+      "Que haces",
+      "Que vas ha hacer"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-21T15:55:04.965Z"
   }
 ]
