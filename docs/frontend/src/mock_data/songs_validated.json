@@ -1114,5 +1114,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-21T16:25:13.432Z"
+  },
+  {
+    "id": "4ee9fc59-4569-4e19-a0d8-8df11dd91ad9",
+    "emojis": "7️⃣🌍⚔️",
+    "hint1": "Una força combinada de set països.",
+    "hint2": "The White Stripes",
+    "hint3Options": [
+      "7 Nation Army",
+      "Seventh Heaven",
+      "Seven Wonders",
+      "Seven Nation Army"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-21T16:32:04.134Z"
   }
 ]
