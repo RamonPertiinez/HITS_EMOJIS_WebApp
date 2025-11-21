@@ -1129,5 +1129,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-21T16:32:04.134Z"
+  },
+  {
+    "id": "4f68a8f8-a32a-412a-a227-6a35334ec893",
+    "emojis": "🫦🔥❤️",
+    "hint1": "Passió  incendiaria",
+    "hint2": "Kings of Leon",
+    "hint3Options": [
+      "Sexbomb",
+      "Sexo, violencia y llantas",
+      "SexOnTheBeat",
+      "Sex on Fire"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-21T16:36:44.642Z"
   }
 ]
