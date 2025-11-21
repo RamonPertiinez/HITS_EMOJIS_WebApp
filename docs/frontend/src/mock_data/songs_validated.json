@@ -7,9 +7,18 @@
   },
   {
     "id": "70964efc-8e95-4f92-ba6e-8b91ca591fbc",
-    "emojis": "🌕🎶✨",
+    "emojis": "🎼🥁💃🌴",
+    "hint1": "ritme típic del Carib",
+    "hint2": "W Sound , Beéle i Ovy On The Drums",
+    "hint3Options": [
+      "Guarachette",
+      "La bachata",
+      "La plena",
+      "Regueton champagne"
+    ],
+    "hint3CorrectIndex": 2,
     "deleted": false,
-    "updatedAt": "2025-11-15T04:12:59.756Z"
+    "updatedAt": "2025-11-21T16:15:38.223Z"
   },
   {
     "id": "3fab4ba2-dfa9-418a-bb6c-3799a115f52a",
