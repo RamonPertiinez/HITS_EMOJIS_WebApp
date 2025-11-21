@@ -1219,5 +1219,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-21T17:24:22.389Z"
+  },
+  {
+    "id": "2af92b66-d9b7-4009-b61f-e8988b27adad",
+    "emojis": "👩‍🦰✨🌼",
+    "hint1": "Una dona empoderada, directa i amb ritme",
+    "hint2": "KAROL G",
+    "hint3Options": [
+      "Tropicoqueta",
+      "Ivonny Bonita",
+      "Se puso linda",
+      "Carolina"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-21T17:32:56.938Z"
   }
 ]
