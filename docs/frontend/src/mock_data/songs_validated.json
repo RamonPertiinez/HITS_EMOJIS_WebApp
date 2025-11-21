@@ -1174,5 +1174,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-21T16:45:52.141Z"
+  },
+  {
+    "id": "d3eacfd8-1b37-480f-9d33-8857bdc13344",
+    "emojis": "🤪❤️",
+    "hint1": "Barreja de cor i bogeria",
+    "hint2": "The Cardigans",
+    "hint3Options": [
+      "Corazón Loco",
+      "Corazón Tonto",
+      "Love Heart",
+      "Lovefool"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-21T16:51:05.524Z"
   }
 ]
