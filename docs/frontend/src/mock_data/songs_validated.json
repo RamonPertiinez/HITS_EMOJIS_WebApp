@@ -1204,5 +1204,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-21T17:19:27.120Z"
+  },
+  {
+    "id": "b1b7be80-c933-45ba-8d72-f93a2bb40555",
+    "emojis": "🎁🙏✝️",
+    "hint1": "Obsequi que ve del cel",
+    "hint2": "Julión Álvarez y su Norteño Banda",
+    "hint3Options": [
+      "Regalo de vida",
+      "El regalo",
+      "Regalo de Dios",
+      "Te lo pido por favor"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-21T17:24:22.389Z"
   }
 ]
