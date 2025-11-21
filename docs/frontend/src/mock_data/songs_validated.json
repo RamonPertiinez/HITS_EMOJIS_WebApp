@@ -1045,5 +1045,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-21T15:38:41.465Z"
+  },
+  {
+    "id": "c50947fb-3cbf-4c64-8a3f-3b35ea3337c4",
+    "emojis": "☔💃",
+    "hint1": "un moviment humà amb el ritme de la natura",
+    "hint2": "Dave i Tems",
+    "hint3Options": [
+      "Rain",
+      "Night Rain",
+      "Rain on me",
+      "Raindance"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-21T15:44:08.651Z"
   }
 ]
