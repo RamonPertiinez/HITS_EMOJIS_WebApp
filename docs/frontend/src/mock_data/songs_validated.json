@@ -1264,5 +1264,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-21T17:45:30.404Z"
+  },
+  {
+    "id": "50f86ff2-1501-4efe-a521-519885064c53",
+    "emojis": "😺🔒",
+    "hint1": "Exclusivament ella",
+    "hint2": "FloyyMenor, Ozuna i Anitta",
+    "hint3Options": [
+      "Donde estan las gatas",
+      "Gata",
+      "Felina",
+      "Gata Only"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-21T17:50:14.311Z"
   }
 ]
