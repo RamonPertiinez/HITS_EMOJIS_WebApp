@@ -1189,5 +1189,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-21T16:51:05.524Z"
+  },
+  {
+    "id": "347da6ae-569e-49af-86a8-d996d022b705",
+    "emojis": "💊😵‍💫🕴️",
+    "hint1": "Eufòria i glamur",
+    "hint2": "Junior H",
+    "hint3Options": [
+      "Extasy",
+      "Extssy Model",
+      "Extasissssss",
+      "Exxstasy"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-21T17:19:27.120Z"
   }
 ]
