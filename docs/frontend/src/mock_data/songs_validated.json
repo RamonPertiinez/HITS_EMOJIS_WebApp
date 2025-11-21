@@ -1030,5 +1030,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-19T10:53:05.656Z"
+  },
+  {
+    "id": "63149b42-530b-4805-b3b7-3f5fbf11f14c",
+    "emojis": "😢💔",
+    "hint1": "els ulls parlen sense paraules",
+    "hint2": "Junior H",
+    "hint3Options": [
+      "Y lloro",
+      "La llorona",
+      "Lloro",
+      "Por tu silencio lloro"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-21T15:38:41.465Z"
   }
 ]
