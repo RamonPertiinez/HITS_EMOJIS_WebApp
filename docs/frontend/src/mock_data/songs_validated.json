@@ -1279,5 +1279,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-21T17:50:14.311Z"
+  },
+  {
+    "id": "2dba8fe4-7aa9-40c2-aa6c-47da2f405d71",
+    "emojis": "🔤🧑🏼‍🏫✨",
+    "hint1": "Acrònim misteriós",
+    "hint2": "Bad Bunny",
+    "hint3Options": [
+      "Abcdefg",
+      "Abcdario",
+      "Un ABC sin letras",
+      "DtMF"
+    ],
+    "hint3CorrectIndex": null,
+    "deleted": false,
+    "updatedAt": "2025-11-21T17:57:24.619Z"
   }
 ]
