@@ -1249,5 +1249,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-21T17:35:47.883Z"
+  },
+  {
+    "id": "953ba218-0365-407b-8a15-a616d8e22097",
+    "emojis": "🏃🏼‍♀️➡️👧🏻",
+    "hint1": "recórrer un llarg camí",
+    "hint2": "The Offspring",
+    "hint3Options": [
+      "You're gonna go far, kid",
+      "You're gonna get your finger burned",
+      "Si no vas a volver",
+      "No tan lejos"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-21T17:45:30.404Z"
   }
 ]
