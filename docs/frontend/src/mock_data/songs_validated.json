@@ -1099,5 +1099,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-21T16:06:06.363Z"
+  },
+  {
+    "id": "75c11e3b-8fce-4543-b8ba-dde1eb4f873f",
+    "emojis": "🍬😋🍋‍🟩🥴🎼",
+    "hint1": "combinació de contrastos",
+    "hint2": "The Verve",
+    "hint3Options": [
+      "Bitter Sweet",
+      "Bitter Sweet Symphony",
+      "BitterSweet Goodbye",
+      "Bitter Sweet Love"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-21T16:25:13.432Z"
   }
 ]
