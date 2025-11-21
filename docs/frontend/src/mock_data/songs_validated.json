@@ -1159,5 +1159,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-21T16:40:29.844Z"
+  },
+  {
+    "id": "9d6accf8-3ccf-418d-a7f5-d6e7272506ac",
+    "emojis": "🪀🧠",
+    "hint1": "afirmació amb certesa",
+    "hint2": "Yan Block i TORRRES",
+    "hint3Options": [
+      "yo",
+      "Do You Remember",
+      "Yo lo Soñé",
+      "Yo sé"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-21T16:45:52.141Z"
   }
 ]
