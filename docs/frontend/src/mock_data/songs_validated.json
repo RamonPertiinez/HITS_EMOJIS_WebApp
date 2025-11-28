@@ -1309,5 +1309,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-28T15:09:06.253Z"
+  },
+  {
+    "id": "9dad6d83-5c2d-45b7-92dc-2995eb8dd8f4",
+    "emojis": "🔆🌟",
+    "hint1": "Resplendor en una sola paraula.",
+    "hint2": "Easykid i Dysbit",
+    "hint3Options": [
+      "Brillar contigo",
+      "Shiny",
+      "Esperando un resplandor",
+      "Shiny happy people"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-28T15:16:09.083Z"
   }
 ]
