@@ -1399,5 +1399,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-28T15:50:36.585Z"
+  },
+  {
+    "id": "82f37e79-38ff-48a9-8bac-d668794e6954",
+    "emojis": "🫵🫄🏼",
+    "hint1": "Acompanyant del Quijote",
+    "hint2": "Fuerza Regida",
+    "hint3Options": [
+      "Quijote",
+      "Tu Sancho",
+      "Don Quijote y Sancho",
+      "Gorda Traicionera 2.0"
+    ],
+    "hint3CorrectIndex": 1,
+    "deleted": false,
+    "updatedAt": "2025-11-28T16:00:17.228Z"
   }
 ]
