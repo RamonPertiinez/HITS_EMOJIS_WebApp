@@ -1459,5 +1459,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-28T16:18:53.212Z"
+  },
+  {
+    "id": "4aea848a-3df8-4754-a5ed-b914b85302c6",
+    "emojis": "🌞☀️🌸",
+    "hint1": "Època calorosa amb color",
+    "hint2": "KAROL G i Feid",
+    "hint3Options": [
+      "Verano",
+      "Vacaciones de Verano",
+      "Verano Rosa",
+      "Días de Verano"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-28T16:23:01.378Z"
   }
 ]
