@@ -1339,5 +1339,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-28T15:21:48.564Z"
+  },
+  {
+    "id": "381ac2ce-1e4b-48ef-b989-292a081374ab",
+    "emojis": "🚬🔴",
+    "hint1": "Una marca que es fuma de color.",
+    "hint2": "Fuerza Regida",
+    "hint3Options": [
+      "Marlboro nights",
+      "Fortuna",
+      "Roadhouse blues",
+      "Marlboro rojo"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-28T15:26:45.564Z"
   }
 ]
