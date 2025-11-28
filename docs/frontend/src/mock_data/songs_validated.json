@@ -1324,5 +1324,20 @@
     "hint3CorrectIndex": 1,
     "deleted": false,
     "updatedAt": "2025-11-28T15:16:09.083Z"
+  },
+  {
+    "id": "63f0693e-b0b5-4c6b-afeb-a12b559f0dcd",
+    "emojis": "❓🤔⏳",
+    "hint1": "Una pregunta sense resposta, oberta al que podria ser",
+    "hint2": "Rauw Alejandro i Bad Bunny",
+    "hint3Options": [
+      "Què passaria?",
+      "Qué pasaria",
+      "Qué pasará",
+      "Qué pasaría..."
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-28T15:21:48.564Z"
   }
 ]
