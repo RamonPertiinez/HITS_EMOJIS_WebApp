@@ -1354,5 +1354,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-28T15:26:45.564Z"
+  },
+  {
+    "id": "1b3b9a7d-c258-4ae2-a6a8-96b843b27134",
+    "emojis": "✅👌",
+    "hint1": "La realitat que no es discuteix",
+    "hint2": "Bad Bunny i Omar Courtz i Dei V",
+    "hint3Options": [
+      "Duro de verdad pt.2",
+      "Verdades",
+      "VeLDÁ",
+      "La verdad"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-28T15:32:13.087Z"
   }
 ]
