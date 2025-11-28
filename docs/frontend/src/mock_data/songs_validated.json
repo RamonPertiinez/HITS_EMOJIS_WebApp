@@ -1369,5 +1369,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-28T15:32:13.087Z"
+  },
+  {
+    "id": "deb18e8b-23fc-4e44-a731-4cd14dc6bf57",
+    "emojis": "🚗👭PR",
+    "hint1": "Objectiu, un destí caribeny.",
+    "hint2": "Bad Bunny",
+    "hint3Options": [
+      "Ir Hacia Allá",
+      "Ir Hacia Ti",
+      "VOY a LLeVARTE PA PR",
+      "Drivers Licenses"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-28T15:41:47.877Z"
   }
 ]
