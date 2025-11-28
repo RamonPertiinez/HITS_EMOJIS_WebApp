@@ -1294,5 +1294,20 @@
     "hint3CorrectIndex": null,
     "deleted": false,
     "updatedAt": "2025-11-21T17:57:24.619Z"
+  },
+  {
+    "id": "5879e9f7-719b-4e44-a2af-0f2458e24b82",
+    "emojis": "🫵➡️❎",
+    "hint1": "AVANÇES SENSE RES",
+    "hint2": "",
+    "hint3Options": [
+      "Tú te vas",
+      "Si te vas...",
+      "Tu vas sin",
+      "Si no vas a volver"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-28T15:09:06.253Z"
   }
 ]
