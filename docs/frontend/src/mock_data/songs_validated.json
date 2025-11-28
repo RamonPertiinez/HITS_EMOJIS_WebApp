@@ -1444,5 +1444,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-28T16:13:32.863Z"
+  },
+  {
+    "id": "45801b5e-d7a1-4b73-91d6-d270f6568289",
+    "emojis": "🎶🎼🎤",
+    "hint1": "Allò que s’escriu i sona per transmetre sentiments",
+    "hint2": "J Balvin i Bad Bunny",
+    "hint3Options": [
+      "La Canción",
+      "Tu Canción",
+      "Partitura",
+      "Música Ligera"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-28T16:18:53.212Z"
   }
 ]
