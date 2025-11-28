@@ -1384,5 +1384,20 @@
     "hint3CorrectIndex": 2,
     "deleted": false,
     "updatedAt": "2025-11-28T15:41:47.877Z"
+  },
+  {
+    "id": "d2c7ca7b-4273-4bfb-bb26-73b530d5ab9f",
+    "emojis": "🥛🐄😋✨",
+    "hint1": "Una versió especial i petita d’un clàssic cremós",
+    "hint2": "Blessd, Anuel AA, Yan Block, Luar La L, Kris R i ROA",
+    "hint3Options": [
+      "Yogurcito",
+      "Leche Rizá",
+      "Yogurt",
+      "Yogurt Male"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-28T15:50:36.585Z"
   }
 ]
