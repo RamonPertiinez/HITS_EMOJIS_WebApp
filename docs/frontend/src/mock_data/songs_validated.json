@@ -1429,5 +1429,20 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-28T16:05:02.092Z"
+  },
+  {
+    "id": "f252e852-21a7-4bee-82a8-ac263c0381d5",
+    "emojis": "⏳❌🎤",
+    "hint1": "Quan encara no lluïa el seu micro",
+    "hint2": "El Bogueto i Yung Beef",
+    "hint3Options": [
+      "Ser Un Cantante",
+      "La Canción Que No Quiero Cantar",
+      "Porque No Cantas",
+      "Cuando No Era Cantante"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-28T16:13:32.863Z"
   }
 ]
