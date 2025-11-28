@@ -1489,5 +1489,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-28T16:32:18.420Z"
+  },
+  {
+    "id": "97a51dec-be14-423b-b046-80d2cc7bd93c",
+    "emojis": "🌙",
+    "hint1": "L’astre que il·lumina la nit",
+    "hint2": "Feid i ATL Jacob",
+    "hint3Options": [
+      "Luna Llena",
+      "Dile Luna",
+      "Media Luna",
+      "Luna"
+    ],
+    "hint3CorrectIndex": 3,
+    "deleted": false,
+    "updatedAt": "2025-11-28T18:10:38.601Z"
   }
 ]
