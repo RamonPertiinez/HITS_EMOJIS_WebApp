@@ -1011,21 +1011,6 @@
     "updatedAt": "2025-11-19T10:47:51.998Z"
   },
   {
-    "id": "c50947fb-3cbf-4c64-8a3f-3b35ea3337c4",
-    "emojis": "☔💃",
-    "hint1": "un moviment humà amb el ritme de la natura",
-    "hint2": "Dave i Tems",
-    "hint3Options": [
-      "Rain",
-      "Night Rain",
-      "Rain on me",
-      "Raindance"
-    ],
-    "hint3CorrectIndex": 3,
-    "deleted": false,
-    "updatedAt": "2025-11-21T15:44:08.651Z"
-  },
-  {
     "id": "147cefcf-999a-4de8-8098-e1d25dec0900",
     "emojis": "❓🤔☀️🕵️‍♀️",
     "hint1": "pregunta directa sobre els plans per al dia d’avui",
