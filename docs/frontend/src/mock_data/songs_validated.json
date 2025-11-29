@@ -1444,20 +1444,5 @@
     "hint3CorrectIndex": 3,
     "deleted": false,
     "updatedAt": "2025-11-28T18:10:38.601Z"
-  },
-  {
-    "id": "9b33f036-e5e2-4ad5-881d-7c66929c216e",
-    "emojis": "😰💭",
-    "hint1": "Quan la ment corre més ràpid que la calma",
-    "hint2": "Fuerza Regida",
-    "hint3Options": [
-      "Querida Ansiedad",
-      "Anxiety",
-      "Ansiedad 3",
-      "Ansiedad"
-    ],
-    "hint3CorrectIndex": 3,
-    "deleted": false,
-    "updatedAt": "2025-11-28T18:26:55.445Z"
   }
 ]
