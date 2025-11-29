@@ -682,7 +682,7 @@
   },
   {
     "id": "512f32d6-7cd2-4f7c-8176-7bbf2da935bf",
-    "emojis": "🎼🏙️",
+    "emojis": "🎤🔊🎶🏙️",
     "hint1": "Sempre a punt per robar la lluna!",
     "hint2": "Txarango",
     "hint3Options": [
@@ -693,7 +693,7 @@
     ],
     "hint3CorrectIndex": 1,
     "deleted": false,
-    "updatedAt": "2025-11-16T11:24:33.046Z"
+    "updatedAt": "2025-11-29T08:12:26.292Z"
   },
   {
     "id": "34e66d1c-7376-49a5-b845-a2f276b7e734",
