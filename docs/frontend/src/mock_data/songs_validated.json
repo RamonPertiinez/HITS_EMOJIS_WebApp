@@ -1011,21 +1011,6 @@
     "updatedAt": "2025-11-19T10:47:51.998Z"
   },
   {
-    "id": "e3d7d8d2-fd9f-4427-9737-86e758717d86",
-    "emojis": "🤔💭💔",
-    "hint1": "abans d’actuar, reflexiona",
-    "hint2": "Junior H",
-    "hint3Options": [
-      "Piénsalo",
-      "Piénsalo bien",
-      "Piensa en mí",
-      "Piensas"
-    ],
-    "hint3CorrectIndex": 0,
-    "deleted": false,
-    "updatedAt": "2025-11-19T10:53:05.656Z"
-  },
-  {
     "id": "63149b42-530b-4805-b3b7-3f5fbf11f14c",
     "emojis": "😢💔",
     "hint1": "els ulls parlen sense paraules",
