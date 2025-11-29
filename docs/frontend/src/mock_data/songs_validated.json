@@ -1309,5 +1309,20 @@
     "hint3CorrectIndex": 0,
     "deleted": false,
     "updatedAt": "2025-11-29T18:39:34.621Z"
+  },
+  {
+    "id": "97dc1548-9168-4a9a-843f-583d3cafa17a",
+    "emojis": "👩🩻",
+    "hint1": "Ella és tota pell i os",
+    "hint2": "Medicina de fusta",
+    "hint3Options": [
+      "Eres alta y delgada",
+      "Delgadito",
+      "La Flaca",
+      "Huesos"
+    ],
+    "hint3CorrectIndex": 2,
+    "deleted": false,
+    "updatedAt": "2025-11-29T18:51:04.016Z"
   }
 ]
