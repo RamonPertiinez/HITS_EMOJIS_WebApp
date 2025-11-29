@@ -1279,5 +1279,20 @@
     "hint3CorrectIndex": null,
     "deleted": false,
     "updatedAt": "2025-11-29T08:25:55.950Z"
+  },
+  {
+    "id": "2c0ab40a-0594-43c3-bce3-9c3eef9e6f6d",
+    "emojis": "🔙👧♥️",
+    "hint1": "Exigeix que li tornin el seu amor",
+    "hint2": "David Summers i el  seu grup",
+    "hint3Options": [
+      "Chiquilla",
+      "Devuélveme la vida",
+      "Devuélveme a mi chica",
+      "Devuélveme el corazón"
+    ],
+    "hint3CorrectIndex": null,
+    "deleted": false,
+    "updatedAt": "2025-11-29T18:28:01.979Z"
   }
 ]
