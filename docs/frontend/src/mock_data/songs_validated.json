@@ -1294,5 +1294,20 @@
     "hint3CorrectIndex": null,
     "deleted": false,
     "updatedAt": "2025-11-29T18:28:01.979Z"
+  },
+  {
+    "id": "4ecb40f8-6e8e-4955-9112-333841564622",
+    "emojis": "🙋✈️",
+    "hint1": "Poso distància i segueixo el meu camí",
+    "hint2": "La Julieta Mexicana",
+    "hint3Options": [
+      "Me voy",
+      "Me fui",
+      "Bye Bye",
+      "Adios"
+    ],
+    "hint3CorrectIndex": 0,
+    "deleted": false,
+    "updatedAt": "2025-11-29T18:39:34.621Z"
   }
 ]
